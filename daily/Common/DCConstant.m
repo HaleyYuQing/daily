@@ -20,4 +20,7 @@
     [viewController setTabBarItem:tabBarItem];
 }
 
++ (UINavigationController *)embedNav:(UIViewController *)vc {
+    return [[UINavigationController alloc] initWithRootViewController:vc];
+}
 @end

@@ -12,4 +12,6 @@
 @interface DCConstant : NSObject
 
 + (void)setViewController:(UIViewController *)viewController tabbarTitle:(NSString *)title imageName:(NSString *)imageName selectedImageName:(NSString *)selectedImageName;
+
++ (UINavigationController *)embedNav:(UIViewController *)vc;
 @end

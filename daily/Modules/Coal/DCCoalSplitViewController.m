@@ -8,7 +8,6 @@
 
 #import "DCCoalSplitViewController.h"
 #import "DCCoalMenuViewController.h"
-#import "DCConstant.h"
 
 @interface DCCoalSplitViewController ()
 
@@ -22,8 +21,7 @@
     if (self) {
         DCCoalMenuViewController *menu = [[DCCoalMenuViewController alloc] init];
         UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:[[UIViewController alloc] init]];
-        nvc.navigationBar.hidden = YES;
-        self.viewControllers = @[menu, nvc];
+        self.viewControllers = @[[DCConstant embedNav:menu], nvc];
         
         [DCConstant setViewController:self tabbarTitle:@"Coal" imageName:@"coal" selectedImageName:@"coal"];
     }
@@ -34,11 +32,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [self.navigationItem dc_setTitle:@"Coal"];
 }
 
 @end

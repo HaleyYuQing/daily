@@ -9,6 +9,7 @@
 #import "DCLimeSplitViewController.h"
 #import "DCLimeMenuViewController.h"
 #import "DCConstant.h"
+#import "UINavigationItem+DC.h"
 
 @interface DCLimeSplitViewController ()
 
@@ -21,11 +22,8 @@
     self = [super init];
     if (self) {
         DCLimeMenuViewController *menu = [[DCLimeMenuViewController alloc] init];
-        
         UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:[[UIViewController alloc] init]];
-        nvc.navigationBar.hidden = YES;
-        
-        self.viewControllers = @[menu, nvc];
+        self.viewControllers = @[[DCConstant embedNav:menu], nvc];
         
         [DCConstant setViewController:self tabbarTitle:@"Lime" imageName:@"lime" selectedImageName:@"lime"];
     }
@@ -37,11 +35,5 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 
 @end

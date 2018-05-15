@@ -1,0 +1,28 @@
+//
+//  PrefixHeader.pch
+//  daily
+//
+//  Created by yuqing huang on 14/05/2018.
+//  Copyright © 2018 Justek. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#ifdef __OBJC__
+
+#define FONT_PROXIMANOVA_LIGHT    [UIFont systemFontOfSize:1]
+#define FONT_PROXIMANOVA_REGULAR  [UIFont systemFontOfSize:1]
+#define FONT_PROXIMANOVA_SEMIBOLD [UIFont boldSystemFontOfSize:1]
+#define FONT_PROXIMANOVA_BOLD     [UIFont boldSystemFontOfSize:1]
+
+#define BUTTON_COLOR              [UIColor colorWithHex:@"0E404E"]
+
+#import "DCConstant.h"
+#import "UIColor+DC.h"
+#import "UINavigationItem+DC.h"
+#import "Masonry.h"
+
+#endif
+
+#endif /* PrefixHeader_pch */

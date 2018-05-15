@@ -23,7 +23,6 @@
     [self.window makeKeyAndVisible];
     
     DCTabbarViewController *tabbar = [DCTabbarViewController sharedInstance];
-    
     [self.window setRootViewController:tabbar];
     return YES;
 }

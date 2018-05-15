@@ -9,7 +9,6 @@
 #import "DCTabbarViewController.h"
 #import "DCCoalSplitViewController.h"
 #import "DCLimeSplitViewController.h"
-#import "UIColor+DC.h"
 
 @interface DCTabbarViewController ()<UITabBarControllerDelegate>
 
@@ -22,7 +21,7 @@
     static DCTabbarViewController *_instance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _instance = [[DCTabbarViewController alloc] init];
+        _instance = [[self alloc] init];
     });
     
     return _instance;
@@ -32,17 +31,13 @@
 {
     self = [super init];
     if (self) {
-        DCCoalSplitViewController *coalVC = [[DCCoalSplitViewController alloc] init];
-        DCLimeSplitViewController *limeVC = [[DCLimeSplitViewController alloc] init];
-        
-        self.viewControllers =@[coalVC, limeVC];
+        [self reloadChildViewcontrollers];
     }
     return self;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.selectedIndex = 0;
     
     UIFont *tabbarTitleFont = [UIFont boldSystemFontOfSize:16];
     [[UITabBarItem appearance] setTitleTextAttributes:@{NSFontAttributeName: tabbarTitleFont} forState:UIControlStateNormal];
@@ -58,8 +53,16 @@
     [self setDelegate:self];
 }
 
-- (UINavigationController *)embedNav:(UIViewController *)vc {
-    return [[UINavigationController alloc] initWithRootViewController:vc];
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
 }
 
+- (void)reloadChildViewcontrollers
+{
+    DCCoalSplitViewController *coalVC = [[DCCoalSplitViewController alloc] init];
+    DCLimeSplitViewController *limeVC = [[DCLimeSplitViewController alloc] init];
+    
+    self.viewControllers =@[coalVC, limeVC];
+}
 @end

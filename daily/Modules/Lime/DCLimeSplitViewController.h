@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DCBaseSplitViewController.h"
 
-@interface DCLimeSplitViewController : UISplitViewController
+@interface DCLimeSplitViewController : DCBaseSplitViewController
 
 @end
