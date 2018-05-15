@@ -18,7 +18,7 @@
     NSDictionary *attributes = @{
                                  NSKernAttributeName: kerning,
                                  NSFontAttributeName: [FONT_PROXIMANOVA_BOLD fontWithSize:[fontSize floatValue]],
-                                 NSForegroundColorAttributeName: [UIColor colorWithHex:@"6387B5"],
+                                 NSForegroundColorAttributeName: [UIColor colorWithHex:@"0E404E"],
                                  };
     NSAttributedString *s = [[NSAttributedString alloc] initWithString:[title uppercaseString]
                                                             attributes:attributes];

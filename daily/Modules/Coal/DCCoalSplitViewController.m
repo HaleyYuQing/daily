@@ -23,7 +23,7 @@
         UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:[[UIViewController alloc] init]];
         self.viewControllers = @[[DCConstant embedNav:menu], nvc];
         
-        [DCConstant setViewController:self tabbarTitle:@"Coal" imageName:@"coal" selectedImageName:@"coal"];
+        [DCConstant setViewController:self tabbarTitle:@"煤炭" imageName:@"coal" selectedImageName:@"coal"];
     }
     return self;
 }

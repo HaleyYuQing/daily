@@ -8,7 +8,7 @@
 
 #import "DCLimeMenuViewController.h"
 #import "DCBaseSplitViewController.h"
-#import "DCColaDailyUseViewController.h"
+#import "DCCoalDailyUseViewController.h"
 
 @interface DCLimeMenuViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property(nonatomic, strong) UITableView *tableView;

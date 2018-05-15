@@ -6,7 +6,7 @@
 //  Copyright © 2018 Justek. All rights reserved.
 //
 
-#import "DCColaDailyUseViewController.h"
+#import "DCCoalDailyUseViewController.h"
 #import "UINavigationItem+DC.h"
 #import "DCCoreDataManager.h"
 #import "UIAlertController+DC.h"

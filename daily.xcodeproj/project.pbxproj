@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		307F57D9EB4892541C9518F3 /* libPods-daily.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 85E1EF3D37398E894A2D0E99 /* libPods-daily.a */; };
+		DA048CA320AB284F0086B9A4 /* DCCoalDailyBuyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA048CA220AB284F0086B9A4 /* DCCoalDailyBuyViewController.m */; };
+		DA048CA620AB3ACE0086B9A4 /* UIViewController+DC.m in Sources */ = {isa = PBXBuildFile; fileRef = DA048CA520AB3ACE0086B9A4 /* UIViewController+DC.m */; };
+		DA048CA920AB3B760086B9A4 /* DCPopupTransitionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DA048CA820AB3B760086B9A4 /* DCPopupTransitionDelegate.m */; };
 		DA04C18820A52BD700DA4233 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DA04C18720A52BD700DA4233 /* AppDelegate.m */; };
 		DA04C19320A52BD700DA4233 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA04C19220A52BD700DA4233 /* Assets.xcassets */; };
 		DA04C19620A52BD700DA4233 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA04C19420A52BD700DA4233 /* LaunchScreen.storyboard */; };
@@ -22,7 +25,7 @@
 		DA50317C20A59E9400259959 /* DCConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = DA50317B20A59E9400259959 /* DCConstant.m */; };
 		DA50318020A5A06800259959 /* UIColor+DC.m in Sources */ = {isa = PBXBuildFile; fileRef = DA50317F20A5A06800259959 /* UIColor+DC.m */; };
 		DAB75CDC20A94648007F7DA2 /* UINavigationItem+DC.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CDB20A94648007F7DA2 /* UINavigationItem+DC.m */; };
-		DAB75CDF20A96FA0007F7DA2 /* DCColaDailyUseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CDE20A96FA0007F7DA2 /* DCColaDailyUseViewController.m */; };
+		DAB75CDF20A96FA0007F7DA2 /* DCCoalDailyUseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CDE20A96FA0007F7DA2 /* DCCoalDailyUseViewController.m */; };
 		DAB75CE320A972B5007F7DA2 /* DCBaseSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CE220A972B5007F7DA2 /* DCBaseSplitViewController.m */; };
 		DAB75CEA20A999BE007F7DA2 /* BuyCoalEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CE920A999BE007F7DA2 /* BuyCoalEntity.m */; };
 		DAB75CED20A99AA6007F7DA2 /* UseCoalEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CEC20A99AA6007F7DA2 /* UseCoalEntity.m */; };
@@ -68,6 +71,12 @@
 		0F000AE1E9B14D68722DF093 /* Pods-daily.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-daily.debug.xcconfig"; path = "Pods/Target Support Files/Pods-daily/Pods-daily.debug.xcconfig"; sourceTree = "<group>"; };
 		85E1EF3D37398E894A2D0E99 /* libPods-daily.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-daily.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CD7F6DA6F7EE25A650084CB /* Pods-daily.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-daily.release.xcconfig"; path = "Pods/Target Support Files/Pods-daily/Pods-daily.release.xcconfig"; sourceTree = "<group>"; };
+		DA048CA120AB284F0086B9A4 /* DCCoalDailyBuyViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCCoalDailyBuyViewController.h; sourceTree = "<group>"; };
+		DA048CA220AB284F0086B9A4 /* DCCoalDailyBuyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCCoalDailyBuyViewController.m; sourceTree = "<group>"; };
+		DA048CA420AB3ACE0086B9A4 /* UIViewController+DC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+DC.h"; sourceTree = "<group>"; };
+		DA048CA520AB3ACE0086B9A4 /* UIViewController+DC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+DC.m"; sourceTree = "<group>"; };
+		DA048CA720AB3B760086B9A4 /* DCPopupTransitionDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCPopupTransitionDelegate.h; sourceTree = "<group>"; };
+		DA048CA820AB3B760086B9A4 /* DCPopupTransitionDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCPopupTransitionDelegate.m; sourceTree = "<group>"; };
 		DA04C18320A52BD700DA4233 /* daily.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = daily.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA04C18620A52BD700DA4233 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DA04C18720A52BD700DA4233 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -98,8 +107,8 @@
 		DAB75CD920A93CA1007F7DA2 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		DAB75CDA20A94648007F7DA2 /* UINavigationItem+DC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigationItem+DC.h"; sourceTree = "<group>"; };
 		DAB75CDB20A94648007F7DA2 /* UINavigationItem+DC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigationItem+DC.m"; sourceTree = "<group>"; };
-		DAB75CDD20A96FA0007F7DA2 /* DCColaDailyUseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCColaDailyUseViewController.h; sourceTree = "<group>"; };
-		DAB75CDE20A96FA0007F7DA2 /* DCColaDailyUseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCColaDailyUseViewController.m; sourceTree = "<group>"; };
+		DAB75CDD20A96FA0007F7DA2 /* DCCoalDailyUseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCCoalDailyUseViewController.h; sourceTree = "<group>"; };
+		DAB75CDE20A96FA0007F7DA2 /* DCCoalDailyUseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCCoalDailyUseViewController.m; sourceTree = "<group>"; };
 		DAB75CE120A972B5007F7DA2 /* DCBaseSplitViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCBaseSplitViewController.h; sourceTree = "<group>"; };
 		DAB75CE220A972B5007F7DA2 /* DCBaseSplitViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCBaseSplitViewController.m; sourceTree = "<group>"; };
 		DAB75CE820A999BE007F7DA2 /* BuyCoalEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BuyCoalEntity.h; sourceTree = "<group>"; };
@@ -251,8 +260,10 @@
 				DA50316D20A588B500259959 /* DCCoalSplitViewController.m */,
 				DA50317320A58B9000259959 /* DCCoalMenuViewController.h */,
 				DA50317420A58B9000259959 /* DCCoalMenuViewController.m */,
-				DAB75CDD20A96FA0007F7DA2 /* DCColaDailyUseViewController.h */,
-				DAB75CDE20A96FA0007F7DA2 /* DCColaDailyUseViewController.m */,
+				DAB75CDD20A96FA0007F7DA2 /* DCCoalDailyUseViewController.h */,
+				DAB75CDE20A96FA0007F7DA2 /* DCCoalDailyUseViewController.m */,
+				DA048CA120AB284F0086B9A4 /* DCCoalDailyBuyViewController.h */,
+				DA048CA220AB284F0086B9A4 /* DCCoalDailyBuyViewController.m */,
 			);
 			path = Coal;
 			sourceTree = "<group>";
@@ -286,6 +297,10 @@
 				DAB75CDB20A94648007F7DA2 /* UINavigationItem+DC.m */,
 				DAD71B7720AACF73007C56A7 /* UIAlertController+DC.h */,
 				DAD71B7820AACF73007C56A7 /* UIAlertController+DC.m */,
+				DA048CA420AB3ACE0086B9A4 /* UIViewController+DC.h */,
+				DA048CA720AB3B760086B9A4 /* DCPopupTransitionDelegate.h */,
+				DA048CA820AB3B760086B9A4 /* DCPopupTransitionDelegate.m */,
+				DA048CA520AB3ACE0086B9A4 /* UIViewController+DC.m */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -542,12 +557,15 @@
 				DA50318020A5A06800259959 /* UIColor+DC.m in Sources */,
 				DA50316E20A588B500259959 /* DCCoalSplitViewController.m in Sources */,
 				DAB75CEA20A999BE007F7DA2 /* BuyCoalEntity.m in Sources */,
-				DAB75CDF20A96FA0007F7DA2 /* DCColaDailyUseViewController.m in Sources */,
+				DA048CA920AB3B760086B9A4 /* DCPopupTransitionDelegate.m in Sources */,
+				DAB75CDF20A96FA0007F7DA2 /* DCCoalDailyUseViewController.m in Sources */,
 				DAB75CF320A99D00007F7DA2 /* StoreLimeEntity.m in Sources */,
 				DAD71B6220AA7697007C56A7 /* DCCoreDataManager.m in Sources */,
 				DAD71B7920AACF73007C56A7 /* UIAlertController+DC.m in Sources */,
 				DAB75CED20A99AA6007F7DA2 /* UseCoalEntity.m in Sources */,
 				DAB75CF020A99AE9007F7DA2 /* SellLimeEntity.m in Sources */,
+				DA048CA620AB3ACE0086B9A4 /* UIViewController+DC.m in Sources */,
+				DA048CA320AB284F0086B9A4 /* DCCoalDailyBuyViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
