@@ -14,4 +14,13 @@
 + (void)setViewController:(UIViewController *)viewController tabbarTitle:(NSString *)title imageName:(NSString *)imageName selectedImageName:(NSString *)selectedImageName;
 
 + (UINavigationController *)embedNav:(UIViewController *)vc;
+
++ (NSString *)stringFromDate:(NSDate *)date;
++ (NSString *)monthAndDayStringFromDate:(NSDate *)date;
++ (NSString *)hourAndMinuteStringFromDate:(NSDate *)date;
++ (BOOL)compareIsSameDay:(NSDate *)firstDate nextDate:(NSDate *)nextDate;
++ (UILabel *)detailLabel;
++ (UITextField *)detailField:(id)delegate;
++ (UILabel *)descriptionLabel;
++ (UILabel *)descriptionLabelInHeaderView;
 @end

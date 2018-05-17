@@ -18,10 +18,20 @@
 
 #define BUTTON_COLOR              [UIColor colorWithHex:@"0E404E"]
 
+#define TableViewHeaderViewHeight                   50
+#define TableViewCellHeight                         60
+#define DescriptionLabelWidthInHeaderView           110
+
+#define EdgeMargin  20
+#define LineSpace   30
+#define DescriptionLablelWidth   130
+#define DetailFieldWidth     180
+
 #import "DCConstant.h"
 #import "UIColor+DC.h"
 #import "UINavigationItem+DC.h"
 #import "Masonry.h"
+#import "UIAlertController+DC.h"
 
 #endif
 

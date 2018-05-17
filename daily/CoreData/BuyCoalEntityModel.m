@@ -16,5 +16,7 @@
 @dynamic carNumber;
 @dynamic carWeight;
 @dynamic carAndCoalWeight;
+@dynamic carOwnerName;
+@dynamic coalTotalPrice;
 @end
 

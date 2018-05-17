@@ -11,9 +11,6 @@
 #import "DCCoreDataManager.h"
 #import "UIAlertController+DC.h"
 
-#define EdgeMargin  20
-#define LineSpace   10
-
 @interface DCColaDailyUseViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) BuyCoalEntity *currentCoalEntity;
 
@@ -150,11 +147,11 @@
     }
     
     self.currentCoalEntity.carNumber = self.carNumberField.text;
-    self.currentCoalEntity.coalWeight = [self.coalWeightField.text floatValue];
-    self.currentCoalEntity.carWeight = [self.carWeightField.text floatValue];
-    self.currentCoalEntity.carAndCoalWeight = [self.carAndCoalWeightField.text floatValue];
+    self.currentCoalEntity.coalWeight = [self.coalWeightField.text integerValue];
+    self.currentCoalEntity.carWeight = [self.carWeightField.text integerValue];
+    self.currentCoalEntity.carAndCoalWeight = [self.carAndCoalWeightField.text integerValue];
     
-    [[DCCoreDataManager sharedInstance] addBuyCoalData:self.currentCoalEntity];
+    [[DCCoreDataManager sharedInstance] addBuyCoalData:self.currentCoalEntity complete:nil];
 }
 
 #pragma UITableViewDataSource

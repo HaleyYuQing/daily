@@ -13,5 +13,7 @@
 + (DCCoreDataManager *)sharedInstance;
 
 - (void)loadBuyCoalData:(void(^)(NSArray *coalArray))completeBlock;
-- (void)addBuyCoalData:(BuyCoalEntity *)buyCoal;
+- (void)addBuyCoalData:(BuyCoalEntity *)buyCoal complete:(void(^)(NSString *errorString))completeBlock;
+- (void)deleteBuyCoalData:(BuyCoalEntity *)buyCoal complete:(void(^)(NSString *error))completeBlock;;
+- (void)updateBuyCoalData:(BuyCoalEntity *)buyCoal complete:(void(^)(NSString *error))completeBlock;;
 @end

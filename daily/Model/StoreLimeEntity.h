@@ -11,5 +11,5 @@
 @interface StoreLimeEntity : NSObject
 @property (nonatomic, strong) NSDate *createDate;
 @property (nonatomic, strong) NSString *name;
-@property (nonatomic, assign) float limeWeight; //kg
+@property (nonatomic, assign) NSInteger limeWeight; //kg
 @end

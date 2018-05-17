@@ -11,5 +11,5 @@
 @interface UseCoalEntity : NSObject
 @property (nonatomic, strong) NSDate *createDate;
 @property (nonatomic, strong) NSString *name;
-@property (nonatomic, assign) float coalWeight; //kg
+@property (nonatomic, assign) NSInteger coalWeight; //kg
 @end

@@ -36,6 +36,8 @@
 		DAD71B6220AA7697007C56A7 /* DCCoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD71B6120AA7697007C56A7 /* DCCoreDataManager.m */; };
 		DAD71B6520AAA9D4007C56A7 /* NSManagedObject+DC.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD71B6420AAA9D4007C56A7 /* NSManagedObject+DC.m */; };
 		DAD71B7920AACF73007C56A7 /* UIAlertController+DC.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD71B7820AACF73007C56A7 /* UIAlertController+DC.m */; };
+		DADCDE8C20ADA43D00BDB555 /* DCNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DADCDE8B20ADA43D00BDB555 /* DCNotificationManager.m */; };
+		DADCDE8F20ADBC7800BDB555 /* DCBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DADCDE8E20ADBC7800BDB555 /* DCBaseViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -128,6 +130,10 @@
 		DAD71B6420AAA9D4007C56A7 /* NSManagedObject+DC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObject+DC.m"; sourceTree = "<group>"; };
 		DAD71B7720AACF73007C56A7 /* UIAlertController+DC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIAlertController+DC.h"; sourceTree = "<group>"; };
 		DAD71B7820AACF73007C56A7 /* UIAlertController+DC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIAlertController+DC.m"; sourceTree = "<group>"; };
+		DADCDE8A20ADA43D00BDB555 /* DCNotificationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCNotificationManager.h; sourceTree = "<group>"; };
+		DADCDE8B20ADA43D00BDB555 /* DCNotificationManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCNotificationManager.m; sourceTree = "<group>"; };
+		DADCDE8D20ADBC7800BDB555 /* DCBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCBaseViewController.h; sourceTree = "<group>"; };
+		DADCDE8E20ADBC7800BDB555 /* DCBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCBaseViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -310,6 +316,8 @@
 			children = (
 				DAB75CE120A972B5007F7DA2 /* DCBaseSplitViewController.h */,
 				DAB75CE220A972B5007F7DA2 /* DCBaseSplitViewController.m */,
+				DADCDE8D20ADBC7800BDB555 /* DCBaseViewController.h */,
+				DADCDE8E20ADBC7800BDB555 /* DCBaseViewController.m */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -342,6 +350,7 @@
 		DAD71B5E20AA75D8007C56A7 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				DADCDE8920ADA3A300BDB555 /* NotificationManager */,
 				DAD71B5F20AA75E1007C56A7 /* CoreDataManager */,
 			);
 			path = Manager;
@@ -356,6 +365,15 @@
 				DAD71B6420AAA9D4007C56A7 /* NSManagedObject+DC.m */,
 			);
 			path = CoreDataManager;
+			sourceTree = "<group>";
+		};
+		DADCDE8920ADA3A300BDB555 /* NotificationManager */ = {
+			isa = PBXGroup;
+			children = (
+				DADCDE8A20ADA43D00BDB555 /* DCNotificationManager.h */,
+				DADCDE8B20ADA43D00BDB555 /* DCNotificationManager.m */,
+			);
+			path = NotificationManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -555,8 +573,10 @@
 				DAD71B6520AAA9D4007C56A7 /* NSManagedObject+DC.m in Sources */,
 				DA50317220A58B3600259959 /* DCLimeSplitViewController.m in Sources */,
 				DA50318020A5A06800259959 /* UIColor+DC.m in Sources */,
+				DADCDE8C20ADA43D00BDB555 /* DCNotificationManager.m in Sources */,
 				DA50316E20A588B500259959 /* DCCoalSplitViewController.m in Sources */,
 				DAB75CEA20A999BE007F7DA2 /* BuyCoalEntity.m in Sources */,
+				DADCDE8F20ADBC7800BDB555 /* DCBaseViewController.m in Sources */,
 				DA048CA920AB3B760086B9A4 /* DCPopupTransitionDelegate.m in Sources */,
 				DAB75CDF20A96FA0007F7DA2 /* DCCoalDailyUseViewController.m in Sources */,
 				DAB75CF320A99D00007F7DA2 /* StoreLimeEntity.m in Sources */,
@@ -726,7 +746,7 @@
 				GCC_PREFIX_HEADER = daily/PrefixHeader.pch;
 				INFOPLIST_FILE = daily/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.justek.Daily.daily;
+				PRODUCT_BUNDLE_IDENTIFIER = com.justek.Daily;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -742,7 +762,7 @@
 				GCC_PREFIX_HEADER = daily/PrefixHeader.pch;
 				INFOPLIST_FILE = daily/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.justek.Daily.daily;
+				PRODUCT_BUNDLE_IDENTIFIER = com.justek.Daily;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
