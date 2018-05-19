@@ -12,6 +12,7 @@
 #import "UIAlertController+DC.h"
 #import "UIViewController+DC.h"
 #import "DCNotificationManager.h"
+#import "DCBaseUpdateEntityViewController.h"
 
 @interface DCBuyCoalEntityTableViewCell :UITableViewCell
 @property (nonatomic, strong) UILabel *dateLabel;
@@ -38,7 +39,7 @@
         
         UILabel *carOwnerNameLabel = [DCConstant detailLabel];
         self.carOwnerNameLabel = carOwnerNameLabel;
-        carOwnerNameLabel.text = @"车主:";
+        carOwnerNameLabel.text = @"客户:";
         [self.contentView addSubview:carOwnerNameLabel];
         [carOwnerNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(dateLabel.mas_right).offset(EdgeMargin);
@@ -90,7 +91,7 @@
 
 @end
 
-@interface DCUpdateBuyCoalEntityViewController: UIViewController<UITextFieldDelegate>
+@interface DCUpdateBuyCoalEntityViewController: DCBaseUpdateEntityViewController<UITextFieldDelegate>
 @property (nonatomic, strong) BuyCoalEntity *buyCoalEntity;
 //Add new coal
 @property (nonatomic, strong) UITextField *dateField;
@@ -171,6 +172,7 @@
     }];
     
     self.dateField = [DCConstant detailField:self];
+    self.dateField.enabled = NO;
     self.dateField.placeholder = @"点击生成日期";
     [newCoalBGView addSubview:self.dateField];
     [self.dateField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -198,7 +200,7 @@
     }];
     
     UILabel *carOwnerNameLabel = [DCConstant descriptionLabel];
-    carOwnerNameLabel.text = @"车主:";
+    carOwnerNameLabel.text = @"客户:";
     [newCoalBGView addSubview:carOwnerNameLabel];
     [carOwnerNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo (self.carNumberField.mas_right).offset(80);
@@ -207,7 +209,7 @@
     }];
     
     self.carOwnerNameField = [DCConstant detailField:self];
-    self.carOwnerNameField.placeholder = @"请输入车主姓名";
+    self.carOwnerNameField.placeholder = @"请输入客户姓名";
     [newCoalBGView addSubview:self.carOwnerNameField];
     [self.carOwnerNameField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo (carOwnerNameLabel.mas_right).offset(EdgeMargin);
@@ -348,6 +350,19 @@
         self.coalPricePerKGField.text = self.buyCoalEntity.coalPricePerKGString;
         self.coalTotalPriceField.text = self.buyCoalEntity.coalTotalPriceString;
     }
+    else{
+        self.dateField.text = [DCConstant stringFromDate:[NSDate date]];
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
@@ -441,7 +456,6 @@
 @interface DCCoalDailyBuyViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) BuyCoalEntity *currentCoalEntity;
 
-@property(nonatomic, strong) UITableView *tableView;
 @property(nonatomic, strong) NSArray<NSArray *>*buyCoalArray;
 @end
 
@@ -449,20 +463,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.navigationItem dc_setTitle:@"购买详情"];
+    [self.navigationItem dc_setTitle:@"煤炭购买记录"];
     
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    [self.view addSubview:self.tableView];
-    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.mas_topLayoutGuideBottom);
-        make.bottom.left.right.equalTo(self.view);
-    }];
-
-    UIBarButtonItem *leftBarItem = [[UIBarButtonItem alloc] initWithTitle:@"新增记录"  style:UIBarButtonItemStylePlain target:self action:@selector(createNewRecord:)];
-    self.navigationItem.leftBarButtonItem = leftBarItem;
-    self.navigationItem.leftBarButtonItem.tintColor = [UIColor blackColor];
+    
+    [self addLeftBarItemWithTitle:@"新增记录" target:self action:@selector(createNewRecord:)];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -531,6 +537,16 @@
     return [self createTableViewHeaderView:subArray];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 20;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    return [UIView new];
+}
+
 - (UIView *)createTableViewHeaderView:(NSArray *)buyCoalArray
 {
     BuyCoalEntity *entity = [buyCoalArray firstObject];
@@ -546,7 +562,7 @@
     }];
     
     UILabel *carOwnerNameLabel = [DCConstant descriptionLabelInHeaderView];
-    carOwnerNameLabel.text = @"车主:";
+    carOwnerNameLabel.text = @"客户:";
     [view addSubview:carOwnerNameLabel];
     [carOwnerNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(dateLabel.mas_right).offset(EdgeMargin);

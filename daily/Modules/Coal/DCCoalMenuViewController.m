@@ -11,8 +11,7 @@
 #import "DCBaseSplitViewController.h"
 #import "DCCoalDailyBuyViewController.h"
 
-@interface DCCoalMenuViewController ()<UITableViewDelegate, UITableViewDataSource>
-@property(nonatomic, strong) UITableView *tableView;
+@interface DCCoalMenuViewController ()
 @end
 
 @implementation DCCoalMenuViewController
@@ -20,14 +19,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.navigationItem dc_setTitle:@"煤炭"];
-    
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    [self.view addSubview:self.tableView];
-    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
-    }];
 }
 
 #pragma UITableViewDataSource
@@ -51,11 +42,11 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     if (indexPath.section == 0) {
-        cell.textLabel.text =  @"购买";
+        cell.textLabel.text =  @"使用";
     }
     else if (indexPath.section == 1)
     {
-        cell.textLabel.text = @"使用";
+        cell.textLabel.text = @"购买";
     }
     else if(indexPath.section == 2)
     {
@@ -67,42 +58,46 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        DCCoalDailyBuyViewController *dailyVC = [[DCCoalDailyBuyViewController alloc] init];
+        self.currentMenuIndex = DCCoalMenu_Use;
+        DCCoalDailyUseViewController *dailyVC = [[DCCoalDailyUseViewController alloc] init];
         [(DCBaseSplitViewController *)self.splitViewController showRightViewController:dailyVC];
     }
     else if (indexPath.section == 1)
     {
-        DCColaDailyUseViewController *dailyVC = [[DCColaDailyUseViewController alloc] init];
+        self.currentMenuIndex = DCCoalMenu_Buy;
+        DCCoalDailyBuyViewController *dailyVC = [[DCCoalDailyBuyViewController alloc] init];
         [(DCBaseSplitViewController *)self.splitViewController showRightViewController:dailyVC];
     }
     else if(indexPath.section == 2)
     {
-        
+        self.currentMenuIndex = DCCoalMenu_Store;
+        [self.splitViewController.viewControllers[1] popToRootViewControllerAnimated:NO];
     }
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+- (void)showViewControllerWithMenu:(DCMenu_type)type
 {
-    return 10;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    return [UIView new];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return CGFLOAT_MIN;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
-    return [UIView new];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 50;
+    self.currentMenuIndex = type;
+    NSIndexPath *currentIndexPath = nil;
+    if (self.currentMenuIndex == DCCoalMenu_Buy) {
+        currentIndexPath = [NSIndexPath indexPathForRow:0 inSection:1];
+        DCCoalDailyBuyViewController *dailyVC = [[DCCoalDailyBuyViewController alloc] init];
+        [(DCBaseSplitViewController *)self.splitViewController showRightViewController:dailyVC];
+    }
+    else if (self.currentMenuIndex == DCCoalMenu_Use)
+    {
+        currentIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        DCCoalDailyUseViewController *dailyVC = [[DCCoalDailyUseViewController alloc] init];
+        [(DCBaseSplitViewController *)self.splitViewController showRightViewController:dailyVC];
+    }
+    else if(self.currentMenuIndex == DCCoalMenu_Store)
+    {
+        currentIndexPath = [NSIndexPath indexPathForRow:0 inSection:2];
+        [self.splitViewController.viewControllers[1] popToRootViewControllerAnimated:NO];
+    }
+    
+    if (currentIndexPath) {
+        [self.tableView selectRowAtIndexPath:currentIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+    }
 }
 @end

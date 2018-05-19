@@ -10,7 +10,7 @@
 #import "DCCoalMenuViewController.h"
 
 @interface DCCoalSplitViewController ()
-
+@property (nonatomic, strong)DCCoalMenuViewController *menu;
 @end
 
 @implementation DCCoalSplitViewController
@@ -20,6 +20,7 @@
     self = [super init];
     if (self) {
         DCCoalMenuViewController *menu = [[DCCoalMenuViewController alloc] init];
+        self.menu = menu;
         UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:[[UIViewController alloc] init]];
         self.viewControllers = @[[DCConstant embedNav:menu], nvc];
         
@@ -31,8 +32,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     
-    [self.navigationItem dc_setTitle:@"Coal"];
+    if ([self.menu currentMenu] == DCMenu_NotFound) {
+        [self.menu showViewControllerWithMenu:DCCoalMenu_Use];
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
 }
 
 @end

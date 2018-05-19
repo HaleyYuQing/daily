@@ -12,4 +12,7 @@
 @property (nonatomic, strong) NSDate *createDate;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, assign) NSInteger coalWeight; //kg
+@property (nonatomic, strong) NSString *operatorName;
+
+- (NSString *)coalWeightString;
 @end

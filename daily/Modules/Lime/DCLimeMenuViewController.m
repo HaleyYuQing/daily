@@ -8,31 +8,29 @@
 
 #import "DCLimeMenuViewController.h"
 #import "DCBaseSplitViewController.h"
-#import "DCCoalDailyUseViewController.h"
+#import "DCLimeDailySellViewController.h"
 
 @interface DCLimeMenuViewController ()<UITableViewDelegate, UITableViewDataSource>
-@property(nonatomic, strong) UITableView *tableView;
+
 @end
 
 @implementation DCLimeMenuViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.navigationItem dc_setTitle:@"Lime Menu"];
-    
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    [self.view addSubview:self.tableView];
-    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
-    }];
+    [self.navigationItem dc_setTitle:@"石灰"];
 }
 
 #pragma UITableViewDataSource
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 2;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -41,23 +39,47 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
-    cell.textLabel.text =  @"Line Use";
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+    if (indexPath.section == 0) {
+        cell.textLabel.text =  @"出售";
+    }
+    else if(indexPath.section == 1)
+    {
+        cell.textLabel.text = @"库存";
+    }
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DCColaDailyUseViewController *dailyVC = [[DCColaDailyUseViewController alloc] init];
-    [(DCBaseSplitViewController *)self.splitViewController showRightViewController:dailyVC];
+    if (indexPath.section == 0) {
+        DCLimeDailySellViewController *dailyVC = [[DCLimeDailySellViewController alloc] init];
+        [(DCBaseSplitViewController *)self.splitViewController showRightViewController:dailyVC];
+    }
+    else if (indexPath.section == 1)
+    {
+        [self.splitViewController.viewControllers[1] popToRootViewControllerAnimated:NO];
+    }
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+- (void)showViewControllerWithMenu:(DCMenu_type)type
 {
-    return CGFLOAT_MIN;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    return [UIView new];
+    self.currentMenuIndex = type;
+    NSIndexPath *currentIndexPath = nil;
+    if (self.currentMenuIndex == DCLimeMenu_Sell) {
+        currentIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        DCLimeDailySellViewController *dailyVC = [[DCLimeDailySellViewController alloc] init];
+        [(DCBaseSplitViewController *)self.splitViewController showRightViewController:dailyVC];
+    }
+    else if(self.currentMenuIndex == DCLimeMenu_Store)
+    {
+        currentIndexPath = [NSIndexPath indexPathForRow:0 inSection:1];
+        [self.splitViewController.viewControllers[1] popToRootViewControllerAnimated:NO];
+    }
+    
+    if (currentIndexPath) {
+        [self.tableView selectRowAtIndexPath:currentIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+    }
 }
 @end

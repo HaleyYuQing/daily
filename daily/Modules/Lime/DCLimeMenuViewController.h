@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DCBaseMenuViewController.h"
 
-@interface DCLimeMenuViewController : UIViewController
+@interface DCLimeMenuViewController : DCBaseMenuViewController
 
 @end

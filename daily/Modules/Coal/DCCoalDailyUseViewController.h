@@ -1,5 +1,5 @@
 //
-//  DCColaDailyUseViewController.h
+//  DCCoalDailyUseViewController.h
 //  daily
 //
 //  Created by yuqing huang on 14/05/2018.
@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DCBaseViewController.h"
 
-@interface DCColaDailyUseViewController : UIViewController
+@interface DCCoalDailyUseViewController : DCBaseViewController
 
 @end

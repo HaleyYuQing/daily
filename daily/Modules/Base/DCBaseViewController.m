@@ -9,23 +9,35 @@
 #import "DCBaseViewController.h"
 
 @interface DCBaseViewController ()
-
+@property(nonatomic, strong) DCBaseTableView *tableView;
 @end
 
 @implementation DCBaseViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.tableView = [[DCBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+    [self.view addSubview:self.tableView];
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.mas_topLayoutGuideBottom);
+        make.bottom.left.right.equalTo(self.view);
+    }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
+- (void)addLeftBarItemWithTitle:(NSString *)title target:(id)target action:(SEL)action
+{
+    UIBarButtonItem *leftBarItem = [[UIBarButtonItem alloc] initWithTitle:title  style:UIBarButtonItemStylePlain target:target action:action];
+    self.navigationItem.leftBarButtonItem = leftBarItem;
+    self.navigationItem.leftBarButtonItem.tintColor = [UIColor blackColor];
+}
 @end

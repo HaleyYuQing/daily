@@ -12,11 +12,12 @@
 @property (nonatomic, strong) NSDate *createDate;
 @property (nonatomic, strong) NSString *name;
 
-@property (nonatomic ,strong) NSString *buyerName;
 @property (nonatomic, assign) NSInteger limePricePerKG;
 @property (nonatomic, assign) NSInteger limeWeight; //kg
+@property (nonatomic, assign) NSInteger limeTotalPrice;
 
 @property (nonatomic, strong) NSString *carNumber;
+@property (nonatomic ,strong) NSString *buyerName;
 @property (nonatomic, assign) NSInteger carWeight;
 @property (nonatomic, assign) NSInteger carAndLimeWeight;
 
@@ -24,4 +25,12 @@
 @property (nonatomic, assign) NSInteger payedPrice;
 @property (nonatomic, assign) NSInteger notPayedPrice;
 @property (nonatomic, assign) NSInteger discountPrice;
+
+- (NSString *)limeWeightString;
+- (NSString *)carWeightString;
+- (NSString *)limeTotalPriceString;
+- (NSString *)limePricePerKGString;
+- (NSString *)carAndLimeWeightString;
+- (NSString *)payedPriceString;
+- (NSString *)notPayedPriceString;
 @end

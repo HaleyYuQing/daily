@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DCBaseTableView.h"
 
 @interface DCBaseViewController : UIViewController
+@property(nonatomic, readonly) DCBaseTableView * tableView;
 
+- (void)addLeftBarItemWithTitle:(NSString *)title target:(id)target action:(SEL)action;
 @end

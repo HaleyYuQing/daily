@@ -12,7 +12,7 @@
 #import "UINavigationItem+DC.h"
 
 @interface DCLimeSplitViewController ()
-
+@property (nonatomic, strong)DCLimeMenuViewController *menu;
 @end
 
 @implementation DCLimeSplitViewController
@@ -22,6 +22,7 @@
     self = [super init];
     if (self) {
         DCLimeMenuViewController *menu = [[DCLimeMenuViewController alloc] init];
+        self.menu = menu;
         UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:[[UIViewController alloc] init]];
         self.viewControllers = @[[DCConstant embedNav:menu], nvc];
         
@@ -32,8 +33,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.view.backgroundColor = [UIColor whiteColor];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    if ([self.menu currentMenu] == DCMenu_NotFound) {
+        [self.menu showViewControllerWithMenu:DCLimeMenu_Sell];
+    }
 }
 
 @end

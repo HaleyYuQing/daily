@@ -1,5 +1,5 @@
 //
-//  DCColaDailyUseViewController.m
+//  DCCoalDailyUseViewController.m
 //  daily
 //
 //  Created by yuqing huang on 14/05/2018.
@@ -11,86 +11,191 @@
 #import "DCCoreDataManager.h"
 #import "UIAlertController+DC.h"
 
-@interface DCColaDailyUseViewController ()<UITableViewDelegate, UITableViewDataSource>
-@property (nonatomic, strong) BuyCoalEntity *currentCoalEntity;
+#import "UINavigationItem+DC.h"
+#import "DCCoreDataManager.h"
+#import "UIAlertController+DC.h"
+#import "UIViewController+DC.h"
+#import "DCNotificationManager.h"
+#import "DCBaseUpdateEntityViewController.h"
 
-@property(nonatomic, strong) UITableView *tableView;
-@property(nonatomic, strong) NSArray *buyCoalArray;
-
-//Add new coal
-@property (nonatomic, strong) UITextField *carNumberField;
-@property (nonatomic, strong) UITextField *carWeightField;
-@property (nonatomic, strong) UITextField *carAndCoalWeightField;
-@property (nonatomic, strong) UITextField *coalWeightField;
-@property (nonatomic, strong) UITextField *coalPricePerKGField;
+@interface DCUseCoalEntityTableViewCell :UITableViewCell
+@property (nonatomic, strong) UILabel *dateLabel;
+@property (nonatomic, strong) UILabel *operatorNameLabel;
+@property (nonatomic, strong) UILabel *coalWeightLabel;
 @end
 
-@implementation DCColaDailyUseViewController
+@implementation DCUseCoalEntityTableViewCell
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        UILabel *dateLabel = [DCConstant detailLabel];
+        self.dateLabel = dateLabel;
+        dateLabel.text = @"5月12日";
+        [self.contentView addSubview:dateLabel];
+        [dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.contentView.mas_left).offset(EdgeMargin);
+            make.centerY.equalTo(self.contentView.mas_centerY);
+            make.width.equalTo(@(DescriptionLabelWidthInHeaderView));
+        }];
+        
+        UILabel *coalWeightLabel = [DCConstant detailLabel];
+        self.coalWeightLabel = coalWeightLabel;
+        coalWeightLabel.text = @"煤重量(千克):";
+        [self.contentView addSubview:coalWeightLabel];
+        [coalWeightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(dateLabel.mas_right).offset(EdgeMargin);
+            make.centerY.equalTo(self.contentView.mas_centerY);
+            make.width.equalTo(@(DescriptionLabelWidthInHeaderView));
+        }];
+        
+        UILabel *operatorNameLabel = [DCConstant detailLabel];
+        self.operatorNameLabel = operatorNameLabel;
+        operatorNameLabel.text = @"操作员:";
+        [self.contentView addSubview:operatorNameLabel];
+        [operatorNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(coalWeightLabel.mas_right).offset(EdgeMargin);
+            make.centerY.equalTo(self.contentView.mas_centerY);
+            make.width.equalTo(@(DescriptionLabelWidthInHeaderView));
+        }];
+    }
+    return self;
+}
 
-- (void)viewDidLoad {
+- (void)updateCellWithUseCoalEntity:(UseCoalEntity *)entity
+{
+    self.dateLabel.text = [DCConstant hourAndMinuteStringFromDate:entity.createDate];
+    self.operatorNameLabel.text = entity.operatorName;
+    self.coalWeightLabel.text = [entity coalWeightString];
+}
+
+@end
+
+@interface DCUpdateUseCoalEntityViewController: DCBaseUpdateEntityViewController<UITextFieldDelegate>
+@property (nonatomic, strong) UseCoalEntity *UseCoalEntity;
+//Add new coal
+@property (nonatomic, strong) UITextField *dateField;
+@property (nonatomic, strong) UITextField *operatorNameField;
+@property (nonatomic, strong) UITextField *coalWeightField;
+
+@end
+
+@implementation DCUpdateUseCoalEntityViewController
+
+- (instancetype)initWithUseCoalEntity:(UseCoalEntity *)UseCoalEntity
+{
+    self = [super initWithNibName:nil bundle:nil];
+    if (self) {
+        self.UseCoalEntity = UseCoalEntity;
+        [self dc_setPresentAsPopup:YES];
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    [self.navigationItem dc_setTitle:@"Detail"];
+    
+    UIView *bgView = [UIView new];
+    bgView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:bgView];
+    [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.view);
+    }];
+    
+    UILabel *newLabel = [DCConstant descriptionLabel];
+    newLabel.text = self.UseCoalEntity ? @"更新记录" : @"新增记录：";
+    [bgView addSubview:newLabel];
+    [newLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(bgView.mas_top).offset(EdgeMargin);
+        make.left.equalTo(bgView.mas_left).offset(EdgeMargin);
+    }];
+    
+    UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    cancelButton.layer.borderWidth = 1;
+    cancelButton.layer.borderColor = [BUTTON_COLOR CGColor];
+    cancelButton.layer.cornerRadius = 40 * 0.5;
+    [cancelButton addTarget:self action:@selector(cancelButtonDidPress:) forControlEvents:UIControlEventTouchUpInside];
+    [bgView addSubview:cancelButton];
+    [cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(newLabel.mas_centerY);
+        make.right.equalTo(bgView.mas_right).offset(-EdgeMargin);
+        make.width.equalTo(@100);
+        make.height.equalTo(@40);
+    }];
     
     UIView *newCoalBGView = [[UIView alloc] initWithFrame:CGRectZero];
-    [self.view addSubview:newCoalBGView];
+    newCoalBGView.backgroundColor = [UIColor whiteColor];
+    newCoalBGView.layer.borderWidth = 1;
+    newCoalBGView.layer.borderColor = [BUTTON_COLOR CGColor];
+    [bgView addSubview:newCoalBGView];
     [newCoalBGView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.mas_topLayoutGuideBottom);
-        make.left.right.equalTo(self.view);
+        make.top.equalTo(newLabel.mas_bottom).offset(EdgeMargin);
+        make.left.equalTo(bgView.mas_left).offset(EdgeMargin);
+        make.right.equalTo(bgView.mas_right).offset(-EdgeMargin);
+        make.bottom.equalTo(bgView.mas_bottom).offset(-EdgeMargin);
     }];
     
-    UILabel *carNumberLabel = [UILabel new];
-    carNumberLabel.text = @"CarNumber:";
-    [newCoalBGView addSubview:carNumberLabel];
-    [carNumberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    UILabel *dateLabel = [DCConstant descriptionLabel];
+    dateLabel.text = @"日期:";
+    [newCoalBGView addSubview:dateLabel];
+    [dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(newCoalBGView.mas_top).offset(EdgeMargin);
         make.left.equalTo(newCoalBGView.mas_left).offset(EdgeMargin);
+        make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.carNumberField = [UITextField new];
-    self.carNumberField.placeholder = @"CarNumber";
-    [newCoalBGView addSubview:self.carNumberField];
-    [self.carNumberField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo (carNumberLabel.mas_right).offset(EdgeMargin);
-        make.centerY.equalTo(carNumberLabel.mas_centerY);
-        make.width.equalTo(@(100));
+    self.dateField = [DCConstant detailField:self];
+    self.dateField.enabled = NO;
+    self.dateField.placeholder = @"点击生成日期";
+    [newCoalBGView addSubview:self.dateField];
+    [self.dateField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo (dateLabel.mas_right).offset(EdgeMargin);
+        make.centerY.equalTo(dateLabel.mas_centerY);
+        make.width.equalTo(@(DetailFieldWidth));
     }];
     
-    UILabel *carWeightLabel = [UILabel new];
-    carWeightLabel.text = @"CarWeight:";
-    [newCoalBGView addSubview:carWeightLabel];
-    [carWeightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(carNumberLabel.mas_bottom).offset(LineSpace);
+    UILabel *coalWeightLabel = [DCConstant descriptionLabel];
+    coalWeightLabel.text = @"煤重量(千克):";
+    [newCoalBGView addSubview:coalWeightLabel];
+    [coalWeightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(dateLabel.mas_bottom).offset(LineSpace);
         make.left.equalTo(newCoalBGView.mas_left).offset(EdgeMargin);
+        make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.carWeightField = [UITextField new];
-    self.carWeightField.placeholder = @"CarWeight";
-    [newCoalBGView addSubview:self.carWeightField];
-    [self.carWeightField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo (carWeightLabel.mas_right).offset(EdgeMargin);
-        make.centerY.equalTo(carWeightLabel.mas_centerY);
-        make.width.equalTo(@(100));
+    self.coalWeightField = [DCConstant detailField:self];
+    self.coalWeightField.placeholder = @"请输入煤重量";
+    [newCoalBGView addSubview:self.coalWeightField];
+    [self.coalWeightField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo (coalWeightLabel.mas_right).offset(EdgeMargin);
+        make.centerY.equalTo(coalWeightLabel.mas_centerY);
+        make.width.equalTo(@(DetailFieldWidth));
     }];
     
-    UILabel *carAndCoalWeightLabel = [UILabel new];
-    carAndCoalWeightLabel.text = @"CarAndCoalWeight:";
-    [newCoalBGView addSubview:carAndCoalWeightLabel];
-    [carAndCoalWeightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(carWeightLabel.mas_bottom).offset(LineSpace);
-        make.left.equalTo(newCoalBGView.mas_left).offset(EdgeMargin);
+    UILabel *operatorNameLabel = [DCConstant descriptionLabel];
+    operatorNameLabel.text = @"操作员:";
+    [newCoalBGView addSubview:operatorNameLabel];
+    [operatorNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(coalWeightLabel.mas_centerY);
+        make.left.equalTo(self.coalWeightField.mas_right).offset(80);
+        make.width.equalTo(@(80));
     }];
     
-    self.carAndCoalWeightField = [UITextField new];
-    self.carAndCoalWeightField.placeholder = @"CarAndCoalWeight";
-    [newCoalBGView addSubview:self.carAndCoalWeightField];
-    [self.carAndCoalWeightField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo (carAndCoalWeightLabel.mas_right).offset(EdgeMargin);
-        make.centerY.equalTo(carAndCoalWeightLabel.mas_centerY);
-        make.width.equalTo(@(100));
+    self.operatorNameField = [DCConstant detailField:self];
+    self.operatorNameField.placeholder = @"请输入操作员姓名";
+    [newCoalBGView addSubview:self.operatorNameField];
+    [self.operatorNameField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo (operatorNameLabel.mas_right).offset(EdgeMargin);
+        make.centerY.equalTo(operatorNameLabel.mas_centerY);
+        make.width.equalTo(@(DetailFieldWidth));
+        make.right.equalTo(newCoalBGView.mas_right).offset(-EdgeMargin);
     }];
     
     UIButton *saveButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [saveButton setTitle:@"Save" forState:UIControlStateNormal];
+    [saveButton setTitle:@"保存" forState:UIControlStateNormal];
     [saveButton setTitleColor:BUTTON_COLOR forState:UIControlStateNormal];
     [newCoalBGView addSubview:saveButton];
     saveButton.layer.borderWidth = 1;
@@ -98,91 +203,249 @@
     saveButton.layer.cornerRadius = 40 * 0.5;
     [saveButton addTarget:self action:@selector(saveEntity:) forControlEvents:UIControlEventTouchUpInside];
     [saveButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(carAndCoalWeightLabel.mas_bottom).offset(20);
+        make.top.equalTo(coalWeightLabel.mas_bottom).offset(40);
         make.left.equalTo(newCoalBGView.mas_left).offset(EdgeMargin);
         make.bottom.equalTo(newCoalBGView.mas_bottom).offset(-EdgeMargin);
         make.height.equalTo(@40);
-        make.width.equalTo(@80);
+        make.width.equalTo(@100);
     }];
     
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    [self.view addSubview:self.tableView];
-    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-    
-        make.top.equalTo(newCoalBGView.mas_bottom).offset(30);
-        make.bottom.left.right.equalTo(self.view);
+    UIButton *deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [deleteButton setTitle:@"删除" forState:UIControlStateNormal];
+    [deleteButton setTitleColor:BUTTON_COLOR forState:UIControlStateNormal];
+    [newCoalBGView addSubview:deleteButton];
+    deleteButton.layer.borderWidth = 1;
+    deleteButton.layer.borderColor = [BUTTON_COLOR CGColor];
+    deleteButton.layer.cornerRadius = 40 * 0.5;
+    [deleteButton addTarget:self action:@selector(deleteEntity:) forControlEvents:UIControlEventTouchUpInside];
+    [deleteButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo (saveButton.mas_right).offset(80);
+        make.centerY.equalTo(saveButton.mas_centerY);
+        make.height.equalTo(@40);
+        make.width.equalTo(@100);
     }];
     
-    [[DCCoreDataManager sharedInstance] loadBuyCoalData:^(NSArray *coalArray) {
-        self.buyCoalArray = [NSArray arrayWithArray:coalArray];
-        [self.tableView reloadData];
-    }];
+    if (self.UseCoalEntity) {
+        self.dateField.text = [DCConstant stringFromDate:self.UseCoalEntity.createDate];
+        self.operatorNameField.text = self.UseCoalEntity.operatorName;
+        self.coalWeightField.text = self.UseCoalEntity.coalWeightString;
+    }
+    else{
+        self.dateField.text = [DCConstant stringFromDate:[NSDate date]];
+    }
 }
 
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-}
-
-- (void)dealloc
+- (void)textFieldDidEndEditing:(UITextField *)textField
 {
-    NSLog(@"");
+    
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
 }
 
 - (void)saveEntity:(id)sender
 {
-    if (self.carNumberField.text.length == 0) {
-        UIAlertController *alert = [UIAlertController dc_alertControllerWithTitle:@"Please input car number" message:nil actionTitle:@"OK" handler:nil];
+    if (self.coalWeightField.text.length == 0) {
+        UIAlertController *alert = [UIAlertController dc_alertControllerWithTitle:@"请输入煤重量" message:nil actionTitle:@"OK" handler:nil];
         [self presentViewController:alert animated:YES completion:nil];
         return;
     }
     
-    if (!self.currentCoalEntity) {
-        self.currentCoalEntity = [[BuyCoalEntity alloc] init];
+    BOOL isNewRecord = NO;
+    if (!self.UseCoalEntity) {
+        self.UseCoalEntity = [[UseCoalEntity alloc] init];
+        isNewRecord = YES;
     }
     
-    if (!self.currentCoalEntity.createDate) {
-        self.currentCoalEntity.createDate = [NSDate date];
+    if (!self.UseCoalEntity.createDate) {
+        self.UseCoalEntity.createDate = [NSDate date];
     }
     
-    self.currentCoalEntity.carNumber = self.carNumberField.text;
-    self.currentCoalEntity.coalWeight = [self.coalWeightField.text integerValue];
-    self.currentCoalEntity.carWeight = [self.carWeightField.text integerValue];
-    self.currentCoalEntity.carAndCoalWeight = [self.carAndCoalWeightField.text integerValue];
+    self.UseCoalEntity.operatorName = self.operatorNameField.text;
+    self.UseCoalEntity.coalWeight = [self.coalWeightField.text integerValue];
     
-    [[DCCoreDataManager sharedInstance] addBuyCoalData:self.currentCoalEntity complete:nil];
+    if (isNewRecord) {
+        [[DCCoreDataManager sharedInstance] addUseCoalData:self.UseCoalEntity complete:^(NSString *errorString) {
+            [self finishAction:errorString];
+        }];
+    }
+    else{
+        [[DCCoreDataManager sharedInstance] updateUseCoalData:self.UseCoalEntity complete:^(NSString *errorString) {
+            [self finishAction:errorString];
+        }];
+    }
+}
+
+- (void)deleteEntity:(id)sender
+{
+    [[DCCoreDataManager sharedInstance] deleteUseCoalData:self.UseCoalEntity complete:^(NSString *errorString) {
+        [self finishAction:errorString];
+    }];
+}
+
+- (void)finishAction:(NSString *)error
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (error) {
+            UIAlertController *alert = [UIAlertController dc_alertControllerWithTitle:nil message:error actionTitle:@"OK" handler:nil];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+        else{
+            [[NSNotificationCenter defaultCenter] postNotificationName:UpdateUseCoalEntityNotificationKey object:nil];
+            
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+    });
+}
+
+- (void)cancelButtonDidPress:(id)sender
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+@end
+
+@interface DCCoalDailyUseViewController ()<UITableViewDelegate, UITableViewDataSource>
+@property (nonatomic, strong) UseCoalEntity *currentCoalEntity;
+
+@property(nonatomic, strong) NSArray<NSArray *>*buyCoalArray;
+@end
+
+@implementation DCCoalDailyUseViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self.navigationItem dc_setTitle:@"煤炭使用记录"];
+    
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    
+    [self addLeftBarItemWithTitle:@"新增记录" target:self action:@selector(createNewRecord:)];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    [self loadUseCoalData];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateData:) name:UpdateUseCoalEntityNotificationKey object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)createNewRecord:(id)sender
+{
+    DCUpdateUseCoalEntityViewController *updateVC = [[DCUpdateUseCoalEntityViewController alloc] initWithUseCoalEntity:nil];
+    [self presentViewController:updateVC animated:YES completion:nil];
 }
 
 #pragma UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    
+    return self.buyCoalArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.buyCoalArray.count;
+    NSArray *subArray = self.buyCoalArray[section];
+    return subArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    DCUseCoalEntityTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell = [[DCUseCoalEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
-    BuyCoalEntity *entity = self.buyCoalArray[indexPath.row];
-    cell.textLabel.text =  [NSString stringWithFormat:@"%@  %@  %@",entity.carNumber, @(entity.carWeight), @(entity.carAndCoalWeight)];
+    NSArray *subArray = self.buyCoalArray[indexPath.section];
+    UseCoalEntity *entity = subArray[indexPath.row];
+    [cell updateCellWithUseCoalEntity:entity];
+    
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSArray *subArray = self.buyCoalArray[indexPath.section];
+    UseCoalEntity *entity = subArray[indexPath.row];
+    DCUpdateUseCoalEntityViewController *updateVC = [[DCUpdateUseCoalEntityViewController alloc] initWithUseCoalEntity:entity];
+    [self presentViewController:updateVC animated:YES completion:nil];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 30;
+    return TableViewHeaderViewHeight;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    return @"5月12日";
+    NSArray *subArray = self.buyCoalArray[section];
+    return [self createTableViewHeaderView:subArray];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    return 20;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    return [UIView new];
+}
+
+- (UIView *)createTableViewHeaderView:(NSArray *)buyCoalArray
+{
+    UseCoalEntity *entity = [buyCoalArray firstObject];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, TableViewHeaderViewHeight)];
+    view.backgroundColor = [UIColor colorWithHex:@"0E404E"];
+    UILabel *dateLabel = [DCConstant descriptionLabelInHeaderView];
+    dateLabel.text = [DCConstant monthAndDayStringFromDate:entity.createDate];
+    [view addSubview:dateLabel];
+    [dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(view.mas_left).offset(EdgeMargin);
+        make.centerY.equalTo(view.mas_centerY);
+        make.width.equalTo(@(DescriptionLabelWidthInHeaderView));
+    }];
+    
+    UILabel *coalWeightLabel = [DCConstant descriptionLabelInHeaderView];
+    coalWeightLabel.text = @"煤重量(千克):";
+    [view addSubview:coalWeightLabel];
+    [coalWeightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(dateLabel.mas_right).offset(EdgeMargin);
+        make.centerY.equalTo(view.mas_centerY);
+        make.width.equalTo(@(DescriptionLabelWidthInHeaderView));
+    }];
+    
+    UILabel *operatorNameLabel = [DCConstant descriptionLabelInHeaderView];
+    operatorNameLabel.text = @"操作员:";
+    [view addSubview:operatorNameLabel];
+    [operatorNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(coalWeightLabel.mas_right).offset(EdgeMargin);
+        make.centerY.equalTo(view.mas_centerY);
+        make.width.equalTo(@(DescriptionLabelWidthInHeaderView));
+    }];
+    
+    return view;
+}
+
+- (void)updateData:(NSNotification *)note
+{
+    [self loadUseCoalData];
+}
+
+- (void)loadUseCoalData
+{
+    [[DCCoreDataManager sharedInstance] loadUseCoalData:^(NSArray *coalArray) {
+        self.buyCoalArray = [NSArray arrayWithArray:coalArray];
+        [self.tableView reloadData];
+    }];
 }
 @end

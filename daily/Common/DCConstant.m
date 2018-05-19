@@ -46,12 +46,12 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     BOOL isToday = NO;
     if ([cmp1 day] == [cmp2 day]) { // 今天
-        formatter.dateFormat = @"HH:mm a";
+        formatter.dateFormat = @"HH:mm";
         isToday = YES;
     } else if ([cmp1 year] == [cmp2 year]) { // 今年
-        formatter.dateFormat = @"MMM dd, HH:mm a";
+        formatter.dateFormat = @"MMM dd, HH:mm";
     } else {
-        formatter.dateFormat = @"MMM-dd，yyyy HH:mm a";
+        formatter.dateFormat = @"yyyy.MM.dd，HH:mm";
     }
 
     NSString *time = [formatter stringFromDate:date];
@@ -72,7 +72,7 @@
     if ([cmp1 year] == [cmp2 year]) { // 今年
         formatter.dateFormat = @"MMM dd";
     } else {
-        formatter.dateFormat = @"MMM dd，yyyy";
+        formatter.dateFormat = @"yyyy.MM.dd";
     }
     
     NSString *time = [formatter stringFromDate:date];
@@ -83,7 +83,7 @@
 + (NSString *)hourAndMinuteStringFromDate:(NSDate *)date
 {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    formatter.dateFormat = @"HH:MM a";
+    formatter.dateFormat = @"HH:mm";
     
     NSString *time = [formatter stringFromDate:date];
     
@@ -130,5 +130,39 @@
     label.textColor = [UIColor whiteColor];
     label.font = [UIFont systemFontOfSize:16];
     return label;
+}
+
++ (NSString *)getHSBStringByColor:(UIColor *)originColor {
+    
+    NSDictionary *hsbDict = [DCConstant getHSBAValueByColor:originColor];
+    
+    return [NSString stringWithFormat:@"(%0.2f, %0.2f, %0.2f)",
+            
+            [hsbDict[@"H"] floatValue],
+            
+            [hsbDict[@"S"] floatValue],
+            
+            [hsbDict[@"B"] floatValue]];
+}
+
++ (NSDictionary *)getHSBAValueByColor:(UIColor *)originColor
+
+{
+    CGFloat h=0,s=0,b=0,a=0;
+    
+    if ([originColor respondsToSelector:@selector(getHue:saturation:brightness:alpha:)]) {
+        
+        [originColor getHue:&h saturation:&s brightness:&b alpha:&a];
+        
+    }
+    
+    return @{@"H":@(h),
+             
+             @"S":@(s),
+             
+             @"B":@(b),
+             
+             @"A":@(a)};
+    
 }
 @end

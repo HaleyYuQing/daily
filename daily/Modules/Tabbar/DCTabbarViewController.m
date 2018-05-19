@@ -9,6 +9,7 @@
 #import "DCTabbarViewController.h"
 #import "DCCoalSplitViewController.h"
 #import "DCLimeSplitViewController.h"
+#import "DCStoneSplitViewController.h"
 
 @interface DCTabbarViewController ()<UITabBarControllerDelegate>
 
@@ -62,7 +63,8 @@
 {
     DCCoalSplitViewController *coalVC = [[DCCoalSplitViewController alloc] init];
     DCLimeSplitViewController *limeVC = [[DCLimeSplitViewController alloc] init];
+    DCStoneSplitViewController *stoneVC = [[DCStoneSplitViewController alloc] init];
     
-    self.viewControllers =@[coalVC, limeVC];
+    self.viewControllers =@[limeVC, coalVC, stoneVC];
 }
 @end

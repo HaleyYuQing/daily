@@ -17,6 +17,7 @@
 #define FONT_PROXIMANOVA_BOLD     [UIFont boldSystemFontOfSize:1]
 
 #define BUTTON_COLOR              [UIColor colorWithHex:@"0E404E"]
+#define TableViewBackgroundColor  [UIColor colorWithHue:0.67 saturation:0.02 brightness:0.96 alpha:1]
 
 #define TableViewHeaderViewHeight                   50
 #define TableViewCellHeight                         60

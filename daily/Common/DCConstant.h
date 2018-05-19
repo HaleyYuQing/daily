@@ -23,4 +23,6 @@
 + (UITextField *)detailField:(id)delegate;
 + (UILabel *)descriptionLabel;
 + (UILabel *)descriptionLabelInHeaderView;
+
++ (NSString *)getHSBStringByColor:(UIColor *)originColor;
 @end

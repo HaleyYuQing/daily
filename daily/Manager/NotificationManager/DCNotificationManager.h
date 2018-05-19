@@ -9,6 +9,10 @@
 #import <Foundation/Foundation.h>
 
 extern NSString *const UpdateBuyCoalEntityNotificationKey;
+extern NSString *const UpdateUseCoalEntityNotificationKey;
+extern NSString *const UpdateSellLimeEntityNotificationKey;
+extern NSString *const UpdateBuyStoneEntityNotificationKey;
+extern NSString *const UpdateUseStoneEntityNotificationKey;
 
 @interface DCNotificationManager : NSObject
 

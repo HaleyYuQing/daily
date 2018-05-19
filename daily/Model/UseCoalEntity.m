@@ -10,4 +10,8 @@
 
 @implementation UseCoalEntity
 
+- (NSString *)coalWeightString
+{
+    return [NSString stringWithFormat:@"%@",@(self.coalWeight)];
+}
 @end
