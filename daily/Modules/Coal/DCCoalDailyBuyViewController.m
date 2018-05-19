@@ -167,7 +167,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.dateField = [DCConstant detailField:self];
+    self.dateField = [DCConstant detailField:self isNumber:NO];
     self.dateField.enabled = NO;
     self.dateField.placeholder = @"点击生成日期";
     [newCoalBGView addSubview:self.dateField];
@@ -186,7 +186,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.carNumberField = [DCConstant detailField:self];
+    self.carNumberField = [DCConstant detailField:self isNumber:NO];
     self.carNumberField.placeholder = @"请输入车牌";
     [newCoalBGView addSubview:self.carNumberField];
     [self.carNumberField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -237,7 +237,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.carOwnerNameField = [DCConstant detailField:self];
+    self.carOwnerNameField = [DCConstant detailField:self isNumber:NO];
     self.carOwnerNameField.placeholder = @"请输入客户姓名";
     [newCoalBGView addSubview:self.carOwnerNameField];
     [self.carOwnerNameField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -256,7 +256,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.carAndCoalWeightField = [DCConstant detailField:self];
+    self.carAndCoalWeightField = [DCConstant detailField:self isNumber:YES];
     self.carAndCoalWeightField.placeholder = @"请输入总重量";
     [newCoalBGView addSubview:self.carAndCoalWeightField];
     [self.carAndCoalWeightField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -274,7 +274,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.carWeightField = [DCConstant detailField:self];
+    self.carWeightField = [DCConstant detailField:self isNumber:YES];
     self.carWeightField.placeholder = @"请输入车皮重量";
     [newCoalBGView addSubview:self.carWeightField];
     [self.carWeightField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -293,7 +293,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.coalWeightField = [DCConstant detailField:self];
+    self.coalWeightField = [DCConstant detailField:self isNumber:YES];
     self.coalWeightField.placeholder = @"请输入净重量";
     [newCoalBGView addSubview:self.coalWeightField];
     [self.coalWeightField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -311,7 +311,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.coalPricePerKGField = [DCConstant detailField:self];
+    self.coalPricePerKGField = [DCConstant detailField:self isNumber:YES];
     self.coalPricePerKGField.placeholder = @"请输入煤单价";
     [newCoalBGView addSubview:self.coalPricePerKGField];
     [self.coalPricePerKGField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -329,7 +329,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.coalTotalPriceField = [DCConstant detailField:self];
+    self.coalTotalPriceField = [DCConstant detailField:self isNumber:YES];
     self.coalTotalPriceField.placeholder = @"请输入总价格";
     [newCoalBGView addSubview:self.coalTotalPriceField];
     [self.coalTotalPriceField mas_makeConstraints:^(MASConstraintMaker *make) {

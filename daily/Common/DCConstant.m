@@ -106,10 +106,11 @@
     return label;
 }
 
-+ (UITextField *)detailField:(id)delegate
++ (UITextField *)detailField:(id)delegate isNumber:(BOOL)isNumber
 {
     UITextField *field = [[UITextField alloc] initWithFrame:CGRectZero];
     field.delegate = delegate;
+    field.keyboardType = isNumber ? UIKeyboardTypeNumberPad : UIKeyboardTypeDefault;
     field.returnKeyType = UIReturnKeyDone;
     field.font = [UIFont systemFontOfSize:18];
     field.borderStyle = UITextBorderStyleRoundedRect;

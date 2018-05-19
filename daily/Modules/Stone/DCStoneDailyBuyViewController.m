@@ -167,7 +167,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.dateField = [DCConstant detailField:self];
+    self.dateField = [DCConstant detailField:self isNumber:NO];
     self.dateField.enabled = NO;
     self.dateField.placeholder = @"点击生成日期";
     [newStoneBGView addSubview:self.dateField];
@@ -186,7 +186,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.carNumberField = [DCConstant detailField:self];
+    self.carNumberField = [DCConstant detailField:self isNumber:NO];
     self.carNumberField.placeholder = @"请输入车牌";
     [newStoneBGView addSubview:self.carNumberField];
     [self.carNumberField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -237,7 +237,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.carOwnerNameField = [DCConstant detailField:self];
+    self.carOwnerNameField = [DCConstant detailField:self isNumber:NO];
     self.carOwnerNameField.placeholder = @"请输入客户姓名";
     [newStoneBGView addSubview:self.carOwnerNameField];
     [self.carOwnerNameField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -256,7 +256,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.carAndStoneWeightField = [DCConstant detailField:self];
+    self.carAndStoneWeightField = [DCConstant detailField:self isNumber:YES];
     self.carAndStoneWeightField.placeholder = @"请输入总重量";
     [newStoneBGView addSubview:self.carAndStoneWeightField];
     [self.carAndStoneWeightField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -274,7 +274,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.carWeightField = [DCConstant detailField:self];
+    self.carWeightField = [DCConstant detailField:self isNumber:YES];
     self.carWeightField.placeholder = @"请输入车皮重量";
     [newStoneBGView addSubview:self.carWeightField];
     [self.carWeightField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -293,7 +293,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.stoneWeightField = [DCConstant detailField:self];
+    self.stoneWeightField = [DCConstant detailField:self isNumber:YES];
     self.stoneWeightField.placeholder = @"请输入净重量";
     [newStoneBGView addSubview:self.stoneWeightField];
     [self.stoneWeightField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -311,7 +311,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.stonePricePerKGField = [DCConstant detailField:self];
+    self.stonePricePerKGField = [DCConstant detailField:self isNumber:YES];
     self.stonePricePerKGField.placeholder = @"请输入石头单价";
     [newStoneBGView addSubview:self.stonePricePerKGField];
     [self.stonePricePerKGField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -329,7 +329,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.stoneTotalPriceField = [DCConstant detailField:self];
+    self.stoneTotalPriceField = [DCConstant detailField:self isNumber:YES];
     self.stoneTotalPriceField.placeholder = @"请输入总价格";
     [newStoneBGView addSubview:self.stoneTotalPriceField];
     [self.stoneTotalPriceField mas_makeConstraints:^(MASConstraintMaker *make) {

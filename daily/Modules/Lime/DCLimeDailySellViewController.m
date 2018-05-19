@@ -169,7 +169,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.dateField = [DCConstant detailField:self];
+    self.dateField = [DCConstant detailField:self isNumber:NO];
     self.dateField.enabled = NO;
     self.dateField.placeholder = @"点击生成日期";
     [newLimeBGView addSubview:self.dateField];
@@ -188,7 +188,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.carNumberField = [DCConstant detailField:self];
+    self.carNumberField = [DCConstant detailField:self isNumber:NO];
     self.carNumberField.placeholder = @"请输入车牌";
     self.keyBoardView = [[DCPlateKeyBoardView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height * 0.33)];
     
@@ -239,7 +239,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.buyerNameField = [DCConstant detailField:self];
+    self.buyerNameField = [DCConstant detailField:self isNumber:NO];
     self.buyerNameField.placeholder = @"请输入客户姓名";
     [newLimeBGView addSubview:self.buyerNameField];
     [self.buyerNameField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -258,7 +258,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.carAndLimeWeightField = [DCConstant detailField:self];
+    self.carAndLimeWeightField = [DCConstant detailField:self isNumber:YES];
     self.carAndLimeWeightField.placeholder = @"请输入总重量";
     [newLimeBGView addSubview:self.carAndLimeWeightField];
     [self.carAndLimeWeightField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -276,7 +276,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.carWeightField = [DCConstant detailField:self];
+    self.carWeightField = [DCConstant detailField:self isNumber:YES];
     self.carWeightField.placeholder = @"请输入车皮重量";
     [newLimeBGView addSubview:self.carWeightField];
     [self.carWeightField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -295,7 +295,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.limeWeightField = [DCConstant detailField:self];
+    self.limeWeightField = [DCConstant detailField:self isNumber:YES];
     self.limeWeightField.placeholder = @"请输入净重量";
     [newLimeBGView addSubview:self.limeWeightField];
     [self.limeWeightField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -313,7 +313,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.limePricePerKGField = [DCConstant detailField:self];
+    self.limePricePerKGField = [DCConstant detailField:self isNumber:YES];
     self.limePricePerKGField.placeholder = @"请输入石灰单价";
     [newLimeBGView addSubview:self.limePricePerKGField];
     [self.limePricePerKGField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -331,7 +331,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.limeTotalPriceField = [DCConstant detailField:self];
+    self.limeTotalPriceField = [DCConstant detailField:self isNumber:YES];
     self.limeTotalPriceField.placeholder = @"请输入总金额";
     [newLimeBGView addSubview:self.limeTotalPriceField];
     [self.limeTotalPriceField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -349,7 +349,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.payedPriceField = [DCConstant detailField:self];
+    self.payedPriceField = [DCConstant detailField:self isNumber:YES];
     self.payedPriceField.placeholder = @"请输入已付金额";
     [newLimeBGView addSubview:self.payedPriceField];
     [self.payedPriceField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -367,7 +367,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.notPayedPriceField = [DCConstant detailField:self];
+    self.notPayedPriceField = [DCConstant detailField:self isNumber:YES];
     self.notPayedPriceField.placeholder = @"请输入未付金额";
     [newLimeBGView addSubview:self.notPayedPriceField];
     [self.notPayedPriceField mas_makeConstraints:^(MASConstraintMaker *make) {

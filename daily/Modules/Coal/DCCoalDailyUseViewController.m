@@ -140,7 +140,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.dateField = [DCConstant detailField:self];
+    self.dateField = [DCConstant detailField:self isNumber:NO];
     self.dateField.enabled = NO;
     self.dateField.placeholder = @"点击生成日期";
     [newCoalBGView addSubview:self.dateField];
@@ -159,7 +159,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.coalWeightField = [DCConstant detailField:self];
+    self.coalWeightField = [DCConstant detailField:self isNumber:YES];
     self.coalWeightField.placeholder = @"请输入煤重量";
     [newCoalBGView addSubview:self.coalWeightField];
     [self.coalWeightField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -177,7 +177,7 @@
         make.width.equalTo(@(80));
     }];
     
-    self.operatorNameField = [DCConstant detailField:self];
+    self.operatorNameField = [DCConstant detailField:self isNumber:NO];
     self.operatorNameField.placeholder = @"请输入操作员姓名";
     [newCoalBGView addSubview:self.operatorNameField];
     [self.operatorNameField mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -20,7 +20,7 @@
 + (NSString *)hourAndMinuteStringFromDate:(NSDate *)date;
 + (BOOL)compareIsSameDay:(NSDate *)firstDate nextDate:(NSDate *)nextDate;
 + (UILabel *)detailLabel;
-+ (UITextField *)detailField:(id)delegate;
++ (UITextField *)detailField:(id)delegate isNumber:(BOOL)isNumber;
 + (UILabel *)descriptionLabel;
 + (UILabel *)descriptionLabelInHeaderView;
 
