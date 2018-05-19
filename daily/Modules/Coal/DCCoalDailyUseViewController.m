@@ -46,7 +46,7 @@
         [coalWeightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(dateLabel.mas_right).offset(EdgeMargin);
             make.centerY.equalTo(self.contentView.mas_centerY);
-            make.width.equalTo(@(DescriptionLabelWidthInHeaderView));
+            make.width.equalTo(@(DescriptionLabelWidthInHeaderView + 40));
         }];
         
         UILabel *operatorNameLabel = [DCConstant detailLabel];
@@ -96,19 +96,12 @@
 {
     [super viewDidLoad];
     
-    UIView *bgView = [UIView new];
-    bgView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:bgView];
-    [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.view);
-    }];
-    
     UILabel *newLabel = [DCConstant descriptionLabel];
     newLabel.text = self.UseCoalEntity ? @"更新记录" : @"新增记录：";
-    [bgView addSubview:newLabel];
+    [self.bgView addSubview:newLabel];
     [newLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(bgView.mas_top).offset(EdgeMargin);
-        make.left.equalTo(bgView.mas_left).offset(EdgeMargin);
+        make.top.equalTo(self.bgView.mas_top).offset(EdgeMargin);
+        make.left.equalTo(self.bgView.mas_left).offset(EdgeMargin);
     }];
     
     UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -118,10 +111,10 @@
     cancelButton.layer.borderColor = [BUTTON_COLOR CGColor];
     cancelButton.layer.cornerRadius = 40 * 0.5;
     [cancelButton addTarget:self action:@selector(cancelButtonDidPress:) forControlEvents:UIControlEventTouchUpInside];
-    [bgView addSubview:cancelButton];
+    [self.bgView addSubview:cancelButton];
     [cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(newLabel.mas_centerY);
-        make.right.equalTo(bgView.mas_right).offset(-EdgeMargin);
+        make.right.equalTo(self.bgView.mas_right).offset(-EdgeMargin);
         make.width.equalTo(@100);
         make.height.equalTo(@40);
     }];
@@ -130,12 +123,12 @@
     newCoalBGView.backgroundColor = [UIColor whiteColor];
     newCoalBGView.layer.borderWidth = 1;
     newCoalBGView.layer.borderColor = [BUTTON_COLOR CGColor];
-    [bgView addSubview:newCoalBGView];
+    [self.bgView addSubview:newCoalBGView];
     [newCoalBGView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(newLabel.mas_bottom).offset(EdgeMargin);
-        make.left.equalTo(bgView.mas_left).offset(EdgeMargin);
-        make.right.equalTo(bgView.mas_right).offset(-EdgeMargin);
-        make.bottom.equalTo(bgView.mas_bottom).offset(-EdgeMargin);
+        make.left.equalTo(self.bgView.mas_left).offset(EdgeMargin);
+        make.right.equalTo(self.bgView.mas_right).offset(-EdgeMargin);
+        make.bottom.equalTo(self.bgView.mas_bottom).offset(-EdgeMargin);
     }];
     
     UILabel *dateLabel = [DCConstant descriptionLabel];
@@ -421,7 +414,7 @@
     [coalWeightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(dateLabel.mas_right).offset(EdgeMargin);
         make.centerY.equalTo(view.mas_centerY);
-        make.width.equalTo(@(DescriptionLabelWidthInHeaderView));
+        make.width.equalTo(@(DescriptionLabelWidthInHeaderView + 40));
     }];
     
     UILabel *operatorNameLabel = [DCConstant descriptionLabelInHeaderView];
@@ -449,3 +442,4 @@
     }];
 }
 @end
+

@@ -12,6 +12,7 @@
 #import "UIAlertController+DC.h"
 #import "UIViewController+DC.h"
 #import "DCNotificationManager.h"
+#import "DCPlateKeyBoardView.h"
 #import "DCBaseUpdateEntityViewController.h"
 
 @interface DCSellLimeEntityTableViewCell :UITableViewCell
@@ -104,6 +105,8 @@
 @property (nonatomic, strong) UITextField *limeTotalPriceField;
 @property (nonatomic, strong) UITextField *payedPriceField;
 @property (nonatomic, strong) UITextField *notPayedPriceField;
+
+@property (nonatomic, strong) DCPlateKeyBoardView *keyBoardView;
 @end
 
 @implementation DCUpdateSellLimeEntityViewController
@@ -122,19 +125,12 @@
 {
     [super viewDidLoad];
     
-    UIView *bgView = [UIView new];
-    bgView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:bgView];
-    [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.view);
-    }];
-    
     UILabel *newLabel = [DCConstant descriptionLabel];
     newLabel.text = self.sellLimeEntity ? @"更新记录" : @"新增记录：";
-    [bgView addSubview:newLabel];
+    [self.bgView addSubview:newLabel];
     [newLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(bgView.mas_top).offset(EdgeMargin);
-        make.left.equalTo(bgView.mas_left).offset(EdgeMargin);
+        make.top.equalTo(self.bgView.mas_top).offset(EdgeMargin);
+        make.left.equalTo(self.bgView.mas_left).offset(EdgeMargin);
     }];
     
     UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -144,10 +140,10 @@
     cancelButton.layer.borderColor = [BUTTON_COLOR CGColor];
     cancelButton.layer.cornerRadius = 40 * 0.5;
     [cancelButton addTarget:self action:@selector(cancelButtonDidPress:) forControlEvents:UIControlEventTouchUpInside];
-    [bgView addSubview:cancelButton];
+    [self.bgView addSubview:cancelButton];
     [cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(newLabel.mas_centerY);
-        make.right.equalTo(bgView.mas_right).offset(-EdgeMargin);
+        make.right.equalTo(self.bgView.mas_right).offset(-EdgeMargin);
         make.width.equalTo(@100);
         make.height.equalTo(@40);
     }];
@@ -156,12 +152,12 @@
     newLimeBGView.backgroundColor = [UIColor whiteColor];
     newLimeBGView.layer.borderWidth = 1;
     newLimeBGView.layer.borderColor = [BUTTON_COLOR CGColor];
-    [bgView addSubview:newLimeBGView];
+    [self.bgView addSubview:newLimeBGView];
     [newLimeBGView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(newLabel.mas_bottom).offset(EdgeMargin);
-        make.left.equalTo(bgView.mas_left).offset(EdgeMargin);
-        make.right.equalTo(bgView.mas_right).offset(-EdgeMargin);
-        make.bottom.equalTo(bgView.mas_bottom).offset(-EdgeMargin);
+        make.left.equalTo(self.bgView.mas_left).offset(EdgeMargin);
+        make.right.equalTo(self.bgView.mas_right).offset(-EdgeMargin);
+        make.bottom.equalTo(self.bgView.mas_bottom).offset(-EdgeMargin);
     }];
     
     UILabel *dateLabel = [DCConstant descriptionLabel];
@@ -194,6 +190,39 @@
     
     self.carNumberField = [DCConstant detailField:self];
     self.carNumberField.placeholder = @"请输入车牌";
+    self.keyBoardView = [[DCPlateKeyBoardView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height * 0.33)];
+    
+    __weak typeof(self) weakSelf = self;
+    self.keyBoardView.selectHandle = ^(NSString *string, BOOL isProvinceString) {
+        if ([string isEqualToString: @""] && weakSelf.carNumberField.text.length > 0) {
+            weakSelf.carNumberField.text = [weakSelf.carNumberField.text substringToIndex:(weakSelf.carNumberField.text.length - 1)];
+            if (weakSelf.carNumberField.text.length == 0) {
+                [weakSelf.keyBoardView deleteEnd];
+            }
+        }
+        else if (string == nil)
+        {
+            [weakSelf.carNumberField resignFirstResponder];
+        }
+        else
+        {
+            if (isProvinceString)
+            {
+                weakSelf.carNumberField.text = string;
+            }
+            else
+            {
+                weakSelf.carNumberField.text = [weakSelf.carNumberField.text stringByAppendingString:string];
+                if (weakSelf.carNumberField.text.length == 7)
+                {
+                    [weakSelf.carNumberField resignFirstResponder];
+                }
+            }
+        }
+    };
+    
+    self.carNumberField.inputView = self.keyBoardView;
+    
     [newLimeBGView addSubview:self.carNumberField];
     [self.carNumberField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo (carNumberLabel.mas_right).offset(EdgeMargin);
@@ -543,7 +572,6 @@
 #pragma UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    
     return self.sellLimeArray.count;
 }
 

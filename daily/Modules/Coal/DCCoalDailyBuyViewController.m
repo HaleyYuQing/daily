@@ -13,6 +13,7 @@
 #import "UIViewController+DC.h"
 #import "DCNotificationManager.h"
 #import "DCBaseUpdateEntityViewController.h"
+#import "DCPlateKeyBoardView.h"
 
 @interface DCBuyCoalEntityTableViewCell :UITableViewCell
 @property (nonatomic, strong) UILabel *dateLabel;
@@ -102,6 +103,8 @@
 @property (nonatomic, strong) UITextField *coalWeightField;
 @property (nonatomic, strong) UITextField *coalPricePerKGField;
 @property (nonatomic, strong) UITextField *coalTotalPriceField;
+
+@property (nonatomic, strong) DCPlateKeyBoardView *keyBoardView;
 @end
 
 @implementation DCUpdateBuyCoalEntityViewController
@@ -111,7 +114,7 @@
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
         self.buyCoalEntity = buyCoalEntity;
-         [self dc_setPresentAsPopup:YES];
+        [self dc_setPresentAsPopup:YES];
     }
     return self;
 }
@@ -120,19 +123,12 @@
 {
     [super viewDidLoad];
     
-    UIView *bgView = [UIView new];
-    bgView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:bgView];
-    [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.view);
-    }];
-    
     UILabel *newLabel = [DCConstant descriptionLabel];
     newLabel.text = self.buyCoalEntity ? @"更新记录" : @"新增记录：";
-    [bgView addSubview:newLabel];
+    [self.bgView addSubview:newLabel];
     [newLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(bgView.mas_top).offset(EdgeMargin);
-        make.left.equalTo(bgView.mas_left).offset(EdgeMargin);
+        make.top.equalTo(self.bgView.mas_top).offset(EdgeMargin);
+        make.left.equalTo(self.bgView.mas_left).offset(EdgeMargin);
     }];
     
     UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -142,10 +138,10 @@
     cancelButton.layer.borderColor = [BUTTON_COLOR CGColor];
     cancelButton.layer.cornerRadius = 40 * 0.5;
     [cancelButton addTarget:self action:@selector(cancelButtonDidPress:) forControlEvents:UIControlEventTouchUpInside];
-    [bgView addSubview:cancelButton];
+    [self.bgView addSubview:cancelButton];
     [cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(newLabel.mas_centerY);
-        make.right.equalTo(bgView.mas_right).offset(-EdgeMargin);
+        make.right.equalTo(self.bgView.mas_right).offset(-EdgeMargin);
         make.width.equalTo(@100);
         make.height.equalTo(@40);
     }];
@@ -154,12 +150,12 @@
     newCoalBGView.backgroundColor = [UIColor whiteColor];
     newCoalBGView.layer.borderWidth = 1;
     newCoalBGView.layer.borderColor = [BUTTON_COLOR CGColor];
-    [bgView addSubview:newCoalBGView];
+    [self.bgView addSubview:newCoalBGView];
     [newCoalBGView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(newLabel.mas_bottom).offset(EdgeMargin);
-        make.left.equalTo(bgView.mas_left).offset(EdgeMargin);
-        make.right.equalTo(bgView.mas_right).offset(-EdgeMargin);
-        make.bottom.equalTo(bgView.mas_bottom).offset(-EdgeMargin);
+        make.left.equalTo(self.bgView.mas_left).offset(EdgeMargin);
+        make.right.equalTo(self.bgView.mas_right).offset(-EdgeMargin);
+        make.bottom.equalTo(self.bgView.mas_bottom).offset(-EdgeMargin);
     }];
     
     UILabel *dateLabel = [DCConstant descriptionLabel];
@@ -198,6 +194,39 @@
         make.centerY.equalTo(carNumberLabel.mas_centerY);
         make.width.equalTo(@(DetailFieldWidth));
     }];
+    
+    self.keyBoardView = [[DCPlateKeyBoardView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height * 0.33)];
+    
+    __weak typeof(self) weakSelf = self;
+    self.keyBoardView.selectHandle = ^(NSString *string, BOOL isProvinceString) {
+        if ([string isEqualToString: @""] && weakSelf.carNumberField.text.length > 0) {
+            weakSelf.carNumberField.text = [weakSelf.carNumberField.text substringToIndex:(weakSelf.carNumberField.text.length - 1)];
+            if (weakSelf.carNumberField.text.length == 0) {
+                [weakSelf.keyBoardView deleteEnd];
+            }
+        }
+        else if (string == nil)
+        {
+            [weakSelf.carNumberField resignFirstResponder];
+        }
+        else
+        {
+            if (isProvinceString)
+            {
+                weakSelf.carNumberField.text = string;
+            }
+            else
+            {
+                weakSelf.carNumberField.text = [weakSelf.carNumberField.text stringByAppendingString:string];
+                if (weakSelf.carNumberField.text.length == 7)
+                {
+                    [weakSelf.carNumberField resignFirstResponder];
+                }
+            }
+        }
+    };
+    
+    self.carNumberField.inputView = self.keyBoardView;
     
     UILabel *carOwnerNameLabel = [DCConstant descriptionLabel];
     carOwnerNameLabel.text = @"客户:";

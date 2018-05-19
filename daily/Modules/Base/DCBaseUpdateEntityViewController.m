@@ -16,6 +16,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.bgView = [UIView new];
+    self.bgView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:self.bgView];
+    [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.view);
+    }];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard:)];
+    [self.bgView addGestureRecognizer:tap];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -75,4 +85,9 @@
     return nil;
 }
 
+- (void)hideKeyboard:(UITapGestureRecognizer *)ges
+{
+    UIView *responderView = [self findFirstResponderInView:self.view];
+    [responderView resignFirstResponder];
+}
 @end

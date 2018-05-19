@@ -37,6 +37,7 @@
 		DA59A46C20B0302F00372A01 /* DCStoneMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A46B20B0302F00372A01 /* DCStoneMenuViewController.m */; };
 		DA59A46F20B0308600372A01 /* DCStoneDailyUseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A46D20B0308600372A01 /* DCStoneDailyUseViewController.m */; };
 		DA59A47220B0328A00372A01 /* StoneModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DA59A47020B0328A00372A01 /* StoneModel.xcdatamodeld */; };
+		DA59A47620B099F600372A01 /* DCPlateKeyBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A47520B099F600372A01 /* DCPlateKeyBoardView.m */; };
 		DAB75CDC20A94648007F7DA2 /* UINavigationItem+DC.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CDB20A94648007F7DA2 /* UINavigationItem+DC.m */; };
 		DAB75CDF20A96FA0007F7DA2 /* DCCoalDailyUseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CDE20A96FA0007F7DA2 /* DCCoalDailyUseViewController.m */; };
 		DAB75CE320A972B5007F7DA2 /* DCBaseSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CE220A972B5007F7DA2 /* DCBaseSplitViewController.m */; };
@@ -147,6 +148,8 @@
 		DA59A46D20B0308600372A01 /* DCStoneDailyUseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCStoneDailyUseViewController.m; sourceTree = "<group>"; };
 		DA59A46E20B0308600372A01 /* DCStoneDailyUseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCStoneDailyUseViewController.h; sourceTree = "<group>"; };
 		DA59A47120B0328A00372A01 /* StoneModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = StoneModel.xcdatamodel; sourceTree = "<group>"; };
+		DA59A47420B099F600372A01 /* DCPlateKeyBoardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCPlateKeyBoardView.h; sourceTree = "<group>"; };
+		DA59A47520B099F600372A01 /* DCPlateKeyBoardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCPlateKeyBoardView.m; sourceTree = "<group>"; };
 		DAB75CD920A93CA1007F7DA2 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		DAB75CDA20A94648007F7DA2 /* UINavigationItem+DC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigationItem+DC.h"; sourceTree = "<group>"; };
 		DAB75CDB20A94648007F7DA2 /* UINavigationItem+DC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigationItem+DC.m"; sourceTree = "<group>"; };
@@ -359,6 +362,8 @@
 				DA048CA520AB3ACE0086B9A4 /* UIViewController+DC.m */,
 				DADCDE9620AE893E00BDB555 /* KeyboardAvoidingScrollView.h */,
 				DADCDE9720AE893E00BDB555 /* KeyboardAvoidingScrollView.m */,
+				DA59A47420B099F600372A01 /* DCPlateKeyBoardView.h */,
+				DA59A47520B099F600372A01 /* DCPlateKeyBoardView.m */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -656,6 +661,7 @@
 				DAB75CDC20A94648007F7DA2 /* UINavigationItem+DC.m in Sources */,
 				DA50317820A590E000259959 /* DCLimeMenuViewController.m in Sources */,
 				DADCDE9220AE7D6400BDB555 /* UseCoalEntityModel.m in Sources */,
+				DA59A47620B099F600372A01 /* DCPlateKeyBoardView.m in Sources */,
 				DA50316A20A5847800259959 /* DCTabbarViewController.m in Sources */,
 				DA50317520A58B9000259959 /* DCCoalMenuViewController.m in Sources */,
 				DA59A44A20B027B100372A01 /* BuyStoneEntity.m in Sources */,

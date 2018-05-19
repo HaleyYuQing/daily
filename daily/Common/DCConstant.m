@@ -71,7 +71,8 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     if ([cmp1 year] == [cmp2 year]) { // 今年
         formatter.dateFormat = @"MMM dd";
-    } else {
+    } else
+    {
         formatter.dateFormat = @"yyyy.MM.dd";
     }
     

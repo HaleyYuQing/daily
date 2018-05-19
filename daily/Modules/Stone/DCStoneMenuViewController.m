@@ -18,7 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.navigationItem dc_setTitle:@"煤炭"];
+    [self.navigationItem dc_setTitle:@"石头"];
 }
 
 #pragma UITableViewDataSource

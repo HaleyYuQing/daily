@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface DCBaseUpdateEntityViewController : UIViewController
-
+@property (nonatomic, strong) UIView *bgView;
 @end
