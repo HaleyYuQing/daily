@@ -12,6 +12,7 @@
 #import "SellLimeEntity.h"
 #import "BuyStoneEntity.h"
 #import "UseStoneEntity.h"
+#import "CustomerEntity.h"
 
 @interface DCCoreDataManager : NSObject
 + (DCCoreDataManager *)sharedInstance;
@@ -45,4 +46,11 @@
 - (void)addUseStoneData:(UseStoneEntity *)buyStone complete:(void(^)(NSString *errorString))completeBlock;
 - (void)deleteUseStoneData:(UseStoneEntity *)buyStone complete:(void(^)(NSString *error))completeBlock;
 - (void)updateUseStoneData:(UseStoneEntity *)buyStone complete:(void(^)(NSString *error))completeBlock;
+
+//Customer
+- (void)loadCustomerDataType:(CustomerType)type complete:(void(^)(NSArray *stoneArray))completeBlock;
+
+- (NSArray *)getStoneCustomer;
+- (NSArray *)getLimeCustomer;
+- (NSArray *)getCoalCustomer;
 @end

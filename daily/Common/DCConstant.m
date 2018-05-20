@@ -109,6 +109,7 @@
 + (UITextField *)detailField:(id)delegate isNumber:(BOOL)isNumber
 {
     UITextField *field = [[UITextField alloc] initWithFrame:CGRectZero];
+    field.autocorrectionType = UITextAutocorrectionTypeNo;
     field.delegate = delegate;
     field.keyboardType = isNumber ? UIKeyboardTypeNumberPad : UIKeyboardTypeDefault;
     field.returnKeyType = UIReturnKeyDone;

@@ -195,7 +195,7 @@
         make.width.equalTo(@(DetailFieldWidth));
     }];
     
-    self.keyBoardView = [[DCPlateKeyBoardView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height * 0.33)];
+    self.keyBoardView = [[DCPlateKeyBoardView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height * 0.4)];
     
     __weak typeof(self) weakSelf = self;
     self.keyBoardView.selectHandle = ^(NSString *string, BOOL isProvinceString) {

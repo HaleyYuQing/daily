@@ -96,8 +96,8 @@
 @property (nonatomic, strong) SellLimeEntity *sellLimeEntity;
 //Add new lime
 @property (nonatomic, strong) UITextField *dateField;
-@property (nonatomic, strong) UITextField *carNumberField;
-@property (nonatomic, strong) UITextField *buyerNameField;
+@property (nonatomic, strong) DCHistoryTextField *carNumberField;
+@property (nonatomic, strong) DCHistoryTextField *buyerNameField;
 @property (nonatomic, strong) UITextField *carWeightField;
 @property (nonatomic, strong) UITextField *carAndLimeWeightField;
 @property (nonatomic, strong) UITextField *limeWeightField;
@@ -188,11 +188,18 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.carNumberField = [DCConstant detailField:self isNumber:NO];
+    self.carNumberField = [[DCHistoryTextField alloc] initWithDelegate:self isNumber:NO];
     self.carNumberField.placeholder = @"请输入车牌";
-    self.keyBoardView = [[DCPlateKeyBoardView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height * 0.33)];
+    self.carNumberField.tag = UpdateEntity_Type_LimeCarNumber;
+    [newLimeBGView addSubview:self.carNumberField];
+    [self.carNumberField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo (carNumberLabel.mas_right).offset(EdgeMargin);
+        make.centerY.equalTo(carNumberLabel.mas_centerY);
+        make.width.equalTo(@(DetailFieldWidth));
+    }];
     
     __weak typeof(self) weakSelf = self;
+    self.keyBoardView = [[DCPlateKeyBoardView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height * 0.4)];
     self.keyBoardView.selectHandle = ^(NSString *string, BOOL isProvinceString) {
         if ([string isEqualToString: @""] && weakSelf.carNumberField.text.length > 0) {
             weakSelf.carNumberField.text = [weakSelf.carNumberField.text substringToIndex:(weakSelf.carNumberField.text.length - 1)];
@@ -208,7 +215,7 @@
         {
             if (isProvinceString)
             {
-                weakSelf.carNumberField.text = string;
+                [weakSelf.carNumberField setText: string];
             }
             else
             {
@@ -219,16 +226,17 @@
                 }
             }
         }
+        [weakSelf reloadHistoryDataWithKey:weakSelf.carNumberField.text historyTextField:weakSelf.carNumberField];
     };
-    
     self.carNumberField.inputView = self.keyBoardView;
     
-    [newLimeBGView addSubview:self.carNumberField];
-    [self.carNumberField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo (carNumberLabel.mas_right).offset(EdgeMargin);
-        make.centerY.equalTo(carNumberLabel.mas_centerY);
-        make.width.equalTo(@(DetailFieldWidth));
-    }];
+    [self.carNumberField setupHistoryTableView:CGRectMake(0, 0, DetailFieldWidth, 120)];
+    self.carNumberField.selectHandle = ^(CustomerEntity *customer) {
+        weakSelf.carNumberField.text = customer.carNumber;
+        weakSelf.buyerNameField.text = customer.name;
+        weakSelf.carWeightField.text = customer.carWeightString;
+        weakSelf.limePricePerKGField.text = customer.itemPricePerKGString;
+    };
     
     UILabel *buyerNameLabel = [DCConstant descriptionLabel];
     buyerNameLabel.text = @"客户:";
@@ -239,8 +247,17 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.buyerNameField = [DCConstant detailField:self isNumber:NO];
+    self.buyerNameField = [[DCHistoryTextField alloc] initWithDelegate:self isNumber:NO];
+    self.buyerNameField.tag = UpdateEntity_Type_LimeUserName;
     self.buyerNameField.placeholder = @"请输入客户姓名";
+    [self.buyerNameField setupHistoryTableView:CGRectMake(0, 0, DetailFieldWidth, 120)];
+    self.buyerNameField.selectHandle = ^(CustomerEntity *customer) {
+        weakSelf.carNumberField.text = customer.carNumber;
+        weakSelf.buyerNameField.text = customer.name;
+        weakSelf.carWeightField.text = customer.carWeightString;
+        weakSelf.limePricePerKGField.text = customer.itemPricePerKGString;
+    };
+    
     [newLimeBGView addSubview:self.buyerNameField];
     [self.buyerNameField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo (buyerNameLabel.mas_right).offset(EdgeMargin);
@@ -454,12 +471,6 @@
             self.notPayedPriceField.text = [NSString stringWithFormat:@"%@", @(self.limeTotalPriceField.text.integerValue - self.payedPriceField.text.integerValue)];
         }
     }
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    return YES;
 }
 
 - (void)saveEntity:(id)sender

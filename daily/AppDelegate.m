@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "DCTabbarViewController.h"
+#import "DCCoreDataManager.h"
 
 @interface AppDelegate ()
 
@@ -24,6 +25,8 @@
     
     DCTabbarViewController *tabbar = [DCTabbarViewController sharedInstance];
     [self.window setRootViewController:tabbar];
+    
+    [[DCCoreDataManager sharedInstance] loadCustomerDataType:CustomerType_ALL complete:nil];
     return YES;
 }
 

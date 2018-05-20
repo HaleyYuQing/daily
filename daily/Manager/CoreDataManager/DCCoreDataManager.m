@@ -13,14 +13,17 @@
 #import "SellLimeEntityModel.h"
 #import "BuyStoneEntityModel.h"
 #import "UseStoneEntityModel.h"
+#import "CustomerEntityModel.h"
+
 #import "NSManagedObject+DC.h"
 
 @interface DCCoreDataManager()
 @property (nonatomic, strong) NSManagedObjectContext *mainObjectContext;
 @property (nonatomic, strong) NSManagedObjectContext *backgroundObjectContext;
 
-@property (nonatomic, strong) NSManagedObjectContext *stoneModelMainObjectContext;
-@property (nonatomic, strong) NSManagedObjectContext *stoneModelBackgroundObjectContext;
+@property (nonatomic, strong) NSMutableArray *stoneCustomersArray;
+@property (nonatomic, strong) NSMutableArray *limeCustomersArray;
+@property (nonatomic, strong) NSMutableArray *coalCustomersArray;
 @end
 
 @implementation DCCoreDataManager
@@ -35,6 +38,45 @@
     return _instance;
 }
 
+- (NSMutableArray *)stoneCustomersArray
+{
+    if (!_stoneCustomersArray) {
+        _stoneCustomersArray = [[NSMutableArray alloc] init];
+    }
+    return _stoneCustomersArray;
+}
+
+- (NSMutableArray *)coalCustomersArray
+{
+    if (!_coalCustomersArray) {
+        _coalCustomersArray = [[NSMutableArray alloc] init];
+    }
+    return _coalCustomersArray;
+}
+
+- (NSMutableArray *)limeCustomersArray
+{
+    if (!_limeCustomersArray) {
+        _limeCustomersArray = [[NSMutableArray alloc] init];
+    }
+    return _limeCustomersArray;
+}
+
+- (NSArray *)getStoneCustomer
+{
+    return self.stoneCustomersArray;
+}
+
+- (NSArray *)getLimeCustomer
+{
+    return self.limeCustomersArray;
+}
+
+- (NSArray *)getCoalCustomer
+{
+    return self.coalCustomersArray;
+}
+
 - (NSManagedObjectContext *)backgroundObjectContext
 {
     if (!_backgroundObjectContext) {
@@ -43,16 +85,6 @@
         _backgroundObjectContext.parentContext = self.mainObjectContext;
     }
     return _backgroundObjectContext;
-}
-
-- (NSManagedObjectContext *)stoneModelBackgroundObjectContext
-{
-    if (!_stoneModelBackgroundObjectContext) {
-        _stoneModelBackgroundObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-        _stoneModelBackgroundObjectContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy;
-        _stoneModelBackgroundObjectContext.parentContext = self.stoneModelMainObjectContext;
-    }
-    return _stoneModelBackgroundObjectContext;
 }
 
 - (NSManagedObjectContext *)mainObjectContext
@@ -102,53 +134,6 @@
     return _mainObjectContext;
 }
 
-- (NSManagedObjectContext *)stoneModelMainObjectContext
-{
-    if(!_stoneModelMainObjectContext)
-    {
-        _stoneModelMainObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-        _stoneModelMainObjectContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy;
-        
-        NSString *applicationDirectoryPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-        NSString *dbName = [NSString stringWithFormat:@"stone.sqlite"];
-        NSString *dbPath = [applicationDirectoryPath stringByAppendingPathComponent:dbName];
-        
-        NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"StoneModel" withExtension:@"momd"];
-        NSManagedObjectModel *model = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-        
-        NSPersistentStoreCoordinator *persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
-        
-        NSError *error = nil;
-        NSURL *persistenURL = [NSURL fileURLWithPath:dbPath];
-        
-        if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:persistenURL options:[self persistentStoreOptions] error:&error]) {
-            NSString *fileName = [[dbPath lastPathComponent] stringByDeletingPathExtension];
-            if (fileName) {
-                NSString *path = [dbPath stringByDeletingLastPathComponent];
-                NSArray *cachedFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:&error];
-                BOOL delete = NO;
-                for (NSString *file in cachedFiles) {
-                    if ([file hasPrefix:fileName]) {
-                        NSString *deletePath = [path stringByAppendingPathComponent:file];
-                        if (deletePath && [[NSFileManager defaultManager] removeItemAtPath:deletePath error:&error]) {
-                            delete = YES;
-                        }
-                    }
-                }
-                
-                if (delete) {
-                    if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:persistenURL options:[self persistentStoreOptions] error:&error]) {
-                        NSLog(@"%@",error);
-                    }
-                }
-            }
-        }
-        
-        [_stoneModelMainObjectContext setPersistentStoreCoordinator:persistentStoreCoordinator];
-    }
-    return _stoneModelMainObjectContext;
-}
-
 - (NSDictionary *)persistentStoreOptions
 {
     return @{NSInferMappingModelAutomaticallyOption:@YES , NSMigratePersistentStoresAutomaticallyOption:@YES, NSSQLitePragmasOption:@{@"synchronous":@"OFF"}};
@@ -167,41 +152,6 @@
                 [self.mainObjectContext performBlock:^{
                     NSError *er = nil;
                     if (![self.mainObjectContext save:&er]) {
-                        complete(error.localizedDescription);
-                        NSLog(@"DCCoreDataManager, saveContext error:%@", er);
-                    }
-                    else{
-                        complete(nil);
-                    }
-                }];
-            }
-            else
-            {
-                complete(nil);
-            }
-        }];
-    }
-    else
-    {
-        if (complete) {
-            complete(nil);
-        }
-    }
-}
-
-- (void)saveStoneContext:(void(^)(NSString *error))complete
-{
-    if ([self.stoneModelBackgroundObjectContext hasChanges]) {
-        [self.stoneModelBackgroundObjectContext performBlock:^{
-            NSError *error = nil;
-            if (![self.stoneModelBackgroundObjectContext save:&error]) {
-                NSLog(@"DCCoreDataManager, saveContext error:%@", error);
-            }
-            
-            if ([self.stoneModelMainObjectContext hasChanges]) {
-                [self.stoneModelMainObjectContext performBlock:^{
-                    NSError *er = nil;
-                    if (![self.stoneModelMainObjectContext save:&er]) {
                         complete(error.localizedDescription);
                         NSLog(@"DCCoreDataManager, saveContext error:%@", er);
                     }
@@ -532,6 +482,8 @@
     if (entityModel) {
         [self saveContext:completeBlock];
     }
+    
+    [self addNewCustomerWithSellLime:sellLime];
 }
 
 - (void)deleteSellLimeData:(SellLimeEntity *)sellLime complete:(void(^)(NSString *error))completeBlock
@@ -588,6 +540,8 @@
         
         [self saveContext:completeBlock];
     }];
+    
+    [self addNewCustomerWithSellLime:sellLime];
 }
 
 - (void)updateSellLimeEntityModel:(SellLimeEntityModel *)entityModel withSellLimeEntity:(SellLimeEntity *)sellLime
@@ -623,12 +577,12 @@
 //Buy Stone
 - (void)loadBuyStoneData:(void(^)(NSArray *stoneArray))completeBlock
 {
-    [self.stoneModelMainObjectContext performBlock:^{
+    [self.mainObjectContext performBlock:^{
         NSFetchRequest *fetch = [[NSFetchRequest alloc] initWithEntityName:@"BuyStoneEntityModel"];
         NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"createDate" ascending:NO selector:@selector(compare:)];
         [fetch setSortDescriptors:@[sort]];
         NSError *error = nil;
-        NSArray *buyStoneArray = [self.stoneModelMainObjectContext executeFetchRequest:fetch error:&error];
+        NSArray *buyStoneArray = [self.mainObjectContext executeFetchRequest:fetch error:&error];
         if (error) {
             completeBlock(nil);
             NSLog(@"loadBuyStoneData, %@",error);
@@ -653,7 +607,7 @@
                 [results addObject:subArray];
             }
         }
-        [self.stoneModelMainObjectContext performBlock:^{
+        [self.mainObjectContext performBlock:^{
             completeBlock(results);
         }];
     }];
@@ -668,7 +622,7 @@
     
     BuyStoneEntityModel *entityModel = [self createModelFromEntity:buyStone];
     if (entityModel) {
-        [self saveStoneContext:completeBlock];
+        [self saveContext:completeBlock];
     }
 }
 
@@ -679,13 +633,13 @@
         return;
     }
     
-    [[self stoneModelBackgroundObjectContext] performBlock:^{
+    [[self backgroundObjectContext] performBlock:^{
         NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"BuyStoneEntityModel"];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"createDate = %@",buyStone.createDate];
         [request setPredicate:predicate];
         
         NSError *error = nil;
-        NSArray *resutls =  [[self stoneModelBackgroundObjectContext] executeFetchRequest:request error:&error];
+        NSArray *resutls =  [[self backgroundObjectContext] executeFetchRequest:request error:&error];
         if (error) {
             completeBlock(error.localizedDescription);
             NSLog(@"%@", error);
@@ -693,10 +647,10 @@
         }
         
         for (BuyStoneEntityModel *model in resutls) {
-            [[self stoneModelBackgroundObjectContext] deleteObject:model];
+            [[self backgroundObjectContext] deleteObject:model];
         }
         
-        [self saveStoneContext:completeBlock];
+        [self saveContext:completeBlock];
     }];
 }
 
@@ -707,13 +661,13 @@
         return;
     }
     
-    [[self stoneModelBackgroundObjectContext] performBlock:^{
+    [[self backgroundObjectContext] performBlock:^{
         NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"BuyStoneEntityModel"];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"createDate = %@",buyStone.createDate];
         [request setPredicate:predicate];
         
         NSError *error = nil;
-        NSArray *resutls =  [[self stoneModelBackgroundObjectContext] executeFetchRequest:request error:&error];
+        NSArray *resutls =  [[self backgroundObjectContext] executeFetchRequest:request error:&error];
         if (error) {
             completeBlock(error.localizedDescription);
             NSLog(@"%@", error);
@@ -724,7 +678,7 @@
             [self updateBuyStoneEntityModel:model withBuyStoneEntity:buyStone];
         }
         
-        [self saveStoneContext:completeBlock];
+        [self saveContext:completeBlock];
     }];
 }
 
@@ -757,12 +711,12 @@
 //Use Stone
 - (void)loadUseStoneData:(void(^)(NSArray *stoneArray))completeBlock
 {
-    [self.stoneModelBackgroundObjectContext performBlock:^{
+    [self.backgroundObjectContext performBlock:^{
         NSFetchRequest *fetch = [[NSFetchRequest alloc] initWithEntityName:@"UseStoneEntityModel"];
         NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"createDate" ascending:NO selector:@selector(compare:)];
         [fetch setSortDescriptors:@[sort]];
         NSError *error = nil;
-        NSArray *useStoneArray = [self.stoneModelBackgroundObjectContext executeFetchRequest:fetch error:&error];
+        NSArray *useStoneArray = [self.backgroundObjectContext executeFetchRequest:fetch error:&error];
         if (error) {
             completeBlock(nil);
             NSLog(@"loadUseStoneData, %@",error);
@@ -787,7 +741,7 @@
                 [results addObject:subArray];
             }
         }
-        [self.stoneModelMainObjectContext performBlock:^{
+        [self.mainObjectContext performBlock:^{
             completeBlock(results);
         }];
     }];
@@ -802,7 +756,7 @@
     
     UseStoneEntityModel *entityModel = [self createModelFromEntity:useStone];
     if (entityModel) {
-        [self saveStoneContext:completeBlock];
+        [self saveContext:completeBlock];
     }
 }
 
@@ -813,13 +767,13 @@
         return;
     }
     
-    [[self stoneModelBackgroundObjectContext] performBlock:^{
+    [[self backgroundObjectContext] performBlock:^{
         NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"UseStoneEntityModel"];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"createDate = %@",useStone.createDate];
         [request setPredicate:predicate];
         
         NSError *error = nil;
-        NSArray *resutls =  [[self stoneModelBackgroundObjectContext] executeFetchRequest:request error:&error];
+        NSArray *resutls =  [[self backgroundObjectContext] executeFetchRequest:request error:&error];
         if (error) {
             completeBlock(error.localizedDescription);
             NSLog(@"%@", error);
@@ -827,10 +781,10 @@
         }
         
         for (UseStoneEntityModel *model in resutls) {
-            [[self stoneModelBackgroundObjectContext] deleteObject:model];
+            [[self backgroundObjectContext] deleteObject:model];
         }
         
-        [self saveStoneContext:completeBlock];
+        [self saveContext:completeBlock];
     }];
 }
 
@@ -841,13 +795,13 @@
         return;
     }
     
-    [[self stoneModelBackgroundObjectContext] performBlock:^{
+    [[self backgroundObjectContext] performBlock:^{
         NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"UseStoneEntityModel"];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"createDate = %@",useStone.createDate];
         [request setPredicate:predicate];
         
         NSError *error = nil;
-        NSArray *resutls =  [[self stoneModelBackgroundObjectContext] executeFetchRequest:request error:&error];
+        NSArray *resutls =  [[self backgroundObjectContext] executeFetchRequest:request error:&error];
         if (error) {
             completeBlock(error.localizedDescription);
             NSLog(@"%@", error);
@@ -858,7 +812,7 @@
             [self updateUseStoneEntityModel:model withUseStoneEntity:useStone];
         }
         
-        [self saveStoneContext:completeBlock];
+        [self saveContext:completeBlock];
     }];
 }
 
@@ -876,6 +830,227 @@
     entity.name = entityModel.name;
     entity.operatorName = entityModel.operatorName;
     entity.stoneWeight = entityModel.stoneWeight;
+}
+
+//Customer
+- (BOOL)isIncludeCustomerEntity:(CustomerEntity *)customer
+{
+    switch (customer.customerType ) {
+        case CustomerType_Stone:
+        {
+            for (CustomerEntity *entity in self.stoneCustomersArray) {
+                if ([entity.name isEqualToString:customer.name] && [entity.carNumber isEqualToString:customer.carNumber]) {
+                    return YES;
+                }
+            }
+            break;
+        }
+        case CustomerType_Lime:
+        {
+            for (CustomerEntity *entity in self.limeCustomersArray) {
+                if ([entity.name isEqualToString:customer.name] && [entity.carNumber isEqualToString:customer.carNumber]) {
+                    return YES;
+                }
+            }
+            break;
+        }
+        case CustomerType_Coal:
+        {
+            for (CustomerEntity *entity in self.coalCustomersArray) {
+                if ([entity.name isEqualToString:customer.name] && [entity.carNumber isEqualToString:customer.carNumber]) {
+                    return YES;
+                }
+            }
+            break;
+        }
+        default:
+            break;
+    }
+    
+    return NO;
+}
+
+- (void)loadCustomerDataType:(CustomerType)type complete:(void(^)(NSArray *stoneArray))completeBlock
+{
+    [self.backgroundObjectContext performBlock:^{
+        NSFetchRequest *fetch = [[NSFetchRequest alloc] initWithEntityName:@"CustomerEntityModel"];
+        if (type != CustomerType_ALL) {
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"customerType = %@", @(type)];
+            [fetch setPredicate:predicate];
+        }
+        NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"createDate" ascending:NO selector:@selector(compare:)];
+        [fetch setSortDescriptors:@[sort]];
+        NSError *error = nil;
+        NSArray *customerArray = [self.backgroundObjectContext executeFetchRequest:fetch error:&error];
+        if (error) {
+            completeBlock(nil);
+            NSLog(@"loadCustomerData, %@",error);
+            return;
+        }
+        [self.coalCustomersArray removeAllObjects];
+        [self.limeCustomersArray removeAllObjects];
+        [self.stoneCustomersArray removeAllObjects];
+        
+        for (CustomerEntityModel *model in customerArray) {
+            CustomerEntity *entity = [self createEntityFromModel:model];
+            if (entity.customerType == CustomerType_Coal) {
+                [self.coalCustomersArray addObject:entity];
+            }
+            else if (entity.customerType == CustomerType_Lime) {
+                [self.limeCustomersArray addObject:entity];
+            }
+            else if (entity.customerType == CustomerType_Stone) {
+                [self.stoneCustomersArray addObject:entity];
+            }
+        }
+    }];
+}
+
+- (void)addCustomerData:(CustomerEntity *)customer complete:(void(^)(NSString *error))completeBlock
+{
+    if (!customer) {
+        completeBlock(nil);
+        return ;
+    }
+    
+    CustomerEntityModel *entityModel = [self createModelFromEntity:customer];
+    if (entityModel) {
+        [self saveContext:completeBlock];
+    }
+}
+
+- (void)deleteCustomerData:(CustomerEntity *)customer complete:(void(^)(NSString *error))completeBlock
+{
+    if (!customer) {
+        completeBlock(nil);
+        return;
+    }
+    
+    [[self backgroundObjectContext] performBlock:^{
+        NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"CustomerEntityModel"];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name = %@ && carNumber = ",customer.name, customer.carNumber];
+        [request setPredicate:predicate];
+        
+        NSError *error = nil;
+        NSArray *resutls =  [[self backgroundObjectContext] executeFetchRequest:request error:&error];
+        if (error) {
+            completeBlock(error.localizedDescription);
+            NSLog(@"%@", error);
+            return;
+        }
+        
+        for (CustomerEntityModel *model in resutls) {
+            [[self backgroundObjectContext] deleteObject:model];
+        }
+        
+        [self saveContext:completeBlock];
+    }];
+}
+
+- (void)updateCustomerData:(CustomerEntity *)customer complete:(void(^)(NSString *error))completeBlock;
+{
+    if (!customer) {
+        completeBlock(nil);
+        return;
+    }
+    
+    [[self backgroundObjectContext] performBlock:^{
+        NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"CustomerEntityModel"];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name = %@ && carNumber = %@",customer.name, customer.carNumber];
+        [request setPredicate:predicate];
+        
+        NSError *error = nil;
+        NSArray *resutls =  [[self backgroundObjectContext] executeFetchRequest:request error:&error];
+        if (error) {
+            completeBlock(error.localizedDescription);
+            NSLog(@"%@", error);
+            return;
+        }
+        
+        for (CustomerEntityModel *model in resutls) {
+            [self updateCustomerEntityModel:model withCustomerEntity:customer];
+        }
+        
+        [self saveContext:completeBlock];
+    }];
+}
+
+- (void)updateCustomerEntityModel:(CustomerEntityModel *)entityModel withCustomerEntity:(CustomerEntity *)customer
+{
+    entityModel.createDate = customer.createDate;
+    entityModel.name = customer.name;
+    entityModel.carNumber = customer.carNumber;
+    entityModel.customerType = customer.customerType;
+    if (customer.itemPricePerKG > 0) {
+        entityModel.itemPricePerKG = customer.itemPricePerKG;
+    }
+    if (customer.carWeight > 0) {
+        entityModel.carWeight = customer.carWeight;
+    }
+}
+
+- (void)updateCustomerEntity:(CustomerEntity *)entity withCustomerEntityModel:(CustomerEntityModel *)entityModel
+{
+    entity.createDate = entityModel.createDate;
+    entity.name = entityModel.name;
+    entity.customerType = entityModel.customerType;
+    entity.itemPricePerKG = entityModel.itemPricePerKG;
+    entity.carNumber = entityModel.carNumber;
+    entity.carWeight = entityModel.carWeight;
+}
+
+- (void)addNewCustomerWithBuyCoal:(BuyCoalEntity *)entity
+{
+    CustomerEntity *customer = [[CustomerEntity alloc] init];
+    customer.name = entity.carOwnerName;
+    customer.carNumber = entity.carNumber;
+    customer.carWeight = entity.carWeight;
+    customer.customerType = CustomerType_Coal;
+    customer.itemPricePerKG = entity.coalPricePerKG;
+    customer.createDate = entity.createDate;
+    
+    [self updateCustomer:customer];
+}
+
+- (void)addNewCustomerWithBuyStone:(BuyStoneEntity *)entity
+{
+    CustomerEntity *customer = [[CustomerEntity alloc] init];
+    customer.name = entity.carOwnerName;
+    customer.carNumber = entity.carNumber;
+    customer.carWeight = entity.carWeight;
+    customer.customerType = CustomerType_Stone;
+    customer.itemPricePerKG = entity.stonePricePerKG;
+    customer.createDate = entity.createDate;
+    
+    [self updateCustomer:customer];
+}
+
+- (void)addNewCustomerWithSellLime:(SellLimeEntity *)entity
+{
+    CustomerEntity *customer = [[CustomerEntity alloc] init];
+    customer.name = entity.buyerName;
+    customer.carNumber = entity.carNumber;
+    customer.carWeight = entity.carWeight;
+    customer.customerType = CustomerType_Lime;
+    customer.itemPricePerKG = entity.limePricePerKG;
+    customer.createDate = entity.createDate;
+    
+    [self updateCustomer:customer];
+}
+
+- (void)updateCustomer:(CustomerEntity *)customer
+{
+    __weak typeof(self) weakSelf = self;
+    if ([self isIncludeCustomerEntity:customer]) {
+        [self updateCustomerData:customer complete:^(NSString *error) {
+            [weakSelf loadCustomerDataType:customer.customerType complete:nil];
+        }];
+    }
+    else{
+        [self addCustomerData:customer complete:^(NSString *error) {
+            [weakSelf loadCustomerDataType:customer.customerType complete:nil];
+        }];
+    }
 }
 
 //Create
@@ -923,6 +1098,14 @@
         return entity;
     }
     
+    if ([model isKindOfClass:[CustomerEntityModel class]]) {
+        CustomerEntityModel *entityModel = (CustomerEntityModel *)model;
+        CustomerEntity *entity = [[CustomerEntity alloc] init];
+        [self updateCustomerEntity:entity withCustomerEntityModel:entityModel];
+        
+        return entity;
+    }
+    
     return nil;
 }
 
@@ -961,7 +1144,7 @@
     
     if ([entity isKindOfClass:[BuyStoneEntity class]]) {
         BuyStoneEntity *buyStone = (BuyStoneEntity *)entity;
-        BuyStoneEntityModel *entityModel = [BuyStoneEntityModel createManagedObjectInContext:[self stoneModelBackgroundObjectContext]];
+        BuyStoneEntityModel *entityModel = [BuyStoneEntityModel createManagedObjectInContext:[self backgroundObjectContext]];
         if (entityModel) {
             [self updateBuyStoneEntityModel:entityModel withBuyStoneEntity:buyStone];
             return entityModel;
@@ -970,9 +1153,18 @@
     
     if ([entity isKindOfClass:[UseStoneEntity class]]) {
         UseStoneEntity *useStone = (UseStoneEntity *)entity;
-        UseStoneEntityModel *entityModel = [UseStoneEntityModel createManagedObjectInContext:[self stoneModelBackgroundObjectContext]];
+        UseStoneEntityModel *entityModel = [UseStoneEntityModel createManagedObjectInContext:[self backgroundObjectContext]];
         if (entityModel) {
             [self updateUseStoneEntityModel:entityModel withUseStoneEntity:useStone];
+            return entityModel;
+        }
+    }
+    
+    if ([entity isKindOfClass:[CustomerEntity class]]) {
+        CustomerEntity *useStone = (CustomerEntity *)entity;
+        CustomerEntityModel *entityModel = [CustomerEntityModel createManagedObjectInContext:[self backgroundObjectContext]];
+        if (entityModel) {
+            [self updateCustomerEntityModel:entityModel withCustomerEntity:useStone];
             return entityModel;
         }
     }

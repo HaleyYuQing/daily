@@ -37,6 +37,16 @@
 #import "Masonry.h"
 #import "UIAlertController+DC.h"
 
+typedef NS_ENUM(NSInteger, UpdateEntity_Type)
+{
+    UpdateEntity_Type_CoalCarNumber = 1000,
+    UpdateEntity_Type_CoalUserName,
+    UpdateEntity_Type_StoneCarNumber,
+    UpdateEntity_Type_StoneUserName,
+    UpdateEntity_Type_LimeCarNumber,
+    UpdateEntity_Type_LimeUserName,
+};
+
 #endif
 
 #endif /* PrefixHeader_pch */

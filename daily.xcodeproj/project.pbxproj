@@ -36,8 +36,11 @@
 		DA59A46620B02F7600372A01 /* DCStoneDailyBuyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A46520B02F7600372A01 /* DCStoneDailyBuyViewController.m */; };
 		DA59A46C20B0302F00372A01 /* DCStoneMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A46B20B0302F00372A01 /* DCStoneMenuViewController.m */; };
 		DA59A46F20B0308600372A01 /* DCStoneDailyUseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A46D20B0308600372A01 /* DCStoneDailyUseViewController.m */; };
-		DA59A47220B0328A00372A01 /* StoneModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DA59A47020B0328A00372A01 /* StoneModel.xcdatamodeld */; };
 		DA59A47620B099F600372A01 /* DCPlateKeyBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A47520B099F600372A01 /* DCPlateKeyBoardView.m */; };
+		DA59A47920B15E3C00372A01 /* DCHistoryTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A47820B15E3C00372A01 /* DCHistoryTextField.m */; };
+		DA59A47C20B16C0700372A01 /* UIView+NuiView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A47B20B16C0600372A01 /* UIView+NuiView.m */; };
+		DA59A47F20B17F2F00372A01 /* CustomerEntityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A47E20B17F2F00372A01 /* CustomerEntityModel.m */; };
+		DA59A48220B180CD00372A01 /* CustomerEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A48120B180CD00372A01 /* CustomerEntity.m */; };
 		DAB75CDC20A94648007F7DA2 /* UINavigationItem+DC.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CDB20A94648007F7DA2 /* UINavigationItem+DC.m */; };
 		DAB75CDF20A96FA0007F7DA2 /* DCCoalDailyUseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CDE20A96FA0007F7DA2 /* DCCoalDailyUseViewController.m */; };
 		DAB75CE320A972B5007F7DA2 /* DCBaseSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CE220A972B5007F7DA2 /* DCBaseSplitViewController.m */; };
@@ -147,9 +150,16 @@
 		DA59A46B20B0302F00372A01 /* DCStoneMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCStoneMenuViewController.m; sourceTree = "<group>"; };
 		DA59A46D20B0308600372A01 /* DCStoneDailyUseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCStoneDailyUseViewController.m; sourceTree = "<group>"; };
 		DA59A46E20B0308600372A01 /* DCStoneDailyUseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCStoneDailyUseViewController.h; sourceTree = "<group>"; };
-		DA59A47120B0328A00372A01 /* StoneModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = StoneModel.xcdatamodel; sourceTree = "<group>"; };
 		DA59A47420B099F600372A01 /* DCPlateKeyBoardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCPlateKeyBoardView.h; sourceTree = "<group>"; };
 		DA59A47520B099F600372A01 /* DCPlateKeyBoardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCPlateKeyBoardView.m; sourceTree = "<group>"; };
+		DA59A47720B15E3C00372A01 /* DCHistoryTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCHistoryTextField.h; sourceTree = "<group>"; };
+		DA59A47820B15E3C00372A01 /* DCHistoryTextField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCHistoryTextField.m; sourceTree = "<group>"; };
+		DA59A47A20B16C0600372A01 /* UIView+NuiView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+NuiView.h"; sourceTree = "<group>"; };
+		DA59A47B20B16C0600372A01 /* UIView+NuiView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+NuiView.m"; sourceTree = "<group>"; };
+		DA59A47D20B17F2F00372A01 /* CustomerEntityModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerEntityModel.h; sourceTree = "<group>"; };
+		DA59A47E20B17F2F00372A01 /* CustomerEntityModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerEntityModel.m; sourceTree = "<group>"; };
+		DA59A48020B180CD00372A01 /* CustomerEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerEntity.h; sourceTree = "<group>"; };
+		DA59A48120B180CD00372A01 /* CustomerEntity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerEntity.m; sourceTree = "<group>"; };
 		DAB75CD920A93CA1007F7DA2 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		DAB75CDA20A94648007F7DA2 /* UINavigationItem+DC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigationItem+DC.h"; sourceTree = "<group>"; };
 		DAB75CDB20A94648007F7DA2 /* UINavigationItem+DC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigationItem+DC.m"; sourceTree = "<group>"; };
@@ -350,6 +360,8 @@
 		DA50317D20A5A00100259959 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				DA59A47A20B16C0600372A01 /* UIView+NuiView.h */,
+				DA59A47B20B16C0600372A01 /* UIView+NuiView.m */,
 				DA50317E20A5A06800259959 /* UIColor+DC.h */,
 				DA50317F20A5A06800259959 /* UIColor+DC.m */,
 				DAB75CDA20A94648007F7DA2 /* UINavigationItem+DC.h */,
@@ -364,6 +376,8 @@
 				DADCDE9720AE893E00BDB555 /* KeyboardAvoidingScrollView.m */,
 				DA59A47420B099F600372A01 /* DCPlateKeyBoardView.h */,
 				DA59A47520B099F600372A01 /* DCPlateKeyBoardView.m */,
+				DA59A47720B15E3C00372A01 /* DCHistoryTextField.h */,
+				DA59A47820B15E3C00372A01 /* DCHistoryTextField.m */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -415,6 +429,8 @@
 				DAB75CEF20A99AE9007F7DA2 /* SellLimeEntity.m */,
 				DAB75CF120A99D00007F7DA2 /* StoreLimeEntity.h */,
 				DAB75CF220A99D00007F7DA2 /* StoreLimeEntity.m */,
+				DA59A48020B180CD00372A01 /* CustomerEntity.h */,
+				DA59A48120B180CD00372A01 /* CustomerEntity.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -433,7 +449,8 @@
 				DADCDE9120AE7D6400BDB555 /* UseCoalEntityModel.m */,
 				DA59A43320B00EF100372A01 /* SellLimeEntityModel.h */,
 				DA59A43420B00EF100372A01 /* SellLimeEntityModel.m */,
-				DA59A47020B0328A00372A01 /* StoneModel.xcdatamodeld */,
+				DA59A47D20B17F2F00372A01 /* CustomerEntityModel.h */,
+				DA59A47E20B17F2F00372A01 /* CustomerEntityModel.m */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -659,14 +676,17 @@
 				DA04C19920A52BD700DA4233 /* main.m in Sources */,
 				DAB75CE320A972B5007F7DA2 /* DCBaseSplitViewController.m in Sources */,
 				DAB75CDC20A94648007F7DA2 /* UINavigationItem+DC.m in Sources */,
+				DA59A48220B180CD00372A01 /* CustomerEntity.m in Sources */,
 				DA50317820A590E000259959 /* DCLimeMenuViewController.m in Sources */,
 				DADCDE9220AE7D6400BDB555 /* UseCoalEntityModel.m in Sources */,
+				DA59A47C20B16C0700372A01 /* UIView+NuiView.m in Sources */,
 				DA59A47620B099F600372A01 /* DCPlateKeyBoardView.m in Sources */,
 				DA50316A20A5847800259959 /* DCTabbarViewController.m in Sources */,
 				DA50317520A58B9000259959 /* DCCoalMenuViewController.m in Sources */,
 				DA59A44A20B027B100372A01 /* BuyStoneEntity.m in Sources */,
 				DAB75CF620A99EF9007F7DA2 /* Model.xcdatamodeld in Sources */,
 				DAD71B6520AAA9D4007C56A7 /* NSManagedObject+DC.m in Sources */,
+				DA59A47F20B17F2F00372A01 /* CustomerEntityModel.m in Sources */,
 				DA50317220A58B3600259959 /* DCLimeSplitViewController.m in Sources */,
 				DA50318020A5A06800259959 /* UIColor+DC.m in Sources */,
 				DADCDE8C20ADA43D00BDB555 /* DCNotificationManager.m in Sources */,
@@ -689,9 +709,9 @@
 				DA59A42F20B0087600372A01 /* DCLimeDailySellViewController.m in Sources */,
 				DADCDE9820AE893E00BDB555 /* KeyboardAvoidingScrollView.m in Sources */,
 				DAD71B7920AACF73007C56A7 /* UIAlertController+DC.m in Sources */,
-				DA59A47220B0328A00372A01 /* StoneModel.xcdatamodeld in Sources */,
 				DAB75CED20A99AA6007F7DA2 /* UseCoalEntity.m in Sources */,
 				DAB75CF020A99AE9007F7DA2 /* SellLimeEntity.m in Sources */,
+				DA59A47920B15E3C00372A01 /* DCHistoryTextField.m in Sources */,
 				DA048CA620AB3ACE0086B9A4 /* UIViewController+DC.m in Sources */,
 				DA048CA320AB284F0086B9A4 /* DCCoalDailyBuyViewController.m in Sources */,
 			);
@@ -974,16 +994,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		DA59A47020B0328A00372A01 /* StoneModel.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				DA59A47120B0328A00372A01 /* StoneModel.xcdatamodel */,
-			);
-			currentVersion = DA59A47120B0328A00372A01 /* StoneModel.xcdatamodel */;
-			path = StoneModel.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
 		DAB75CF420A99EF9007F7DA2 /* Model.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
