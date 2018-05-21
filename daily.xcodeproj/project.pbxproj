@@ -41,6 +41,11 @@
 		DA59A47C20B16C0700372A01 /* UIView+NuiView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A47B20B16C0600372A01 /* UIView+NuiView.m */; };
 		DA59A47F20B17F2F00372A01 /* CustomerEntityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A47E20B17F2F00372A01 /* CustomerEntityModel.m */; };
 		DA59A48220B180CD00372A01 /* CustomerEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A48120B180CD00372A01 /* CustomerEntity.m */; };
+		DA59A48520B1C7CD00372A01 /* OperatorEntityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A48420B1C7CD00372A01 /* OperatorEntityModel.m */; };
+		DA59A48820B1C80200372A01 /* OperatorEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A48720B1C80200372A01 /* OperatorEntity.m */; };
+		DA59A48B20B1D39400372A01 /* DCCoalDailyStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A48A20B1D39400372A01 /* DCCoalDailyStoreViewController.m */; };
+		DA59A48E20B1D89100372A01 /* StoreCoalEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A48D20B1D89100372A01 /* StoreCoalEntity.m */; };
+		DA59A49120B1D96C00372A01 /* StoneCoalEntityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A49020B1D96C00372A01 /* StoneCoalEntityModel.m */; };
 		DAB75CDC20A94648007F7DA2 /* UINavigationItem+DC.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CDB20A94648007F7DA2 /* UINavigationItem+DC.m */; };
 		DAB75CDF20A96FA0007F7DA2 /* DCCoalDailyUseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CDE20A96FA0007F7DA2 /* DCCoalDailyUseViewController.m */; };
 		DAB75CE320A972B5007F7DA2 /* DCBaseSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CE220A972B5007F7DA2 /* DCBaseSplitViewController.m */; };
@@ -160,6 +165,16 @@
 		DA59A47E20B17F2F00372A01 /* CustomerEntityModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerEntityModel.m; sourceTree = "<group>"; };
 		DA59A48020B180CD00372A01 /* CustomerEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerEntity.h; sourceTree = "<group>"; };
 		DA59A48120B180CD00372A01 /* CustomerEntity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomerEntity.m; sourceTree = "<group>"; };
+		DA59A48320B1C7CD00372A01 /* OperatorEntityModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OperatorEntityModel.h; sourceTree = "<group>"; };
+		DA59A48420B1C7CD00372A01 /* OperatorEntityModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OperatorEntityModel.m; sourceTree = "<group>"; };
+		DA59A48620B1C80200372A01 /* OperatorEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OperatorEntity.h; sourceTree = "<group>"; };
+		DA59A48720B1C80200372A01 /* OperatorEntity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OperatorEntity.m; sourceTree = "<group>"; };
+		DA59A48920B1D39400372A01 /* DCCoalDailyStoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCCoalDailyStoreViewController.h; sourceTree = "<group>"; };
+		DA59A48A20B1D39400372A01 /* DCCoalDailyStoreViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCCoalDailyStoreViewController.m; sourceTree = "<group>"; };
+		DA59A48C20B1D89100372A01 /* StoreCoalEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoreCoalEntity.h; sourceTree = "<group>"; };
+		DA59A48D20B1D89100372A01 /* StoreCoalEntity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoreCoalEntity.m; sourceTree = "<group>"; };
+		DA59A48F20B1D96C00372A01 /* StoneCoalEntityModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoneCoalEntityModel.h; sourceTree = "<group>"; };
+		DA59A49020B1D96C00372A01 /* StoneCoalEntityModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoneCoalEntityModel.m; sourceTree = "<group>"; };
 		DAB75CD920A93CA1007F7DA2 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		DAB75CDA20A94648007F7DA2 /* UINavigationItem+DC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigationItem+DC.h"; sourceTree = "<group>"; };
 		DAB75CDB20A94648007F7DA2 /* UINavigationItem+DC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigationItem+DC.m"; sourceTree = "<group>"; };
@@ -327,10 +342,12 @@
 				DA50316D20A588B500259959 /* DCCoalSplitViewController.m */,
 				DA50317320A58B9000259959 /* DCCoalMenuViewController.h */,
 				DA50317420A58B9000259959 /* DCCoalMenuViewController.m */,
-				DAB75CDD20A96FA0007F7DA2 /* DCCoalDailyUseViewController.h */,
-				DAB75CDE20A96FA0007F7DA2 /* DCCoalDailyUseViewController.m */,
 				DA048CA120AB284F0086B9A4 /* DCCoalDailyBuyViewController.h */,
 				DA048CA220AB284F0086B9A4 /* DCCoalDailyBuyViewController.m */,
+				DAB75CDD20A96FA0007F7DA2 /* DCCoalDailyUseViewController.h */,
+				DAB75CDE20A96FA0007F7DA2 /* DCCoalDailyUseViewController.m */,
+				DA59A48920B1D39400372A01 /* DCCoalDailyStoreViewController.h */,
+				DA59A48A20B1D39400372A01 /* DCCoalDailyStoreViewController.m */,
 			);
 			path = Coal;
 			sourceTree = "<group>";
@@ -431,6 +448,10 @@
 				DAB75CF220A99D00007F7DA2 /* StoreLimeEntity.m */,
 				DA59A48020B180CD00372A01 /* CustomerEntity.h */,
 				DA59A48120B180CD00372A01 /* CustomerEntity.m */,
+				DA59A48620B1C80200372A01 /* OperatorEntity.h */,
+				DA59A48720B1C80200372A01 /* OperatorEntity.m */,
+				DA59A48C20B1D89100372A01 /* StoreCoalEntity.h */,
+				DA59A48D20B1D89100372A01 /* StoreCoalEntity.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -438,11 +459,11 @@
 		DAB75CFA20A9A392007F7DA2 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				DAB75CF420A99EF9007F7DA2 /* Model.xcdatamodeld */,
 				DA59A44F20B028AD00372A01 /* BuyStoneEntityModel.h */,
 				DA59A44C20B028AD00372A01 /* BuyStoneEntityModel.m */,
 				DA59A44D20B028AD00372A01 /* UseStoneEntityModel.h */,
 				DA59A44E20B028AD00372A01 /* UseStoneEntityModel.m */,
-				DAB75CF420A99EF9007F7DA2 /* Model.xcdatamodeld */,
 				DAB75D3C20A9A65C007F7DA2 /* BuyCoalEntityModel.h */,
 				DAB75D3D20A9A65C007F7DA2 /* BuyCoalEntityModel.m */,
 				DADCDE9020AE7D6400BDB555 /* UseCoalEntityModel.h */,
@@ -451,6 +472,10 @@
 				DA59A43420B00EF100372A01 /* SellLimeEntityModel.m */,
 				DA59A47D20B17F2F00372A01 /* CustomerEntityModel.h */,
 				DA59A47E20B17F2F00372A01 /* CustomerEntityModel.m */,
+				DA59A48320B1C7CD00372A01 /* OperatorEntityModel.h */,
+				DA59A48420B1C7CD00372A01 /* OperatorEntityModel.m */,
+				DA59A48F20B1D96C00372A01 /* StoneCoalEntityModel.h */,
+				DA59A49020B1D96C00372A01 /* StoneCoalEntityModel.m */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -685,9 +710,11 @@
 				DA50317520A58B9000259959 /* DCCoalMenuViewController.m in Sources */,
 				DA59A44A20B027B100372A01 /* BuyStoneEntity.m in Sources */,
 				DAB75CF620A99EF9007F7DA2 /* Model.xcdatamodeld in Sources */,
+				DA59A48E20B1D89100372A01 /* StoreCoalEntity.m in Sources */,
 				DAD71B6520AAA9D4007C56A7 /* NSManagedObject+DC.m in Sources */,
 				DA59A47F20B17F2F00372A01 /* CustomerEntityModel.m in Sources */,
 				DA50317220A58B3600259959 /* DCLimeSplitViewController.m in Sources */,
+				DA59A48820B1C80200372A01 /* OperatorEntity.m in Sources */,
 				DA50318020A5A06800259959 /* UIColor+DC.m in Sources */,
 				DADCDE8C20ADA43D00BDB555 /* DCNotificationManager.m in Sources */,
 				DA59A46C20B0302F00372A01 /* DCStoneMenuViewController.m in Sources */,
@@ -700,7 +727,9 @@
 				DA59A45020B028AD00372A01 /* BuyStoneEntityModel.m in Sources */,
 				DA048CA920AB3B760086B9A4 /* DCPopupTransitionDelegate.m in Sources */,
 				DAB75CDF20A96FA0007F7DA2 /* DCCoalDailyUseViewController.m in Sources */,
+				DA59A48520B1C7CD00372A01 /* OperatorEntityModel.m in Sources */,
 				DA59A44B20B027B100372A01 /* UseStoneEntity.m in Sources */,
+				DA59A49120B1D96C00372A01 /* StoneCoalEntityModel.m in Sources */,
 				DA59A43520B00EF100372A01 /* SellLimeEntityModel.m in Sources */,
 				DAB75CF320A99D00007F7DA2 /* StoreLimeEntity.m in Sources */,
 				DA59A42C20B0067700372A01 /* DCBaseUpdateEntityViewController.m in Sources */,
@@ -708,6 +737,7 @@
 				DA59A45120B028AD00372A01 /* UseStoneEntityModel.m in Sources */,
 				DA59A42F20B0087600372A01 /* DCLimeDailySellViewController.m in Sources */,
 				DADCDE9820AE893E00BDB555 /* KeyboardAvoidingScrollView.m in Sources */,
+				DA59A48B20B1D39400372A01 /* DCCoalDailyStoreViewController.m in Sources */,
 				DAD71B7920AACF73007C56A7 /* UIAlertController+DC.m in Sources */,
 				DAB75CED20A99AA6007F7DA2 /* UseCoalEntity.m in Sources */,
 				DAB75CF020A99AE9007F7DA2 /* SellLimeEntity.m in Sources */,
@@ -808,7 +838,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -857,7 +887,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -874,6 +904,7 @@
 				DEVELOPMENT_TEAM = XDJ538538B;
 				GCC_PREFIX_HEADER = daily/PrefixHeader.pch;
 				INFOPLIST_FILE = daily/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.justek.Daily;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -891,6 +922,7 @@
 				DEVELOPMENT_TEAM = XDJ538538B;
 				GCC_PREFIX_HEADER = daily/PrefixHeader.pch;
 				INFOPLIST_FILE = daily/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.justek.Daily;
 				PRODUCT_NAME = "$(TARGET_NAME)";

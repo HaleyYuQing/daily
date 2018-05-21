@@ -27,6 +27,7 @@
     [self.window setRootViewController:tabbar];
     
     [[DCCoreDataManager sharedInstance] loadCustomerDataType:CustomerType_ALL complete:nil];
+    [[DCCoreDataManager sharedInstance] loadOperatorDataComplete:nil];
     return YES;
 }
 

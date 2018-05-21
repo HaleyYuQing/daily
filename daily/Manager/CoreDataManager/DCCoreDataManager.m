@@ -14,6 +14,7 @@
 #import "BuyStoneEntityModel.h"
 #import "UseStoneEntityModel.h"
 #import "CustomerEntityModel.h"
+#import "OperatorEntityModel.h"
 
 #import "NSManagedObject+DC.h"
 
@@ -24,6 +25,8 @@
 @property (nonatomic, strong) NSMutableArray *stoneCustomersArray;
 @property (nonatomic, strong) NSMutableArray *limeCustomersArray;
 @property (nonatomic, strong) NSMutableArray *coalCustomersArray;
+@property (nonatomic, strong) NSMutableArray *operatorsArray;
+@property (nonatomic, strong) NSString *latestOperatorName;
 @end
 
 @implementation DCCoreDataManager
@@ -62,6 +65,14 @@
     return _limeCustomersArray;
 }
 
+- (NSMutableArray *)operatorsArray
+{
+    if (!_operatorsArray) {
+        _operatorsArray = [[NSMutableArray alloc] init];
+    }
+    return _operatorsArray;
+}
+
 - (NSArray *)getStoneCustomer
 {
     return self.stoneCustomersArray;
@@ -75,6 +86,16 @@
 - (NSArray *)getCoalCustomer
 {
     return self.coalCustomersArray;
+}
+
+- (NSArray *)getOperators
+{
+    return self.operatorsArray;
+}
+
+- (NSString *)latestOperatorName
+{
+    return _latestOperatorName;
 }
 
 - (NSManagedObjectContext *)backgroundObjectContext
@@ -357,6 +378,12 @@
     UseCoalEntityModel *entityModel = [self createModelFromEntity:useCoal];
     if (entityModel) {
         [self saveContext:completeBlock];
+        if (![useCoal.operatorName isEqualToString:self.latestOperatorName]) {
+            OperatorEntity *operator = [[OperatorEntity alloc] init];
+            operator.name = useCoal.operatorName;
+            operator.createDate = useCoal.createDate;
+            [self addNewOperatorWithEntity:operator];
+        }
     }
 }
 
@@ -430,6 +457,12 @@
     entity.name = entityModel.name;
     entity.operatorName = entityModel.operatorName;
     entity.coalWeight = entityModel.coalWeight;
+}
+
+//Store coal
+- (void)loadStoreCoalData:(void(^)(NSArray *coalArray))completeBlock
+{
+    
 }
 
 //Sell lime
@@ -757,6 +790,13 @@
     UseStoneEntityModel *entityModel = [self createModelFromEntity:useStone];
     if (entityModel) {
         [self saveContext:completeBlock];
+        
+        if (![useStone.operatorName isEqualToString:self.latestOperatorName]) {
+            OperatorEntity *operator = [[OperatorEntity alloc] init];
+            operator.name = useStone.operatorName;
+            operator.createDate = useStone.createDate;
+            [self addNewOperatorWithEntity:operator];
+        }
     }
 }
 
@@ -1053,6 +1093,144 @@
     }
 }
 
+//Operator
+- (void)loadOperatorDataComplete:(void(^)(NSArray *stoneArray))completeBlock
+{
+    [self.backgroundObjectContext performBlock:^{
+        NSFetchRequest *fetch = [[NSFetchRequest alloc] initWithEntityName:@"OperatorEntityModel"];
+        NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"createDate" ascending:NO selector:@selector(compare:)];
+        [fetch setSortDescriptors:@[sort]];
+        NSError *error = nil;
+        NSArray *customerArray = [self.backgroundObjectContext executeFetchRequest:fetch error:&error];
+        if (error) {
+            completeBlock(nil);
+            NSLog(@"loadOperatorData, %@",error);
+            return;
+        }
+        
+        [self.operatorsArray removeAllObjects];
+        
+        for (OperatorEntityModel *model in customerArray) {
+            OperatorEntity *entity = [self createEntityFromModel:model];
+            [self.operatorsArray addObject:entity];
+        }
+        
+        self.latestOperatorName = ((OperatorEntityModel*)[self.operatorsArray firstObject]).name;
+    }];
+}
+
+- (void)addOperatorData:(OperatorEntity *)customer complete:(void(^)(NSString *error))completeBlock
+{
+    if (!customer) {
+        completeBlock(nil);
+        return ;
+    }
+    
+    OperatorEntityModel *entityModel = [self createModelFromEntity:customer];
+    if (entityModel) {
+        [self saveContext:completeBlock];
+    }
+}
+
+- (void)deleteOperatorData:(OperatorEntity *)customer complete:(void(^)(NSString *error))completeBlock
+{
+    if (!customer) {
+        completeBlock(nil);
+        return;
+    }
+    
+    [[self backgroundObjectContext] performBlock:^{
+        NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"OperatorEntityModel"];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name = %@ ",customer.name];
+        [request setPredicate:predicate];
+        
+        NSError *error = nil;
+        NSArray *resutls =  [[self backgroundObjectContext] executeFetchRequest:request error:&error];
+        if (error) {
+            completeBlock(error.localizedDescription);
+            NSLog(@"%@", error);
+            return;
+        }
+        
+        for (OperatorEntityModel *model in resutls) {
+            [[self backgroundObjectContext] deleteObject:model];
+        }
+        
+        [self saveContext:completeBlock];
+    }];
+}
+
+- (void)updateOperatorData:(OperatorEntity *)customer complete:(void(^)(NSString *error))completeBlock;
+{
+    if (!customer) {
+        completeBlock(nil);
+        return;
+    }
+    
+    [[self backgroundObjectContext] performBlock:^{
+        NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"OperatorEntityModel"];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name = %@",customer.name];
+        [request setPredicate:predicate];
+        
+        NSError *error = nil;
+        NSArray *resutls =  [[self backgroundObjectContext] executeFetchRequest:request error:&error];
+        if (error) {
+            completeBlock(error.localizedDescription);
+            NSLog(@"%@", error);
+            return;
+        }
+        
+        for (OperatorEntityModel *model in resutls) {
+            [self updateOperatorEntityModel:model withOperatorEntity:customer];
+        }
+        
+        [self saveContext:completeBlock];
+    }];
+}
+
+- (void)updateOperatorEntityModel:(OperatorEntityModel *)entityModel withOperatorEntity:(OperatorEntity *)customer
+{
+    entityModel.name = customer.name;
+    entityModel.createDate = customer.createDate;
+}
+
+- (void)updateOperatorEntity:(OperatorEntity *)entity withOperatorEntityModel:(OperatorEntityModel *)entityModel
+{
+    entity.name = entityModel.name;
+    entity.createDate = entityModel.createDate;
+}
+
+- (void)addNewOperatorWithEntity:(OperatorEntity *)entity
+{
+    [self updateOperator:entity];
+}
+
+- (void)updateOperator:(OperatorEntity *)customer
+{
+    __weak typeof(self) weakSelf = self;
+    if ([self isIncludeOperatorEntity:customer]) {
+        [self updateOperatorData:customer complete:^(NSString *error) {
+            [weakSelf loadOperatorDataComplete:nil];
+        }];
+    }
+    else{
+        [self addOperatorData:customer complete:^(NSString *error) {
+            [weakSelf loadOperatorDataComplete:nil];
+        }];
+    }
+}
+
+- (BOOL)isIncludeOperatorEntity:(OperatorEntity *)operator
+{
+    for (OperatorEntity *entity in self.operatorsArray) {
+        if ([entity.name isEqualToString:operator.name]) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
 //Create
 - (id)createEntityFromModel:(id)model
 {
@@ -1102,6 +1280,14 @@
         CustomerEntityModel *entityModel = (CustomerEntityModel *)model;
         CustomerEntity *entity = [[CustomerEntity alloc] init];
         [self updateCustomerEntity:entity withCustomerEntityModel:entityModel];
+        
+        return entity;
+    }
+    
+    if ([model isKindOfClass:[OperatorEntityModel class]]) {
+        OperatorEntityModel *entityModel = (OperatorEntityModel *)model;
+        OperatorEntity *entity = [[OperatorEntity alloc] init];
+        [self updateOperatorEntity:entity withOperatorEntityModel:entityModel];
         
         return entity;
     }
@@ -1165,6 +1351,15 @@
         CustomerEntityModel *entityModel = [CustomerEntityModel createManagedObjectInContext:[self backgroundObjectContext]];
         if (entityModel) {
             [self updateCustomerEntityModel:entityModel withCustomerEntity:useStone];
+            return entityModel;
+        }
+    }
+    
+    if ([entity isKindOfClass:[OperatorEntity class]]) {
+        OperatorEntity *useStone = (OperatorEntity *)entity;
+        OperatorEntityModel *entityModel = [OperatorEntityModel createManagedObjectInContext:[self backgroundObjectContext]];
+        if (entityModel) {
+            [self updateOperatorEntityModel:entityModel withOperatorEntity:useStone];
             return entityModel;
         }
     }

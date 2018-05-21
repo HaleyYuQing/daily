@@ -48,7 +48,7 @@
     
     [self.tabBar setTintColor:[UIColor colorWithHex:@"FBCB71"]];
     [self.tabBar setBarTintColor:[UIColor colorWithHex:@"0E404E"]];
-    [self.tabBar setUnselectedItemTintColor:[UIColor whiteColor]];
+    //[self.tabBar setUnselectedItemTintColor:[UIColor whiteColor]];
     [self.tabBar setValue:@YES forKey:@"_hidesShadow"];
     
     [self setDelegate:self];

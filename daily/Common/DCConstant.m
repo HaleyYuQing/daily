@@ -114,8 +114,8 @@
     field.keyboardType = isNumber ? UIKeyboardTypeNumberPad : UIKeyboardTypeDefault;
     field.returnKeyType = UIReturnKeyDone;
     field.font = [UIFont systemFontOfSize:18];
-    field.borderStyle = UITextBorderStyleRoundedRect;
-    
+    field.borderStyle = UITextBorderStyleNone;
+    field.clearButtonMode = UITextFieldViewModeWhileEditing;
     return field;
 }
 

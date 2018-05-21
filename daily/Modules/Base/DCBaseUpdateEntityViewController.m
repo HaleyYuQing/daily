@@ -53,7 +53,7 @@
 - (void)keyboardDidShow:(NSNotification *)note
 {
     UIView *responderView = [self findFirstResponderInView:self.view];
-    if (responderView.tag == UpdateEntity_Type_LimeCarNumber || responderView.tag == UpdateEntity_Type_LimeUserName) {
+    if ([self isShowHistory:responderView.tag]) {
         DCHistoryTextField *field = (DCHistoryTextField *)responderView;
         CGRect d = [field convertRect:field.bounds toView:[UIApplication sharedApplication].keyWindow];
         field.tableView.topLeft = CGPointMake(d.origin.x, d.origin.y + d.size.height);
@@ -80,6 +80,11 @@
         CGPoint defaultCenter = responderView.superview.superview.center;
         [UIView animateWithDuration:duration animations:^{
             responderView.superview.superview.center = CGPointMake(defaultCenter.x, defaultCenter.y - animationHeight);
+        } completion:^(BOOL finished) {
+            [responderView.superview.superview mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.centerX.equalTo(self.view.mas_centerX);
+                make.centerY.equalTo(self.view.mas_centerY).offset(-animationHeight);
+            }];
         }];
         
     }
@@ -88,7 +93,7 @@
 - (void)keyboardWillHide:(NSNotification *)note
 {
     UIView *responderView = [self findFirstResponderInView:self.view];
-    if (responderView.tag == UpdateEntity_Type_LimeCarNumber || responderView.tag == UpdateEntity_Type_LimeUserName) {
+    if ([self isShowHistory:responderView.tag]) {
         DCHistoryTextField *field = (DCHistoryTextField *)responderView;
         [field.tableView removeFromSuperview];
     }
@@ -97,8 +102,14 @@
     NSTimeInterval duration = 0;
     [value getValue: &duration];
     
+    [responderView.superview.superview mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.view);
+    }];
+    
     [UIView animateWithDuration:duration animations:^{
         responderView.superview.superview.center = self.view.center;
+    } completion:^(BOOL finished) {
+        
     }];
 }
 
@@ -113,7 +124,7 @@
 
 - (BOOL)isShowHistory:(UpdateEntity_Type)type
 {
-    return type == UpdateEntity_Type_LimeUserName || type == UpdateEntity_Type_LimeCarNumber;
+    return type == UpdateEntity_Type_LimeUserName || type == UpdateEntity_Type_LimeCarNumber || type == UpdateEntity_Type_StoneCarNumber || type == UpdateEntity_Type_StoneUserName || type == UpdateEntity_Type_CoalCarNumber || type == UpdateEntity_Type_CoalUserName;
 }
 
 - (void)hideKeyboard:(UITapGestureRecognizer *)ges
@@ -160,6 +171,50 @@
     if (textField.tag == UpdateEntity_Type_LimeUserName) {
         __block NSMutableArray *results = [[NSMutableArray alloc] init];
         [[[DCCoreDataManager sharedInstance] getLimeCustomer] enumerateObjectsUsingBlock:^(CustomerEntity * obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([[obj.name lowercaseString] containsString:[key lowercaseString]] || key.length == 0) {
+                [results addObject:obj];
+            }
+        }];
+        
+        [textField reloadHitoryWithData:results];
+    }
+    
+    if (textField.tag == UpdateEntity_Type_StoneCarNumber) {
+        __block NSMutableArray *results = [[NSMutableArray alloc] init];
+        [[[DCCoreDataManager sharedInstance] getStoneCustomer] enumerateObjectsUsingBlock:^(CustomerEntity * obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([[obj.carNumber lowercaseString] containsString:[key lowercaseString]] || key.length == 0) {
+                [results addObject:obj];
+            }
+        }];
+        
+        [textField reloadHitoryWithData:results];
+    }
+    
+    if (textField.tag == UpdateEntity_Type_StoneUserName) {
+        __block NSMutableArray *results = [[NSMutableArray alloc] init];
+        [[[DCCoreDataManager sharedInstance] getStoneCustomer] enumerateObjectsUsingBlock:^(CustomerEntity * obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([[obj.name lowercaseString] containsString:[key lowercaseString]] || key.length == 0) {
+                [results addObject:obj];
+            }
+        }];
+        
+        [textField reloadHitoryWithData:results];
+    }
+    
+    if (textField.tag == UpdateEntity_Type_CoalCarNumber) {
+        __block NSMutableArray *results = [[NSMutableArray alloc] init];
+        [[[DCCoreDataManager sharedInstance] getCoalCustomer] enumerateObjectsUsingBlock:^(CustomerEntity * obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([[obj.carNumber lowercaseString] containsString:[key lowercaseString]] || key.length == 0) {
+                [results addObject:obj];
+            }
+        }];
+        
+        [textField reloadHitoryWithData:results];
+    }
+    
+    if (textField.tag == UpdateEntity_Type_CoalUserName) {
+        __block NSMutableArray *results = [[NSMutableArray alloc] init];
+        [[[DCCoreDataManager sharedInstance] getCoalCustomer] enumerateObjectsUsingBlock:^(CustomerEntity * obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if ([[obj.name lowercaseString] containsString:[key lowercaseString]] || key.length == 0) {
                 [results addObject:obj];
             }

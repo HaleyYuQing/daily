@@ -232,6 +232,7 @@
     }
     else{
         self.dateField.text = [DCConstant stringFromDate:[NSDate date]];
+        self.operatorNameField.text = [[DCCoreDataManager sharedInstance] latestOperatorName];
     }
 }
 

@@ -86,7 +86,7 @@
 
 - (NSString *)getShowedString:(NSInteger)index
 {
-    if (self.tag == UpdateEntity_Type_LimeUserName ) {
+    if (self.tag == UpdateEntity_Type_LimeUserName || self.tag == UpdateEntity_Type_CoalUserName || self.tag == UpdateEntity_Type_StoneUserName) {
         return ((CustomerEntity *)self.historyArray[index]).name;
     }
     else
