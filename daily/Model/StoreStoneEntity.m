@@ -11,7 +11,7 @@
 @implementation StoreStoneEntity
 - (NSString *)totalWeightString
 {
-    return [NSString stringWithFormat:@"%@", @(self.totalWeight)];
+    return [NSString stringWithFormat:@"%@", self.totalWeight];
 }
 
 @end

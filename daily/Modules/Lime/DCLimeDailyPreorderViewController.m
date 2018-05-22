@@ -340,7 +340,7 @@
     
     self.preorderLimeEntity.carNumber = self.carNumberField.text;
     self.preorderLimeEntity.buyerName = self.buyerNameField.text;
-    self.preorderLimeEntity.limeWeight = [self.limeWeightField.text integerValue];
+    self.preorderLimeEntity.limeWeight = @([self.limeWeightField.text integerValue]);
     
     if (isNewRecord) {
         [[DCCoreDataManager sharedInstance] addPreorderLimeData:self.preorderLimeEntity complete:^(NSString *errorString) {

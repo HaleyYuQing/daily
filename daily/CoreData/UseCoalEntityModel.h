@@ -11,6 +11,6 @@
 @interface UseCoalEntityModel : NSManagedObject
 @property (nonatomic, strong) NSDate *createDate;
 @property (nonatomic, strong) NSString *name;
-@property (nonatomic, assign) NSInteger coalWeight; //kg
+@property (nonatomic, strong) NSNumber * coalWeight; //kg
 @property (nonatomic, strong) NSString *operatorName;
 @end

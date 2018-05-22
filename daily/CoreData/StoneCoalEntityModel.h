@@ -10,5 +10,5 @@
 
 @interface StoneCoalEntityModel : NSManagedObject
 @property (nonatomic, strong) NSDate *createDate;
-@property (nonatomic, assign) NSInteger totalWeight;
+@property (nonatomic, strong) NSNumber * totalWeight;
 @end

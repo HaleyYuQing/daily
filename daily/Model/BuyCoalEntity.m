@@ -12,26 +12,26 @@
 
 - (NSString *)coalWeightString
 {
-    return [NSString stringWithFormat:@"%ld",self.coalWeight];
+    return [NSString stringWithFormat:@"%@",self.coalWeight];
 }
 
 - (NSString *)carWeightString
 {
-    return [NSString stringWithFormat:@"%ld",self.carWeight];
+    return [NSString stringWithFormat:@"%@",self.carWeight];
 }
 
 - (NSString *)coalTotalPriceString
 {
-    return [NSString stringWithFormat:@"%ld",self.coalTotalPrice];
+    return [NSString stringWithFormat:@"%@",self.coalTotalPrice];
 }
 
 - (NSString *)coalPricePerKGString
 {
-    return [NSString stringWithFormat:@"%ld",self.coalPricePerKG];
+    return [NSString stringWithFormat:@"%@",self.coalPricePerKG];
 }
 
 - (NSString *)carAndCoalWeightString
 {
-    return [NSString stringWithFormat:@"%ld",self.carAndCoalWeight];
+    return [NSString stringWithFormat:@"%@",self.carAndCoalWeight];
 }
 @end

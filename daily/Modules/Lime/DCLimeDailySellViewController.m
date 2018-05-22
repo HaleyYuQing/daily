@@ -499,13 +499,13 @@
     
     self.sellLimeEntity.carNumber = self.carNumberField.text;
     self.sellLimeEntity.buyerName = self.buyerNameField.text;
-    self.sellLimeEntity.limeWeight = [self.limeWeightField.text integerValue];
-    self.sellLimeEntity.carWeight = [self.carWeightField.text integerValue];
-    self.sellLimeEntity.carAndLimeWeight = [self.carAndLimeWeightField.text integerValue];
-    self.sellLimeEntity.limePricePerKG = [self.limePricePerKGField.text integerValue];
-    self.sellLimeEntity.limeTotalPrice = [self.limeTotalPriceField.text integerValue];
-    self.sellLimeEntity.payedPrice = [self.payedPriceField.text integerValue];
-    self.sellLimeEntity.notPayedPrice = [self.notPayedPriceField.text integerValue];
+    self.sellLimeEntity.limeWeight = @([self.limeWeightField.text integerValue]);
+    self.sellLimeEntity.carWeight = @([self.carWeightField.text integerValue]);
+    self.sellLimeEntity.carAndLimeWeight = @([self.carAndLimeWeightField.text integerValue]);
+    self.sellLimeEntity.limePricePerKG = @([self.limePricePerKGField.text integerValue]);
+    self.sellLimeEntity.limeTotalPrice = @([self.limeTotalPriceField.text integerValue]);
+    self.sellLimeEntity.payedPrice = @([self.payedPriceField.text integerValue]);
+    self.sellLimeEntity.notPayedPrice = @([self.notPayedPriceField.text integerValue]);
     
     if (isNewRecord) {
         [[DCCoreDataManager sharedInstance] addSellLimeData:self.sellLimeEntity complete:^(NSString *errorString) {

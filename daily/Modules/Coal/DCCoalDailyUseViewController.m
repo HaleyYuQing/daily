@@ -259,7 +259,7 @@
     }
     
     self.UseCoalEntity.operatorName = self.operatorNameField.text;
-    self.UseCoalEntity.coalWeight = [self.coalWeightField.text integerValue];
+    self.UseCoalEntity.coalWeight = @([self.coalWeightField.text integerValue]);
     
     if (isNewRecord) {
         [[DCCoreDataManager sharedInstance] addUseCoalData:self.UseCoalEntity complete:^(NSString *errorString) {

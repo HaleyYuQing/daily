@@ -10,7 +10,7 @@
 #import "BaseEntity.h"
 
 @interface UseCoalEntity : BaseEntity
-@property (nonatomic, assign) NSInteger coalWeight; //kg
+@property (nonatomic, strong) NSNumber * coalWeight; //kg
 @property (nonatomic, strong) NSString *operatorName;
 
 - (NSString *)coalWeightString;

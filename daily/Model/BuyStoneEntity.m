@@ -12,26 +12,26 @@
 
 - (NSString *)stoneWeightString
 {
-    return [NSString stringWithFormat:@"%ld",self.stoneWeight];
+    return [NSString stringWithFormat:@"%@",self.stoneWeight];
 }
 
 - (NSString *)carWeightString
 {
-    return [NSString stringWithFormat:@"%ld",self.carWeight];
+    return [NSString stringWithFormat:@"%@",self.carWeight];
 }
 
 - (NSString *)stoneTotalPriceString
 {
-    return [NSString stringWithFormat:@"%ld",self.stoneTotalPrice];
+    return [NSString stringWithFormat:@"%@",self.stoneTotalPrice];
 }
 
 - (NSString *)stonePricePerKGString
 {
-    return [NSString stringWithFormat:@"%ld",self.stonePricePerKG];
+    return [NSString stringWithFormat:@"%@",self.stonePricePerKG];
 }
 
 - (NSString *)carAndStoneWeightString
 {
-    return [NSString stringWithFormat:@"%ld",self.carAndStoneWeight];
+    return [NSString stringWithFormat:@"%@",self.carAndStoneWeight];
 }
 @end

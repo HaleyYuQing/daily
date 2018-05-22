@@ -11,5 +11,5 @@
 
 @interface StoreLimeEntity : BaseEntity
 
-@property (nonatomic, assign) NSInteger limeWeight; //kg
+@property (nonatomic, strong) NSNumber * limeWeight; //kg
 @end

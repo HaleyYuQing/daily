@@ -528,16 +528,17 @@
             StoreCoalEntity *store = [[StoreCoalEntity alloc] init];
             store.createDate = ((BaseEntity *)[array firstObject]).createDate;
             [storeResults addObject:store];
-            
+            int totalWeight = 0;
             for (id subEntity in array) {
                 if ([subEntity isKindOfClass:[BuyCoalEntity class]]) {
-                    store.totalWeight += ((BuyCoalEntity *)subEntity).coalWeight;
+                    totalWeight += [((BuyCoalEntity *)subEntity).coalWeight intValue];
                 }
                 
                 if ([subEntity isKindOfClass:[UseCoalEntity class]]) {
-                    store.totalWeight -= ((UseCoalEntity *)subEntity).coalWeight;
+                    totalWeight -= [((UseCoalEntity *)subEntity).coalWeight intValue];
                 }
             }
+            store.totalWeight = @(totalWeight);
         }
         
         [self.mainObjectContext performBlock:^{
@@ -1154,15 +1155,17 @@
             store.createDate = ((BaseEntity *)[array firstObject]).createDate;
             [storeResults addObject:store];
             
+            int totalWeight = 0;
             for (id subEntity in array) {
                 if ([subEntity isKindOfClass:[BuyStoneEntity class]]) {
-                    store.totalWeight += ((BuyStoneEntity *)subEntity).stoneWeight;
+                    totalWeight += [((BuyStoneEntity *)subEntity).stoneWeight intValue];
                 }
                 
                 if ([subEntity isKindOfClass:[UseStoneEntity class]]) {
-                    store.totalWeight -= ((UseStoneEntity *)subEntity).stoneWeight;
+                    totalWeight -= [((UseStoneEntity *)subEntity).stoneWeight intValue];
                 }
             }
+            store.totalWeight = @(totalWeight);
         }
         
         [self.mainObjectContext performBlock:^{
@@ -1174,7 +1177,7 @@
 //Customer
 - (BOOL)isIncludeCustomerEntity:(CustomerEntity *)customer
 {
-    switch (customer.customerType ) {
+    switch ([customer.customerType integerValue] ) {
         case CustomerType_Stone:
         {
             for (CustomerEntity *entity in self.stoneCustomersArray) {
@@ -1232,13 +1235,13 @@
         
         for (CustomerEntityModel *model in customerArray) {
             CustomerEntity *entity = [self createEntityFromModel:model];
-            if (entity.customerType == CustomerType_Coal) {
+            if ([entity.customerType integerValue] == CustomerType_Coal) {
                 [self.coalCustomersArray addObject:entity];
             }
-            else if (entity.customerType == CustomerType_Lime) {
+            else if ([entity.customerType integerValue] == CustomerType_Lime) {
                 [self.limeCustomersArray addObject:entity];
             }
-            else if (entity.customerType == CustomerType_Stone) {
+            else if ([entity.customerType integerValue] == CustomerType_Stone) {
                 [self.stoneCustomersArray addObject:entity];
             }
         }
@@ -1344,7 +1347,7 @@
     customer.name = entity.carOwnerName;
     customer.carNumber = entity.carNumber;
     customer.carWeight = entity.carWeight;
-    customer.customerType = CustomerType_Coal;
+    customer.customerType = @(CustomerType_Coal);
     customer.itemPricePerKG = entity.coalPricePerKG;
     customer.createDate = entity.createDate;
     
@@ -1357,7 +1360,7 @@
     customer.name = entity.carOwnerName;
     customer.carNumber = entity.carNumber;
     customer.carWeight = entity.carWeight;
-    customer.customerType = CustomerType_Stone;
+    customer.customerType = @(CustomerType_Stone);
     customer.itemPricePerKG = entity.stonePricePerKG;
     customer.createDate = entity.createDate;
     
@@ -1370,7 +1373,7 @@
     customer.name = entity.buyerName;
     customer.carNumber = entity.carNumber;
     customer.carWeight = entity.carWeight;
-    customer.customerType = CustomerType_Lime;
+    customer.customerType = @(CustomerType_Lime);
     customer.itemPricePerKG = entity.limePricePerKG;
     customer.createDate = entity.createDate;
     
@@ -1382,7 +1385,7 @@
     CustomerEntity *customer = [[CustomerEntity alloc] init];
     customer.name = entity.buyerName;
     customer.carNumber = entity.carNumber;
-    customer.customerType = CustomerType_Lime;
+    customer.customerType = @(CustomerType_Lime);
     customer.createDate = entity.createDate;
     
     [self updateCustomer:customer];
@@ -1393,12 +1396,12 @@
     __weak typeof(self) weakSelf = self;
     if ([self isIncludeCustomerEntity:customer]) {
         [self updateCustomerData:customer complete:^(NSString *error) {
-            [weakSelf loadCustomerDataType:customer.customerType complete:nil];
+            [weakSelf loadCustomerDataType:[customer.customerType integerValue] complete:nil];
         }];
     }
     else{
         [self addCustomerData:customer complete:^(NSString *error) {
-            [weakSelf loadCustomerDataType:customer.customerType complete:nil];
+            [weakSelf loadCustomerDataType:[customer.customerType integerValue] complete:nil];
         }];
     }
 }

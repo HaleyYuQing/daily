@@ -12,6 +12,6 @@
 
 - (NSString *)coalWeightString
 {
-    return [NSString stringWithFormat:@"%@",@(self.coalWeight)];
+    return [NSString stringWithFormat:@"%@",self.coalWeight];
 }
 @end

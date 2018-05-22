@@ -11,8 +11,8 @@
 @interface CustomerEntityModel : NSManagedObject
 @property (nonatomic, strong) NSDate *createDate;
 @property (nonatomic, strong) NSString *name;
-@property (nonatomic, assign) NSInteger itemPricePerKG;
-@property (nonatomic, assign) NSInteger customerType;
+@property (nonatomic, strong) NSNumber * itemPricePerKG;
+@property (nonatomic, strong) NSNumber * customerType;
 @property (nonatomic, strong) NSString *carNumber;
-@property (nonatomic, assign) NSInteger carWeight;
+@property (nonatomic, strong) NSNumber * carWeight;
 @end

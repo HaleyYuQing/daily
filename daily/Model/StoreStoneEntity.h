@@ -10,7 +10,7 @@
 
 @interface StoreStoneEntity : NSObject
 @property (nonatomic, strong) NSDate *createDate;
-@property (nonatomic, assign) NSInteger totalWeight;
+@property (nonatomic, strong) NSNumber * totalWeight;
 
 - (NSString *)totalWeightString;
 @end

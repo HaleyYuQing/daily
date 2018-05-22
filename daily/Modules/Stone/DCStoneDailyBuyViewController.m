@@ -436,11 +436,11 @@
     
     self.buyStoneEntity.carNumber = self.carNumberField.text;
     self.buyStoneEntity.carOwnerName = self.carOwnerNameField.text;
-    self.buyStoneEntity.stoneWeight = [self.stoneWeightField.text integerValue];
-    self.buyStoneEntity.carWeight = [self.carWeightField.text integerValue];
-    self.buyStoneEntity.carAndStoneWeight = [self.carAndStoneWeightField.text integerValue];
-    self.buyStoneEntity.stonePricePerKG = [self.stonePricePerKGField.text integerValue];
-    self.buyStoneEntity.stoneTotalPrice = [self.stoneTotalPriceField.text integerValue];
+    self.buyStoneEntity.stoneWeight = @([self.stoneWeightField.text intValue]);
+    self.buyStoneEntity.carWeight = @([self.carWeightField.text integerValue]);
+    self.buyStoneEntity.carAndStoneWeight = @([self.carAndStoneWeightField.text integerValue]);
+    self.buyStoneEntity.stonePricePerKG = @([self.stonePricePerKGField.text integerValue]);
+    self.buyStoneEntity.stoneTotalPrice = @([self.stoneTotalPriceField.text integerValue]);
     
     if (isNewRecord) {
         [[DCCoreDataManager sharedInstance] addBuyStoneData:self.buyStoneEntity complete:^(NSString *errorString) {

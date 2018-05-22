@@ -453,11 +453,11 @@
     
     self.buyCoalEntity.carNumber = self.carNumberField.text;
     self.buyCoalEntity.carOwnerName = self.carOwnerNameField.text;
-    self.buyCoalEntity.coalWeight = [self.coalWeightField.text integerValue];
-    self.buyCoalEntity.carWeight = [self.carWeightField.text integerValue];
-    self.buyCoalEntity.carAndCoalWeight = [self.carAndCoalWeightField.text integerValue];
-    self.buyCoalEntity.coalPricePerKG = [self.coalPricePerKGField.text integerValue];
-    self.buyCoalEntity.coalTotalPrice = [self.coalTotalPriceField.text integerValue];
+    self.buyCoalEntity.coalWeight = @([self.coalWeightField.text integerValue]);
+    self.buyCoalEntity.carWeight = @([self.carWeightField.text integerValue]);
+    self.buyCoalEntity.carAndCoalWeight = @([self.carAndCoalWeightField.text integerValue]);
+    self.buyCoalEntity.coalPricePerKG = @([self.coalPricePerKGField.text integerValue]);
+    self.buyCoalEntity.coalTotalPrice = @([self.coalTotalPriceField.text integerValue]);
     
     if (isNewRecord) {
         [[DCCoreDataManager sharedInstance] addBuyCoalData:self.buyCoalEntity complete:^(NSString *errorString) {

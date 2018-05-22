@@ -11,7 +11,7 @@
 
 @interface PreorderLimeEntity : BaseEntity
 @property (nonatomic, strong) NSDate *orderTime;
-@property (nonatomic, assign) NSInteger limeWeight; //kg
+@property (nonatomic, strong) NSNumber * limeWeight; //kg
 @property (nonatomic, strong) NSString *carNumber;
 @property (nonatomic ,strong) NSString *buyerName;
 

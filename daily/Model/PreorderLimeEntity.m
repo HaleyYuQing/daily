@@ -11,7 +11,7 @@
 @implementation PreorderLimeEntity
 - (NSString *)limeWeightString
 {
-    return [NSString stringWithFormat:@"%ld",self.limeWeight];
+    return [NSString stringWithFormat:@"%@",self.limeWeight];
 }
 
 @end

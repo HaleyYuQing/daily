@@ -10,7 +10,7 @@
 #import "BaseEntity.h"
 
 @interface UseStoneEntity : BaseEntity
-@property (nonatomic, assign) NSInteger stoneWeight; //kg
+@property (nonatomic, strong) NSNumber *stoneWeight; //kg
 @property (nonatomic, strong) NSString *operatorName;
 
 - (NSString *)stoneWeightString;

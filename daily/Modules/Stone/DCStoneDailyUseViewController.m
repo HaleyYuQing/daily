@@ -266,7 +266,7 @@
     }
     
     self.UseStoneEntity.operatorName = self.operatorNameField.text;
-    self.UseStoneEntity.stoneWeight = [self.stoneWeightField.text integerValue];
+    self.UseStoneEntity.stoneWeight = @([self.stoneWeightField.text intValue]);
     
     if (isNewRecord) {
         [[DCCoreDataManager sharedInstance] addUseStoneData:self.UseStoneEntity complete:^(NSString *errorString) {

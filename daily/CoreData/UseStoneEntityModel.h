@@ -11,7 +11,7 @@
 @interface UseStoneEntityModel : NSManagedObject
 @property (nonatomic, strong) NSDate *createDate;
 @property (nonatomic, strong) NSString *name;
-@property (nonatomic, assign) NSInteger stoneWeight; //kg
+@property (nonatomic, strong) NSNumber *stoneWeight; //kg
 @property (nonatomic, strong) NSString *operatorName;
 @end
 

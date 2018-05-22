@@ -11,13 +11,13 @@
 @interface BuyStoneEntityModel : NSManagedObject
 @property (nonatomic, strong) NSDate *createDate;
 @property (nonatomic, strong) NSString *name;
-@property (nonatomic, assign) NSInteger stonePricePerKG;
-@property (nonatomic, assign) NSInteger stoneWeight; //kg
-@property (nonatomic, assign) NSInteger stoneTotalPrice;
+@property (nonatomic, strong) NSNumber *stonePricePerKG;
+@property (nonatomic, strong) NSNumber * stoneWeight; //kg
+@property (nonatomic, strong) NSNumber * stoneTotalPrice;
 
 @property (nonatomic, strong) NSString *carNumber;
 @property (nonatomic, strong) NSString *carOwnerName;
-@property (nonatomic, assign) NSInteger carWeight;
-@property (nonatomic, assign) NSInteger carAndStoneWeight;
+@property (nonatomic, strong) NSNumber * carWeight;
+@property (nonatomic, strong) NSNumber * carAndStoneWeight;
 @end
 

@@ -11,12 +11,12 @@
 @interface BuyCoalEntityModel : NSManagedObject
 @property (nonatomic, strong) NSDate *createDate;
 @property (nonatomic, strong) NSString *name;
-@property (nonatomic, assign) NSInteger coalPricePerKG;
-@property (nonatomic, assign) NSInteger coalWeight; //kg
-@property (nonatomic, assign) NSInteger coalTotalPrice;
+@property (nonatomic, strong) NSNumber * coalPricePerKG;
+@property (nonatomic, strong) NSNumber * coalWeight; //kg
+@property (nonatomic, strong) NSNumber * coalTotalPrice;
 
 @property (nonatomic, strong) NSString *carNumber;
 @property (nonatomic, strong) NSString *carOwnerName;
-@property (nonatomic, assign) NSInteger carWeight;
-@property (nonatomic, assign) NSInteger carAndCoalWeight;
+@property (nonatomic, strong) NSNumber * carWeight;
+@property (nonatomic, strong) NSNumber * carAndCoalWeight;
 @end

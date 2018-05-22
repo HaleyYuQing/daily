@@ -10,7 +10,7 @@
 
 @interface StoreCoalEntity : NSObject
 @property (nonatomic, strong) NSDate *createDate;
-@property (nonatomic, assign) NSInteger totalWeight;
+@property (nonatomic, strong) NSNumber * totalWeight;
 
 - (NSString *)totalWeightString;
 

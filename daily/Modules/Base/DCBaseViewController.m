@@ -20,8 +20,7 @@
     self.tableView = [[DCBaseTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.mas_topLayoutGuideBottom);
-        make.bottom.left.right.equalTo(self.view);
+        make.edges.equalTo(self.view);
     }];
 }
 
