@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BaseEntity.h"
 
-@interface BuyStoneEntity : NSObject
-@property (nonatomic, strong) NSDate *createDate;
-@property (nonatomic, strong) NSString *name;
+@interface BuyStoneEntity : BaseEntity
+
 @property (nonatomic, assign) NSInteger stonePricePerKG;
 @property (nonatomic, assign) NSInteger stoneWeight; //kg
 @property (nonatomic, assign) NSInteger stoneTotalPrice;

@@ -10,6 +10,7 @@
 #import "DCStoneDailyUseViewController.h"
 #import "DCBaseSplitViewController.h"
 #import "DCStoneDailyBuyViewController.h"
+#import "DCStoneDailyStoreViewController.h"
 
 @interface DCStoneMenuViewController ()
 @end
@@ -71,7 +72,8 @@
     else if(indexPath.section == 2)
     {
         self.currentMenuIndex = DCStoneMenu_Store;
-        [self.splitViewController.viewControllers[1] popToRootViewControllerAnimated:NO];
+        DCStoneDailyStoreViewController *dailyVC = [[DCStoneDailyStoreViewController alloc] init];
+        [(DCBaseSplitViewController *)self.splitViewController showRightViewController:dailyVC];
     }
 }
 
@@ -93,7 +95,8 @@
     else if(self.currentMenuIndex == DCStoneMenu_Store)
     {
         currentIndexPath = [NSIndexPath indexPathForRow:0 inSection:2];
-        [self.splitViewController.viewControllers[1] popToRootViewControllerAnimated:NO];
+        DCStoneDailyStoreViewController *dailyVC = [[DCStoneDailyStoreViewController alloc] init];
+        [(DCBaseSplitViewController *)self.splitViewController showRightViewController:dailyVC];
     }
     
     if (currentIndexPath) {

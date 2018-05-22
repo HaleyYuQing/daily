@@ -7,10 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BaseEntity.h"
 
-@interface SellLimeEntity : NSObject
-@property (nonatomic, strong) NSDate *createDate;
-@property (nonatomic, strong) NSString *name;
+@interface SellLimeEntity : BaseEntity
 
 @property (nonatomic, assign) NSInteger limePricePerKG;
 @property (nonatomic, assign) NSInteger limeWeight; //kg

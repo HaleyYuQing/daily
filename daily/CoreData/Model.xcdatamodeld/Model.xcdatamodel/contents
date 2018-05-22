@@ -34,6 +34,14 @@
         <attribute name="createDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="PreorderLimeEntityModel" representedClassName="PreorderLimeEntityModel" syncable="YES" codeGenerationType="class">
+        <attribute name="buyerName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="carNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="limeWeight" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="orderTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+    </entity>
     <entity name="SellLimeEntityModel" representedClassName="SellLimeEntityModel" syncable="YES" codeGenerationType="class">
         <attribute name="buyerName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="carAndLimeWeight" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
@@ -67,12 +75,13 @@
     </entity>
     <elements>
         <element name="BuyCoalEntityModel" positionX="-63" positionY="-18" width="128" height="180"/>
-        <element name="UseCoalEntityModel" positionX="-54" positionY="-9" width="128" height="105"/>
-        <element name="SellLimeEntityModel" positionX="-54" positionY="54" width="128" height="240"/>
         <element name="BuyStoneEntityModel" positionX="-27" positionY="144" width="128" height="180"/>
         <element name="CustomerEntityModel" positionX="-9" positionY="171" width="128" height="135"/>
-        <element name="UseStoneEntityModel" positionX="9" positionY="180" width="128" height="105"/>
         <element name="OperatorEntityModel" positionX="27" positionY="189" width="128" height="75"/>
+        <element name="PreorderLimeEntityModel" positionX="0" positionY="153" width="128" height="135"/>
+        <element name="SellLimeEntityModel" positionX="-54" positionY="54" width="128" height="240"/>
         <element name="StoneCoalEntityModel" positionX="-9" positionY="144" width="128" height="75"/>
+        <element name="UseCoalEntityModel" positionX="-54" positionY="-9" width="128" height="105"/>
+        <element name="UseStoneEntityModel" positionX="9" positionY="180" width="128" height="105"/>
     </elements>
 </model>

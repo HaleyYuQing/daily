@@ -13,6 +13,7 @@ NSString *const UpdateUseCoalEntityNotificationKey = @"UpdateUseCoalEntityNotifi
 NSString *const UpdateSellLimeEntityNotificationKey = @"UpdateSellLimeEntityNotification";
 NSString *const UpdateBuyStoneEntityNotificationKey = @"UpdateBuyStoneEntityNotification";
 NSString *const UpdateUseStoneEntityNotificationKey = @"UpdateUseStoneEntityNotification";
+NSString *const UpdatePreorderLimeEntityNotificationKey = @"UpdatePreorderLimeEntityNotification";
 
 @implementation DCNotificationManager
 

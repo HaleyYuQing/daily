@@ -10,6 +10,7 @@
 #import "DCCoalDailyUseViewController.h"
 #import "DCBaseSplitViewController.h"
 #import "DCCoalDailyBuyViewController.h"
+#import "DCCoalDailyStoreViewController.h"
 
 @interface DCCoalMenuViewController ()
 @end
@@ -71,7 +72,8 @@
     else if(indexPath.section == 2)
     {
         self.currentMenuIndex = DCCoalMenu_Store;
-        [self.splitViewController.viewControllers[1] popToRootViewControllerAnimated:NO];
+        DCCoalDailyStoreViewController *dailyVC = [[DCCoalDailyStoreViewController alloc] init];
+        [(DCBaseSplitViewController *)self.splitViewController showRightViewController:dailyVC];
     }
 }
 
@@ -93,7 +95,8 @@
     else if(self.currentMenuIndex == DCCoalMenu_Store)
     {
         currentIndexPath = [NSIndexPath indexPathForRow:0 inSection:2];
-        [self.splitViewController.viewControllers[1] popToRootViewControllerAnimated:NO];
+        DCCoalDailyStoreViewController *dailyVC = [[DCCoalDailyStoreViewController alloc] init];
+        [(DCBaseSplitViewController *)self.splitViewController showRightViewController:dailyVC];
     }
     
     if (currentIndexPath) {

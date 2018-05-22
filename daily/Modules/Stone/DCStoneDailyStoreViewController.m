@@ -1,12 +1,12 @@
 //
-//  DCCoalDailyStoreViewController.m
+//  DCStoneDailyStoreViewController.m
 //  daily
 //
 //  Created by yuqing huang on 14/05/2018.
 //  Copyright © 2018 Justek. All rights reserved.
 //
 
-#import "DCCoalDailyStoreViewController.h"
+#import "DCStoneDailyStoreViewController.h"
 #import "UINavigationItem+DC.h"
 #import "DCCoreDataManager.h"
 #import "UIAlertController+DC.h"
@@ -18,13 +18,13 @@
 #import "DCNotificationManager.h"
 #import "DCBaseUpdateEntityViewController.h"
 
-@interface DCStoreCoalEntityTableViewCell :UITableViewCell
+@interface DCStoreStoneEntityTableViewCell :UITableViewCell
 @property (nonatomic, strong) UILabel *dateLabel;
 @property (nonatomic, strong) UILabel *operatorNameLabel;
-@property (nonatomic, strong) UILabel *coalWeightLabel;
+@property (nonatomic, strong) UILabel *stoneWeightLabel;
 @end
 
-@implementation DCStoreCoalEntityTableViewCell
+@implementation DCStoreStoneEntityTableViewCell
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -39,11 +39,11 @@
             make.width.equalTo(@(DescriptionLabelWidthInHeaderView));
         }];
         
-        UILabel *coalWeightLabel = [DCConstant detailLabel];
-        self.coalWeightLabel = coalWeightLabel;
-        coalWeightLabel.text = @"煤重量(千克):";
-        [self.contentView addSubview:coalWeightLabel];
-        [coalWeightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        UILabel *stoneWeightLabel = [DCConstant detailLabel];
+        self.stoneWeightLabel = stoneWeightLabel;
+        stoneWeightLabel.text = @"石头重量(千克):";
+        [self.contentView addSubview:stoneWeightLabel];
+        [stoneWeightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(dateLabel.mas_right).offset(EdgeMargin);
             make.centerY.equalTo(self.contentView.mas_centerY);
             make.width.equalTo(@(DescriptionLabelWidthInHeaderView + 40));
@@ -52,25 +52,25 @@
     return self;
 }
 
-- (void)updateCellWithStoreCoalEntity:(StoreCoalEntity *)entity
+- (void)updateCellWithStoreStoneEntity:(StoreStoneEntity *)entity
 {
     self.dateLabel.text = [DCConstant hourAndMinuteStringFromDate:entity.createDate];
-    self.coalWeightLabel.text = [entity totalWeightString];
+    self.stoneWeightLabel.text = [entity totalWeightString];
 }
 
 @end
 
-@interface DCCoalDailyStoreViewController ()<UITableViewDelegate, UITableViewDataSource>
-@property (nonatomic, strong) StoreCoalEntity *currentCoalEntity;
+@interface DCStoneDailyStoreViewController ()<UITableViewDelegate, UITableViewDataSource>
+@property (nonatomic, strong) StoreStoneEntity *currentStoneEntity;
 
-@property(nonatomic, strong) NSArray<NSArray *>*storeCoalArray;
+@property(nonatomic, strong) NSArray<NSArray *>*storeStoneArray;
 @end
 
-@implementation DCCoalDailyStoreViewController
+@implementation DCStoneDailyStoreViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.navigationItem dc_setTitle:@"煤炭使用记录"];
+    [self.navigationItem dc_setTitle:@"石头库存记录"];
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -79,7 +79,7 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    [self loadStoreCoalData];
+    [self loadStoreStoneData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -93,7 +93,7 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     
-    return self.storeCoalArray.count;
+    return self.storeStoneArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -103,13 +103,13 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DCStoreCoalEntityTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    DCStoreStoneEntityTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (!cell) {
-        cell = [[DCStoreCoalEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell = [[DCStoreStoneEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
-
-    StoreCoalEntity *entity = (StoreCoalEntity *)self.storeCoalArray[indexPath.section];
-    [cell updateCellWithStoreCoalEntity:entity];
+    
+    StoreStoneEntity *entity = (StoreStoneEntity *)self.storeStoneArray[indexPath.section];
+    [cell updateCellWithStoreStoneEntity:entity];
     
     return cell;
 }
@@ -126,7 +126,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    StoreCoalEntity *entity = (StoreCoalEntity *)self.storeCoalArray[section];
+    StoreStoneEntity *entity = (StoreStoneEntity *)self.storeStoneArray[section];
     return [self createTableViewHeaderView:entity];
 }
 
@@ -140,7 +140,7 @@
     return [UIView new];
 }
 
-- (UIView *)createTableViewHeaderView:(StoreCoalEntity *)entity
+- (UIView *)createTableViewHeaderView:(StoreStoneEntity *)entity
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, TableViewHeaderViewHeight)];
     view.backgroundColor = [UIColor colorWithHex:@"0E404E"];
@@ -153,10 +153,10 @@
         make.width.equalTo(@(DescriptionLabelWidthInHeaderView));
     }];
     
-    UILabel *coalWeightLabel = [DCConstant descriptionLabelInHeaderView];
-    coalWeightLabel.text = @"煤重量(千克):";
-    [view addSubview:coalWeightLabel];
-    [coalWeightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    UILabel *stoneWeightLabel = [DCConstant descriptionLabelInHeaderView];
+    stoneWeightLabel.text = @"石头重量(千克):";
+    [view addSubview:stoneWeightLabel];
+    [stoneWeightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(dateLabel.mas_right).offset(EdgeMargin);
         make.centerY.equalTo(view.mas_centerY);
         make.width.equalTo(@(DescriptionLabelWidthInHeaderView + 40));
@@ -167,14 +167,15 @@
 
 - (void)updateData:(NSNotification *)note
 {
-    [self loadStoreCoalData];
+    [self loadStoreStoneData];
 }
 
-- (void)loadStoreCoalData
+- (void)loadStoreStoneData
 {
-    [[DCCoreDataManager sharedInstance] loadStoreCoalData:^(NSArray *coalArray) {
-        self.storeCoalArray = [NSArray arrayWithArray:coalArray];
+    [[DCCoreDataManager sharedInstance] loadStoreStoneData:^(NSArray *stoneArray) {
+        self.storeStoneArray = [NSArray arrayWithArray:stoneArray];
         [self.tableView reloadData];
     }];
 }
 @end
+

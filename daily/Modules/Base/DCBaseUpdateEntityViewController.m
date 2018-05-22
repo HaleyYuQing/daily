@@ -78,13 +78,16 @@
     if (remindingHeight - keyboardHeight - addtionalHeight < 0) {
         CGFloat animationHeight = keyboardHeight + addtionalHeight - remindingHeight;
         CGPoint defaultCenter = responderView.superview.superview.center;
+        
+        [responderView.superview.superview mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.view.mas_centerX);
+            make.centerY.equalTo(self.view.mas_centerY).offset(-animationHeight);
+        }];
+        
         [UIView animateWithDuration:duration animations:^{
             responderView.superview.superview.center = CGPointMake(defaultCenter.x, defaultCenter.y - animationHeight);
         } completion:^(BOOL finished) {
-            [responderView.superview.superview mas_remakeConstraints:^(MASConstraintMaker *make) {
-                make.centerX.equalTo(self.view.mas_centerX);
-                make.centerY.equalTo(self.view.mas_centerY).offset(-animationHeight);
-            }];
+            
         }];
         
     }

@@ -1,15 +1,14 @@
 //
-//  StoreCoalEntity.m
+//  StoreStoneEntity.m
 //  daily
 //
-//  Created by yuqing huang on 21/05/2018.
+//  Created by yuqing huang on 22/05/2018.
 //  Copyright © 2018 Justek. All rights reserved.
 //
 
-#import "StoreCoalEntity.h"
+#import "StoreStoneEntity.h"
 
-@implementation StoreCoalEntity
-
+@implementation StoreStoneEntity
 - (NSString *)totalWeightString
 {
     return [NSString stringWithFormat:@"%@", @(self.totalWeight)];

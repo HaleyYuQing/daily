@@ -7,10 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BaseEntity.h"
 
-@interface UseCoalEntity : NSObject
-@property (nonatomic, strong) NSDate *createDate;
-@property (nonatomic, strong) NSString *name;
+@interface UseCoalEntity : BaseEntity
 @property (nonatomic, assign) NSInteger coalWeight; //kg
 @property (nonatomic, strong) NSString *operatorName;
 

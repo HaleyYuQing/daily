@@ -9,6 +9,7 @@
 #import "DCLimeMenuViewController.h"
 #import "DCBaseSplitViewController.h"
 #import "DCLimeDailySellViewController.h"
+#import "DCLimeDailyPreorderViewController.h"
 
 @interface DCLimeMenuViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -46,7 +47,7 @@
     }
     else if(indexPath.section == 1)
     {
-        cell.textLabel.text = @"库存";
+        cell.textLabel.text = @"预定";
     }
     return cell;
 }
@@ -54,12 +55,15 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
+        self.currentMenuIndex = DCLimeMenu_Sell;
         DCLimeDailySellViewController *dailyVC = [[DCLimeDailySellViewController alloc] init];
         [(DCBaseSplitViewController *)self.splitViewController showRightViewController:dailyVC];
     }
     else if (indexPath.section == 1)
     {
-        [self.splitViewController.viewControllers[1] popToRootViewControllerAnimated:NO];
+        self.currentMenuIndex = DCLimeMenu_Store;
+        DCLimeDailyPreorderViewController *dailyVC = [[DCLimeDailyPreorderViewController alloc] init];
+        [(DCBaseSplitViewController *)self.splitViewController showRightViewController:dailyVC];
     }
 }
 
@@ -75,7 +79,8 @@
     else if(self.currentMenuIndex == DCLimeMenu_Store)
     {
         currentIndexPath = [NSIndexPath indexPathForRow:0 inSection:1];
-        [self.splitViewController.viewControllers[1] popToRootViewControllerAnimated:NO];
+        DCLimeDailyPreorderViewController *dailyVC = [[DCLimeDailyPreorderViewController alloc] init];
+        [(DCBaseSplitViewController *)self.splitViewController showRightViewController:dailyVC];
     }
     
     if (currentIndexPath) {

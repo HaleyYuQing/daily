@@ -1,12 +1,12 @@
 //
-//  DCLimeDailySellViewController.m
+//  DCLimeDailyPreorderViewController.m
 //  daily
 //
 //  Created by yuqing huang on 19/05/2018.
 //  Copyright © 2018 Justek. All rights reserved.
 //
 
-#import "DCLimeDailySellViewController.h"
+#import "DCLimeDailyPreorderViewController.h"
 #import "UINavigationItem+DC.h"
 #import "DCCoreDataManager.h"
 #import "UIAlertController+DC.h"
@@ -15,7 +15,7 @@
 #import "DCPlateKeyBoardView.h"
 #import "DCBaseUpdateEntityViewController.h"
 
-@interface DCSellLimeEntityTableViewCell :UITableViewCell
+@interface DCPreorderLimeEntityTableViewCell :UITableViewCell
 @property (nonatomic, strong) UILabel *dateLabel;
 @property (nonatomic, strong) UILabel *buyerNameLabel;
 @property (nonatomic, strong) UILabel *limeWeightLabel;
@@ -23,7 +23,7 @@
 @property (nonatomic, strong) UILabel *notPayedPriceLabel;
 @end
 
-@implementation DCSellLimeEntityTableViewCell
+@implementation DCPreorderLimeEntityTableViewCell
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -50,7 +50,7 @@
         
         UILabel *limeWeightLabel = [DCConstant detailLabel];
         self.limeWeightLabel = limeWeightLabel;
-        limeWeightLabel.text = @"净重量(千克):";
+        limeWeightLabel.text = @"重量(千克):";
         [self.contentView addSubview:limeWeightLabel];
         [limeWeightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(buyerNameLabel.mas_right).offset(EdgeMargin);
@@ -67,55 +67,38 @@
             make.centerY.equalTo(self.contentView.mas_centerY);
             make.width.equalTo(@(DescriptionLabelWidthInHeaderView));
         }];
-        
-        UILabel *notPayedPriceLabel = [DCConstant detailLabel];
-        self.notPayedPriceLabel = notPayedPriceLabel;
-        notPayedPriceLabel.text = @"未付金额(千克):";
-        [self.contentView addSubview:notPayedPriceLabel];
-        [notPayedPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(limeTotalPriceLabel.mas_right).offset(EdgeMargin);
-            make.centerY.equalTo(self.contentView.mas_centerY);
-            make.width.equalTo(@(DescriptionLabelWidthInHeaderView));
-        }];
     }
     return self;
 }
 
-- (void)updateCellWithSellLimeEntity:(SellLimeEntity *)entity
+- (void)updateCellWithPreorderLimeEntity:(PreorderLimeEntity *)entity
 {
     self.dateLabel.text = [DCConstant hourAndMinuteStringFromDate:entity.createDate];
     self.buyerNameLabel.text = entity.buyerName;
     self.limeWeightLabel.text = [entity limeWeightString];
-    self.limeTotalPriceLabel.text = [entity limeTotalPriceString];
-    self.notPayedPriceLabel.text = [entity notPayedPriceString];
+    self.limeTotalPriceLabel.text = entity.carNumber;
 }
 
 @end
 
-@interface DCUpdateSellLimeEntityViewController: DCBaseUpdateEntityViewController<UITextFieldDelegate>
-@property (nonatomic, strong) SellLimeEntity *sellLimeEntity;
+@interface DCUpdatePreorderLimeEntityViewController: DCBaseUpdateEntityViewController<UITextFieldDelegate>
+@property (nonatomic, strong) PreorderLimeEntity *preorderLimeEntity;
 //Add new lime
 @property (nonatomic, strong) UITextField *dateField;
 @property (nonatomic, strong) DCHistoryTextField *carNumberField;
 @property (nonatomic, strong) DCHistoryTextField *buyerNameField;
-@property (nonatomic, strong) UITextField *carWeightField;
-@property (nonatomic, strong) UITextField *carAndLimeWeightField;
 @property (nonatomic, strong) UITextField *limeWeightField;
-@property (nonatomic, strong) UITextField *limePricePerKGField;
-@property (nonatomic, strong) UITextField *limeTotalPriceField;
-@property (nonatomic, strong) UITextField *payedPriceField;
-@property (nonatomic, strong) UITextField *notPayedPriceField;
 
 @property (nonatomic, strong) DCPlateKeyBoardView *keyBoardView;
 @end
 
-@implementation DCUpdateSellLimeEntityViewController
+@implementation DCUpdatePreorderLimeEntityViewController
 
-- (instancetype)initWithSellLimeEntity:(SellLimeEntity *)sellLimeEntity
+- (instancetype)initWithPreorderLimeEntity:(PreorderLimeEntity *)preorderLimeEntity
 {
     self = [super initWithNibName:nil bundle:nil];
     if (self) {
-        self.sellLimeEntity = sellLimeEntity;
+        self.preorderLimeEntity = preorderLimeEntity;
         [self dc_setPresentAsPopup:YES];
     }
     return self;
@@ -126,7 +109,7 @@
     [super viewDidLoad];
     
     UILabel *newLabel = [DCConstant descriptionLabel];
-    newLabel.text = self.sellLimeEntity ? @"更新记录" : @"新增记录：";
+    newLabel.text = self.preorderLimeEntity ? @"更新记录" : @"新增记录：";
     [self.bgView addSubview:newLabel];
     [newLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.bgView.mas_top).offset(EdgeMargin);
@@ -234,8 +217,6 @@
     self.carNumberField.selectHandle = ^(CustomerEntity *customer) {
         weakSelf.carNumberField.text = customer.carNumber;
         weakSelf.buyerNameField.text = customer.name;
-        weakSelf.carWeightField.text = customer.carWeightString;
-        weakSelf.limePricePerKGField.text = customer.itemPricePerKGString;
     };
     
     UILabel *buyerNameLabel = [DCConstant descriptionLabel];
@@ -254,8 +235,6 @@
     self.buyerNameField.selectHandle = ^(CustomerEntity *customer) {
         weakSelf.carNumberField.text = customer.carNumber;
         weakSelf.buyerNameField.text = customer.name;
-        weakSelf.carWeightField.text = customer.carWeightString;
-        weakSelf.limePricePerKGField.text = customer.itemPricePerKGString;
     };
     
     [newLimeBGView addSubview:self.buyerNameField];
@@ -267,7 +246,7 @@
     }];
     
     UILabel *carAndLimeWeightLabel = [DCConstant descriptionLabel];
-    carAndLimeWeightLabel.text = @"总重量(千克):";
+    carAndLimeWeightLabel.text = @"重量(千克):";
     [newLimeBGView addSubview:carAndLimeWeightLabel];
     [carAndLimeWeightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(carNumberLabel.mas_bottom).offset(LineSpace);
@@ -275,121 +254,12 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.carAndLimeWeightField = [DCConstant detailField:self isNumber:YES];
-    self.carAndLimeWeightField.placeholder = @"请输入总重量";
-    [newLimeBGView addSubview:self.carAndLimeWeightField];
-    [self.carAndLimeWeightField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo (carAndLimeWeightLabel.mas_right).offset(EdgeMargin);
-        make.centerY.equalTo(carAndLimeWeightLabel.mas_centerY);
-        make.width.equalTo(@(DetailFieldWidth));
-    }];
-    
-    UILabel *carWeightLabel = [DCConstant descriptionLabel];
-    carWeightLabel.text = @"车皮重量(千克):";
-    [newLimeBGView addSubview:carWeightLabel];
-    [carWeightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo (self.carAndLimeWeightField.mas_right).offset(80);
-        make.centerY.equalTo(carAndLimeWeightLabel.mas_centerY);
-        make.width.equalTo(@(DescriptionLablelWidth));
-    }];
-    
-    self.carWeightField = [DCConstant detailField:self isNumber:YES];
-    self.carWeightField.placeholder = @"请输入车皮重量";
-    [newLimeBGView addSubview:self.carWeightField];
-    [self.carWeightField mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.left.equalTo (carWeightLabel.mas_right).offset(EdgeMargin);
-        make.centerY.equalTo(carAndLimeWeightLabel.mas_centerY);
-        make.width.equalTo(@(DetailFieldWidth));
-    }];
-    
-    UILabel *limeWeightLabel = [DCConstant descriptionLabel];
-    limeWeightLabel.text = @"净重量(千克):";
-    [newLimeBGView addSubview:limeWeightLabel];
-    [limeWeightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(carWeightLabel.mas_bottom).offset(LineSpace);
-        make.left.equalTo(newLimeBGView.mas_left).offset(EdgeMargin);
-        make.width.equalTo(@(DescriptionLablelWidth));
-    }];
-    
     self.limeWeightField = [DCConstant detailField:self isNumber:YES];
-    self.limeWeightField.placeholder = @"请输入净重量";
+    self.limeWeightField.placeholder = @"请输入重量";
     [newLimeBGView addSubview:self.limeWeightField];
     [self.limeWeightField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo (limeWeightLabel.mas_right).offset(EdgeMargin);
-        make.centerY.equalTo(limeWeightLabel.mas_centerY);
-        make.width.equalTo(@(DetailFieldWidth));
-    }];
-    
-    UILabel *limePricePerKGLabel = [DCConstant descriptionLabel];
-    limePricePerKGLabel.text = @"单价(元/吨):";
-    [newLimeBGView addSubview:limePricePerKGLabel];
-    [limePricePerKGLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo (self.limeWeightField.mas_right).offset(80);
-        make.centerY.equalTo(limeWeightLabel.mas_centerY);
-        make.width.equalTo(@(DescriptionLablelWidth));
-    }];
-    
-    self.limePricePerKGField = [DCConstant detailField:self isNumber:YES];
-    self.limePricePerKGField.placeholder = @"请输入石灰单价";
-    [newLimeBGView addSubview:self.limePricePerKGField];
-    [self.limePricePerKGField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo (limePricePerKGLabel.mas_right).offset(EdgeMargin);
-        make.centerY.equalTo(limeWeightLabel.mas_centerY);
-        make.width.equalTo(@(DetailFieldWidth));
-    }];
-    
-    UILabel *limeTotalPriceLabel = [DCConstant descriptionLabel];
-    limeTotalPriceLabel.text = @"总金额(元):";
-    [newLimeBGView addSubview:limeTotalPriceLabel];
-    [limeTotalPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(limeWeightLabel.mas_bottom).offset(LineSpace);
-        make.left.equalTo(newLimeBGView.mas_left).offset(EdgeMargin);
-        make.width.equalTo(@(DescriptionLablelWidth));
-    }];
-    
-    self.limeTotalPriceField = [DCConstant detailField:self isNumber:YES];
-    self.limeTotalPriceField.placeholder = @"请输入总金额";
-    [newLimeBGView addSubview:self.limeTotalPriceField];
-    [self.limeTotalPriceField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo (limeTotalPriceLabel.mas_right).offset(EdgeMargin);
-        make.centerY.equalTo(limeTotalPriceLabel.mas_centerY);
-        make.width.equalTo(@(DetailFieldWidth));
-    }];
-    
-    UILabel *payedPriceLabel = [DCConstant descriptionLabel];
-    payedPriceLabel.text = @"已付金额(元):";
-    [newLimeBGView addSubview:payedPriceLabel];
-    [payedPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(limeTotalPriceLabel.mas_bottom).offset(LineSpace);
-        make.left.equalTo(newLimeBGView.mas_left).offset(EdgeMargin);
-        make.width.equalTo(@(DescriptionLablelWidth));
-    }];
-    
-    self.payedPriceField = [DCConstant detailField:self isNumber:YES];
-    self.payedPriceField.placeholder = @"请输入已付金额";
-    [newLimeBGView addSubview:self.payedPriceField];
-    [self.payedPriceField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo (payedPriceLabel.mas_right).offset(EdgeMargin);
-        make.centerY.equalTo(payedPriceLabel.mas_centerY);
-        make.width.equalTo(@(DetailFieldWidth));
-    }];
-    
-    UILabel *notPayedPriceLabel = [DCConstant descriptionLabel];
-    notPayedPriceLabel.text = @"未付金额(元):";
-    [newLimeBGView addSubview:notPayedPriceLabel];
-    [notPayedPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(payedPriceLabel.mas_centerY);
-        make.left.equalTo(self.payedPriceField.mas_right).offset(80);
-        make.width.equalTo(@(DescriptionLablelWidth));
-    }];
-    
-    self.notPayedPriceField = [DCConstant detailField:self isNumber:YES];
-    self.notPayedPriceField.placeholder = @"请输入未付金额";
-    [newLimeBGView addSubview:self.notPayedPriceField];
-    [self.notPayedPriceField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo (notPayedPriceLabel.mas_right).offset(EdgeMargin);
-        make.centerY.equalTo(payedPriceLabel.mas_centerY);
+        make.left.equalTo (carAndLimeWeightLabel.mas_right).offset(EdgeMargin);
+        make.centerY.equalTo(carAndLimeWeightLabel.mas_centerY);
         make.width.equalTo(@(DetailFieldWidth));
     }];
     
@@ -402,7 +272,7 @@
     saveButton.layer.cornerRadius = 40 * 0.5;
     [saveButton addTarget:self action:@selector(saveEntity:) forControlEvents:UIControlEventTouchUpInside];
     [saveButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(payedPriceLabel.mas_bottom).offset(40);
+        make.top.equalTo(carAndLimeWeightLabel.mas_bottom).offset(40);
         make.left.equalTo(newLimeBGView.mas_left).offset(EdgeMargin);
         make.bottom.equalTo(newLimeBGView.mas_bottom).offset(-EdgeMargin);
         make.height.equalTo(@40);
@@ -424,17 +294,11 @@
         make.width.equalTo(@100);
     }];
     
-    if (self.sellLimeEntity) {
-        self.dateField.text = [DCConstant stringFromDate:self.sellLimeEntity.createDate];
-        self.carNumberField.text = self.sellLimeEntity.carNumber;
-        self.buyerNameField.text = self.sellLimeEntity.buyerName;
-        self.limeWeightField.text = self.sellLimeEntity.limeWeightString;
-        self.carAndLimeWeightField.text = self.sellLimeEntity.carAndLimeWeightString;
-        self.carWeightField.text = self.sellLimeEntity.carWeightString;
-        self.limePricePerKGField.text = self.sellLimeEntity.limePricePerKGString;
-        self.limeTotalPriceField.text = self.sellLimeEntity.limeTotalPriceString;
-        self.payedPriceField.text = self.sellLimeEntity.payedPriceString;
-        self.notPayedPriceField.text = self.sellLimeEntity.notPayedPriceString;
+    if (self.preorderLimeEntity) {
+        self.dateField.text = [DCConstant stringFromDate:self.preorderLimeEntity.createDate];
+        self.carNumberField.text = self.preorderLimeEntity.carNumber;
+        self.buyerNameField.text = self.preorderLimeEntity.buyerName;
+        self.limeWeightField.text = self.preorderLimeEntity.limeWeightString;
     }
     else{
         self.dateField.text = [DCConstant stringFromDate:[NSDate date]];
@@ -453,30 +317,7 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-    if (textField == self.carAndLimeWeightField || textField == self.carWeightField) {
-        if (self.carWeightField.text.length > 0 && self.carAndLimeWeightField.text.length > 0) {
-            self.limeWeightField.text = [NSString stringWithFormat:@"%@",@([self.carAndLimeWeightField.text integerValue] - [self.carWeightField.text integerValue])];
-            if (self.limePricePerKGField.text.length >0 ) {
-                self.limeTotalPriceField.text = [NSString stringWithFormat:@"%@", @(self.limeWeightField.text.integerValue * self.limePricePerKGField.text.integerValue * 0.001)];
-                
-                if (self.payedPriceField.text.length == 0 && self.notPayedPriceField.text.length == 0) {
-                    self.payedPriceField.text = @"0";
-                    self.notPayedPriceField.text = self.limeTotalPriceField.text;
-                }
-            }
-        }
-    }
     
-    if (textField == self.limePricePerKGField && self.limeWeightField.text.length >0) {
-        NSInteger price = self.limeWeightField.text.integerValue * self.limePricePerKGField.text.integerValue /1000;
-        self.limeTotalPriceField.text = [NSString stringWithFormat:@"%@", @(price)];
-    }
-    
-    if (textField == self.payedPriceField || textField == self.limeTotalPriceField) {
-        if (self.limeTotalPriceField.text.length > 0 && self.payedPriceField.text.length > 0) {
-            self.notPayedPriceField.text = [NSString stringWithFormat:@"%@", @(self.limeTotalPriceField.text.integerValue - self.payedPriceField.text.integerValue)];
-        }
-    }
 }
 
 - (void)saveEntity:(id)sender
@@ -488,32 +329,26 @@
     }
     
     BOOL isNewRecord = NO;
-    if (!self.sellLimeEntity) {
-        self.sellLimeEntity = [[SellLimeEntity alloc] init];
+    if (!self.preorderLimeEntity) {
+        self.preorderLimeEntity = [[PreorderLimeEntity alloc] init];
         isNewRecord = YES;
     }
     
-    if (!self.sellLimeEntity.createDate) {
-        self.sellLimeEntity.createDate = [NSDate date];
+    if (!self.preorderLimeEntity.createDate) {
+        self.preorderLimeEntity.createDate = [NSDate date];
     }
     
-    self.sellLimeEntity.carNumber = self.carNumberField.text;
-    self.sellLimeEntity.buyerName = self.buyerNameField.text;
-    self.sellLimeEntity.limeWeight = [self.limeWeightField.text integerValue];
-    self.sellLimeEntity.carWeight = [self.carWeightField.text integerValue];
-    self.sellLimeEntity.carAndLimeWeight = [self.carAndLimeWeightField.text integerValue];
-    self.sellLimeEntity.limePricePerKG = [self.limePricePerKGField.text integerValue];
-    self.sellLimeEntity.limeTotalPrice = [self.limeTotalPriceField.text integerValue];
-    self.sellLimeEntity.payedPrice = [self.payedPriceField.text integerValue];
-    self.sellLimeEntity.notPayedPrice = [self.notPayedPriceField.text integerValue];
+    self.preorderLimeEntity.carNumber = self.carNumberField.text;
+    self.preorderLimeEntity.buyerName = self.buyerNameField.text;
+    self.preorderLimeEntity.limeWeight = [self.limeWeightField.text integerValue];
     
     if (isNewRecord) {
-        [[DCCoreDataManager sharedInstance] addSellLimeData:self.sellLimeEntity complete:^(NSString *errorString) {
+        [[DCCoreDataManager sharedInstance] addPreorderLimeData:self.preorderLimeEntity complete:^(NSString *errorString) {
             [self finishAction:errorString];
         }];
     }
     else{
-        [[DCCoreDataManager sharedInstance] updateSellLimeData:self.sellLimeEntity complete:^(NSString *errorString) {
+        [[DCCoreDataManager sharedInstance] updatePreorderLimeData:self.preorderLimeEntity complete:^(NSString *errorString) {
             [self finishAction:errorString];
         }];
     }
@@ -521,7 +356,7 @@
 
 - (void)deleteEntity:(id)sender
 {
-    [[DCCoreDataManager sharedInstance] deleteSellLimeData:self.sellLimeEntity complete:^(NSString *errorString) {
+    [[DCCoreDataManager sharedInstance] deletePreorderLimeData:self.preorderLimeEntity complete:^(NSString *errorString) {
         [self finishAction:errorString];
     }];
 }
@@ -534,7 +369,7 @@
             [self presentViewController:alert animated:YES completion:nil];
         }
         else{
-            [[NSNotificationCenter defaultCenter] postNotificationName:UpdateSellLimeEntityNotificationKey object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:UpdatePreorderLimeEntityNotificationKey object:nil];
             
             [self dismissViewControllerAnimated:YES completion:nil];
         }
@@ -547,17 +382,17 @@
 }
 @end
 
-@interface DCLimeDailySellViewController ()<UITableViewDelegate, UITableViewDataSource>
-@property (nonatomic, strong) SellLimeEntity *currentLimeEntity;
+@interface DCLimeDailyPreorderViewController ()<UITableViewDelegate, UITableViewDataSource>
+@property (nonatomic, strong) PreorderLimeEntity *currentLimeEntity;
 
-@property(nonatomic, strong) NSArray<NSArray *>*sellLimeArray;
+@property(nonatomic, strong) NSArray<NSArray *>*preorderLimeArray;
 @end
 
-@implementation DCLimeDailySellViewController
+@implementation DCLimeDailyPreorderViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.navigationItem dc_setTitle:@"石灰出售记录"];
+    [self.navigationItem dc_setTitle:@"石灰预订记录"];
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -568,9 +403,9 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    [self loadSellLimeData];
+    [self loadPreorderLimeData];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateData:) name:UpdateSellLimeEntityNotificationKey object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateData:) name:UpdatePreorderLimeEntityNotificationKey object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -582,40 +417,40 @@
 
 - (void)createNewRecord:(id)sender
 {
-    DCUpdateSellLimeEntityViewController *updateVC = [[DCUpdateSellLimeEntityViewController alloc] initWithSellLimeEntity:nil];
+    DCUpdatePreorderLimeEntityViewController *updateVC = [[DCUpdatePreorderLimeEntityViewController alloc] initWithPreorderLimeEntity:nil];
     [self presentViewController:updateVC animated:YES completion:nil];
 }
 
 #pragma UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.sellLimeArray.count;
+    return self.preorderLimeArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSArray *subArray = self.sellLimeArray[section];
+    NSArray *subArray = self.preorderLimeArray[section];
     return subArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DCSellLimeEntityTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    DCPreorderLimeEntityTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (!cell) {
-        cell = [[DCSellLimeEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell = [[DCPreorderLimeEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
-    NSArray *subArray = self.sellLimeArray[indexPath.section];
-    SellLimeEntity *entity = subArray[indexPath.row];
-    [cell updateCellWithSellLimeEntity:entity];
+    NSArray *subArray = self.preorderLimeArray[indexPath.section];
+    PreorderLimeEntity *entity = subArray[indexPath.row];
+    [cell updateCellWithPreorderLimeEntity:entity];
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSArray *subArray = self.sellLimeArray[indexPath.section];
-    SellLimeEntity *entity = subArray[indexPath.row];
-    DCUpdateSellLimeEntityViewController *updateVC = [[DCUpdateSellLimeEntityViewController alloc] initWithSellLimeEntity:entity];
+    NSArray *subArray = self.preorderLimeArray[indexPath.section];
+    PreorderLimeEntity *entity = subArray[indexPath.row];
+    DCUpdatePreorderLimeEntityViewController *updateVC = [[DCUpdatePreorderLimeEntityViewController alloc] initWithPreorderLimeEntity:entity];
     [self presentViewController:updateVC animated:YES completion:nil];
 }
 
@@ -626,7 +461,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    NSArray *subArray = self.sellLimeArray[section];
+    NSArray *subArray = self.preorderLimeArray[section];
     return [self createTableViewHeaderView:subArray];
 }
 
@@ -640,9 +475,9 @@
     return [UIView new];
 }
 
-- (UIView *)createTableViewHeaderView:(NSArray *)sellLimeArray
+- (UIView *)createTableViewHeaderView:(NSArray *)preorderLimeArray
 {
-    SellLimeEntity *entity = [sellLimeArray firstObject];
+    PreorderLimeEntity *entity = [preorderLimeArray firstObject];
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, TableViewHeaderViewHeight)];
     view.backgroundColor = [UIColor colorWithHex:@"0E404E"];
     UILabel *dateLabel = [DCConstant descriptionLabelInHeaderView];
@@ -664,7 +499,7 @@
     }];
     
     UILabel *limeWeightLabel = [DCConstant descriptionLabelInHeaderView];
-    limeWeightLabel.text = @"净重量(千克):";
+    limeWeightLabel.text = @"重量(千克):";
     [view addSubview:limeWeightLabel];
     [limeWeightLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(buyerNameLabel.mas_right).offset(EdgeMargin);
@@ -673,19 +508,10 @@
     }];
     
     UILabel *limeTotalPriceLabel = [DCConstant descriptionLabelInHeaderView];
-    limeTotalPriceLabel.text = @"总价(元):";
+    limeTotalPriceLabel.text = @"车牌:";
     [view addSubview:limeTotalPriceLabel];
     [limeTotalPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(limeWeightLabel.mas_right).offset(EdgeMargin);
-        make.centerY.equalTo(view.mas_centerY);
-        make.width.equalTo(@(DescriptionLabelWidthInHeaderView));
-    }];
-    
-    UILabel *notPayedPriceLabel = [DCConstant descriptionLabelInHeaderView];
-    notPayedPriceLabel.text = @"未付金额(元):";
-    [view addSubview:notPayedPriceLabel];
-    [notPayedPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(limeTotalPriceLabel.mas_right).offset(EdgeMargin);
         make.centerY.equalTo(view.mas_centerY);
         make.width.equalTo(@(DescriptionLabelWidthInHeaderView));
     }];
@@ -695,14 +521,15 @@
 
 - (void)updateData:(NSNotification *)note
 {
-    [self loadSellLimeData];
+    [self loadPreorderLimeData];
 }
 
-- (void)loadSellLimeData
+- (void)loadPreorderLimeData
 {
-    [[DCCoreDataManager sharedInstance] loadSellLimeData:^(NSArray *limeArray) {
-        self.sellLimeArray = [NSArray arrayWithArray:limeArray];
+    [[DCCoreDataManager sharedInstance] loadPreorderLimeData:^(NSArray *limeArray) {
+        self.preorderLimeArray = [NSArray arrayWithArray:limeArray];
         [self.tableView reloadData];
     }];
 }
 @end
+

@@ -15,6 +15,8 @@
 #import "CustomerEntity.h"
 #import "OperatorEntity.h"
 #import "StoreCoalEntity.h"
+#import "StoreStoneEntity.h"
+#import "PreorderLimeEntity.h"
 
 @interface DCCoreDataManager : NSObject
 + (DCCoreDataManager *)sharedInstance;
@@ -40,6 +42,12 @@
 - (void)deleteSellLimeData:(SellLimeEntity *)sellLime complete:(void(^)(NSString *error))completeBlock;
 - (void)updateSellLimeData:(SellLimeEntity *)sellLime complete:(void(^)(NSString *error))completeBlock;
 
+//PreorderLime
+- (void)loadPreorderLimeData:(void(^)(NSArray *lineArray))completeBlock;
+- (void)addPreorderLimeData:(PreorderLimeEntity *)preorderLime complete:(void(^)(NSString *errorString))completeBlock;
+- (void)deletePreorderLimeData:(PreorderLimeEntity *)preorderLime complete:(void(^)(NSString *error))completeBlock;
+- (void)updatePreorderLimeData:(PreorderLimeEntity *)preorderLime complete:(void(^)(NSString *error))completeBlock;
+
 //BuyStone
 - (void)loadBuyStoneData:(void(^)(NSArray *stoneArray))completeBlock;
 - (void)addBuyStoneData:(BuyStoneEntity *)buyStone complete:(void(^)(NSString *errorString))completeBlock;
@@ -51,6 +59,9 @@
 - (void)addUseStoneData:(UseStoneEntity *)buyStone complete:(void(^)(NSString *errorString))completeBlock;
 - (void)deleteUseStoneData:(UseStoneEntity *)buyStone complete:(void(^)(NSString *error))completeBlock;
 - (void)updateUseStoneData:(UseStoneEntity *)buyStone complete:(void(^)(NSString *error))completeBlock;
+
+//StoreStone
+- (void)loadStoreStoneData:(void(^)(NSArray *stoneArray))completeBlock;
 
 //Customer
 - (void)loadCustomerDataType:(CustomerType)type complete:(void(^)(NSArray *stoneArray))completeBlock;

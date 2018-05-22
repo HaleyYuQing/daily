@@ -46,6 +46,12 @@
 		DA59A48B20B1D39400372A01 /* DCCoalDailyStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A48A20B1D39400372A01 /* DCCoalDailyStoreViewController.m */; };
 		DA59A48E20B1D89100372A01 /* StoreCoalEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A48D20B1D89100372A01 /* StoreCoalEntity.m */; };
 		DA59A49120B1D96C00372A01 /* StoneCoalEntityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A49020B1D96C00372A01 /* StoneCoalEntityModel.m */; };
+		DA59A4A220B3114900372A01 /* BaseEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A4A120B3114900372A01 /* BaseEntity.m */; };
+		DA59A4A520B327CA00372A01 /* DCStoneDailyStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A4A420B327CA00372A01 /* DCStoneDailyStoreViewController.m */; };
+		DA59A4A820B3281700372A01 /* StoreStoneEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A4A720B3281700372A01 /* StoreStoneEntity.m */; };
+		DA59A4AB20B32C2200372A01 /* DCLimeDailyPreorderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A4AA20B32C2200372A01 /* DCLimeDailyPreorderViewController.m */; };
+		DA59A4AE20B3311600372A01 /* PreorderLimeEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A4AD20B3311600372A01 /* PreorderLimeEntity.m */; };
+		DA59A4B120B331C900372A01 /* PreorderLImeEntityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A4B020B331C900372A01 /* PreorderLImeEntityModel.m */; };
 		DAB75CDC20A94648007F7DA2 /* UINavigationItem+DC.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CDB20A94648007F7DA2 /* UINavigationItem+DC.m */; };
 		DAB75CDF20A96FA0007F7DA2 /* DCCoalDailyUseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CDE20A96FA0007F7DA2 /* DCCoalDailyUseViewController.m */; };
 		DAB75CE320A972B5007F7DA2 /* DCBaseSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CE220A972B5007F7DA2 /* DCBaseSplitViewController.m */; };
@@ -175,6 +181,18 @@
 		DA59A48D20B1D89100372A01 /* StoreCoalEntity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoreCoalEntity.m; sourceTree = "<group>"; };
 		DA59A48F20B1D96C00372A01 /* StoneCoalEntityModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoneCoalEntityModel.h; sourceTree = "<group>"; };
 		DA59A49020B1D96C00372A01 /* StoneCoalEntityModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoneCoalEntityModel.m; sourceTree = "<group>"; };
+		DA59A4A020B3114900372A01 /* BaseEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseEntity.h; sourceTree = "<group>"; };
+		DA59A4A120B3114900372A01 /* BaseEntity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseEntity.m; sourceTree = "<group>"; };
+		DA59A4A320B327CA00372A01 /* DCStoneDailyStoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCStoneDailyStoreViewController.h; sourceTree = "<group>"; };
+		DA59A4A420B327CA00372A01 /* DCStoneDailyStoreViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCStoneDailyStoreViewController.m; sourceTree = "<group>"; };
+		DA59A4A620B3281700372A01 /* StoreStoneEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoreStoneEntity.h; sourceTree = "<group>"; };
+		DA59A4A720B3281700372A01 /* StoreStoneEntity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoreStoneEntity.m; sourceTree = "<group>"; };
+		DA59A4A920B32C2200372A01 /* DCLimeDailyPreorderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCLimeDailyPreorderViewController.h; sourceTree = "<group>"; };
+		DA59A4AA20B32C2200372A01 /* DCLimeDailyPreorderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCLimeDailyPreorderViewController.m; sourceTree = "<group>"; };
+		DA59A4AC20B3311600372A01 /* PreorderLimeEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreorderLimeEntity.h; sourceTree = "<group>"; };
+		DA59A4AD20B3311600372A01 /* PreorderLimeEntity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreorderLimeEntity.m; sourceTree = "<group>"; };
+		DA59A4AF20B331C900372A01 /* PreorderLimeEntityModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreorderLimeEntityModel.h; sourceTree = "<group>"; };
+		DA59A4B020B331C900372A01 /* PreorderLImeEntityModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreorderLImeEntityModel.m; sourceTree = "<group>"; };
 		DAB75CD920A93CA1007F7DA2 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		DAB75CDA20A94648007F7DA2 /* UINavigationItem+DC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigationItem+DC.h"; sourceTree = "<group>"; };
 		DAB75CDB20A94648007F7DA2 /* UINavigationItem+DC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigationItem+DC.m"; sourceTree = "<group>"; };
@@ -361,6 +379,8 @@
 				DA50317720A590E000259959 /* DCLimeMenuViewController.m */,
 				DA59A42D20B0087600372A01 /* DCLimeDailySellViewController.h */,
 				DA59A42E20B0087600372A01 /* DCLimeDailySellViewController.m */,
+				DA59A4A920B32C2200372A01 /* DCLimeDailyPreorderViewController.h */,
+				DA59A4AA20B32C2200372A01 /* DCLimeDailyPreorderViewController.m */,
 			);
 			path = Lime;
 			sourceTree = "<group>";
@@ -410,6 +430,8 @@
 				DA59A46520B02F7600372A01 /* DCStoneDailyBuyViewController.m */,
 				DA59A45B20B02DFA00372A01 /* DCStoneSplitViewController.h */,
 				DA59A45A20B02DFA00372A01 /* DCStoneSplitViewController.m */,
+				DA59A4A320B327CA00372A01 /* DCStoneDailyStoreViewController.h */,
+				DA59A4A420B327CA00372A01 /* DCStoneDailyStoreViewController.m */,
 			);
 			path = Stone;
 			sourceTree = "<group>";
@@ -434,6 +456,8 @@
 		DAB75CE420A9944D007F7DA2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DA59A4A020B3114900372A01 /* BaseEntity.h */,
+				DA59A4A120B3114900372A01 /* BaseEntity.m */,
 				DA59A44920B027B100372A01 /* BuyStoneEntity.h */,
 				DA59A44720B027B100372A01 /* BuyStoneEntity.m */,
 				DA59A44620B027B100372A01 /* UseStoneEntity.h */,
@@ -452,6 +476,10 @@
 				DA59A48720B1C80200372A01 /* OperatorEntity.m */,
 				DA59A48C20B1D89100372A01 /* StoreCoalEntity.h */,
 				DA59A48D20B1D89100372A01 /* StoreCoalEntity.m */,
+				DA59A4A620B3281700372A01 /* StoreStoneEntity.h */,
+				DA59A4A720B3281700372A01 /* StoreStoneEntity.m */,
+				DA59A4AC20B3311600372A01 /* PreorderLimeEntity.h */,
+				DA59A4AD20B3311600372A01 /* PreorderLimeEntity.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -476,6 +504,8 @@
 				DA59A48420B1C7CD00372A01 /* OperatorEntityModel.m */,
 				DA59A48F20B1D96C00372A01 /* StoneCoalEntityModel.h */,
 				DA59A49020B1D96C00372A01 /* StoneCoalEntityModel.m */,
+				DA59A4AF20B331C900372A01 /* PreorderLimeEntityModel.h */,
+				DA59A4B020B331C900372A01 /* PreorderLImeEntityModel.m */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -717,13 +747,17 @@
 				DA59A48820B1C80200372A01 /* OperatorEntity.m in Sources */,
 				DA50318020A5A06800259959 /* UIColor+DC.m in Sources */,
 				DADCDE8C20ADA43D00BDB555 /* DCNotificationManager.m in Sources */,
+				DA59A4A820B3281700372A01 /* StoreStoneEntity.m in Sources */,
+				DA59A4AB20B32C2200372A01 /* DCLimeDailyPreorderViewController.m in Sources */,
 				DA59A46C20B0302F00372A01 /* DCStoneMenuViewController.m in Sources */,
 				DA59A43820B020A700372A01 /* DCBaseMenuViewController.m in Sources */,
 				DA50316E20A588B500259959 /* DCCoalSplitViewController.m in Sources */,
 				DAB75CEA20A999BE007F7DA2 /* BuyCoalEntity.m in Sources */,
+				DA59A4AE20B3311600372A01 /* PreorderLimeEntity.m in Sources */,
 				DA59A46120B02DFA00372A01 /* DCStoneSplitViewController.m in Sources */,
 				DA59A46F20B0308600372A01 /* DCStoneDailyUseViewController.m in Sources */,
 				DADCDE8F20ADBC7800BDB555 /* DCBaseViewController.m in Sources */,
+				DA59A4A520B327CA00372A01 /* DCStoneDailyStoreViewController.m in Sources */,
 				DA59A45020B028AD00372A01 /* BuyStoneEntityModel.m in Sources */,
 				DA048CA920AB3B760086B9A4 /* DCPopupTransitionDelegate.m in Sources */,
 				DAB75CDF20A96FA0007F7DA2 /* DCCoalDailyUseViewController.m in Sources */,
@@ -735,7 +769,9 @@
 				DA59A42C20B0067700372A01 /* DCBaseUpdateEntityViewController.m in Sources */,
 				DAD71B6220AA7697007C56A7 /* DCCoreDataManager.m in Sources */,
 				DA59A45120B028AD00372A01 /* UseStoneEntityModel.m in Sources */,
+				DA59A4B120B331C900372A01 /* PreorderLImeEntityModel.m in Sources */,
 				DA59A42F20B0087600372A01 /* DCLimeDailySellViewController.m in Sources */,
+				DA59A4A220B3114900372A01 /* BaseEntity.m in Sources */,
 				DADCDE9820AE893E00BDB555 /* KeyboardAvoidingScrollView.m in Sources */,
 				DA59A48B20B1D39400372A01 /* DCCoalDailyStoreViewController.m in Sources */,
 				DAD71B7920AACF73007C56A7 /* UIAlertController+DC.m in Sources */,

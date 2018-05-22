@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BaseEntity.h"
 
 typedef NS_ENUM(NSInteger, CustomerType)
 {
@@ -16,9 +17,8 @@ typedef NS_ENUM(NSInteger, CustomerType)
     CustomerType_Coal
 };
 
-@interface CustomerEntity : NSObject
-@property (nonatomic, strong) NSDate *createDate;
-@property (nonatomic, strong) NSString *name;
+@interface CustomerEntity : BaseEntity
+
 @property (nonatomic, assign) NSInteger itemPricePerKG;
 @property (nonatomic, assign) NSInteger customerType;
 @property (nonatomic, strong) NSString *carNumber;

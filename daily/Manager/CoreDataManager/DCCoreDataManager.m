@@ -15,6 +15,7 @@
 #import "UseStoneEntityModel.h"
 #import "CustomerEntityModel.h"
 #import "OperatorEntityModel.h"
+#import "PreorderLimeEntityModel.h"
 
 #import "NSManagedObject+DC.h"
 
@@ -460,9 +461,89 @@
 }
 
 //Store coal
-- (void)loadStoreCoalData:(void(^)(NSArray *coalArray))completeBlock
+- (void)loadStoreCoalData:(void(^)(NSArray *storeArray))completeBlock
 {
-    
+    [self.backgroundObjectContext performBlock:^{
+        NSFetchRequest *fetch = [[NSFetchRequest alloc] initWithEntityName:@"BuyCoalEntityModel"];
+        NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"createDate" ascending:NO selector:@selector(compare:)];
+        [fetch setSortDescriptors:@[sort]];
+        NSError *error = nil;
+        NSArray *buyCoalModelArray = [self.backgroundObjectContext executeFetchRequest:fetch error:&error];
+        if (error) {
+            completeBlock(nil);
+            NSLog(@"loadBuyCoalData, %@",error);
+            return;
+        }
+        
+        fetch = [[NSFetchRequest alloc] initWithEntityName:@"UseCoalEntityModel"];
+        sort = [[NSSortDescriptor alloc] initWithKey:@"createDate" ascending:NO selector:@selector(compare:)];
+        [fetch setSortDescriptors:@[sort]];
+        error = nil;
+        NSArray *useCoalModelArray = [self.backgroundObjectContext executeFetchRequest:fetch error:&error];
+        if (error) {
+            completeBlock(nil);
+            NSLog(@"loadUseCoalData, %@",error);
+            return;
+        }
+        
+        NSMutableArray *buyCoalResults = [[NSMutableArray alloc] initWithCapacity:buyCoalModelArray.count];
+        for (BuyCoalEntityModel *model in buyCoalModelArray) {
+            BuyCoalEntity *entity = [self createEntityFromModel:model];
+            [buyCoalResults addObject:entity];
+        }
+        
+        NSMutableArray *useCoalResults = [[NSMutableArray alloc] initWithCapacity:useCoalModelArray.count];
+        for (UseCoalEntityModel *model in useCoalModelArray) {
+            UseCoalEntity *entity = [self createEntityFromModel:model];
+            [useCoalResults addObject:entity];
+        }
+        
+        NSMutableArray *subArray1 = [NSMutableArray arrayWithArray:buyCoalResults];
+        [subArray1 addObjectsFromArray:useCoalResults];
+        NSArray *allEntityArray = [subArray1 sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+            NSDate *date1 = ((BaseEntity *)obj1).createDate;
+            NSDate *date2 = ((BaseEntity *)obj2).createDate;
+            return [date2 compare:date1];
+        }];
+        
+        NSMutableArray *results = [[NSMutableArray alloc] initWithCapacity:1];
+        NSMutableArray *subArray = [[NSMutableArray alloc] initWithCapacity:1];
+        for (BaseEntity *entity in allEntityArray) {
+            if ([subArray lastObject] == nil) {
+                [subArray addObject:entity];
+                [results addObject:subArray];
+            }else if ([DCConstant compareIsSameDay:((BaseEntity *)[subArray lastObject]).createDate nextDate:entity.createDate])
+            {
+                [subArray addObject:entity];
+            }
+            else{
+                subArray = [[NSMutableArray alloc] initWithCapacity:1];
+                [subArray addObject:entity];
+                [results addObject:subArray];
+            }
+        }
+        
+        NSMutableArray *storeResults = [[NSMutableArray alloc] initWithCapacity:1];
+        for (NSArray *array in results) {
+            StoreCoalEntity *store = [[StoreCoalEntity alloc] init];
+            store.createDate = ((BaseEntity *)[array firstObject]).createDate;
+            [storeResults addObject:store];
+            
+            for (id subEntity in array) {
+                if ([subEntity isKindOfClass:[BuyCoalEntity class]]) {
+                    store.totalWeight += ((BuyCoalEntity *)subEntity).coalWeight;
+                }
+                
+                if ([subEntity isKindOfClass:[UseCoalEntity class]]) {
+                    store.totalWeight -= ((UseCoalEntity *)subEntity).coalWeight;
+                }
+            }
+        }
+        
+        [self.mainObjectContext performBlock:^{
+            completeBlock(storeResults);
+        }];
+    }];
 }
 
 //Sell lime
@@ -741,6 +822,138 @@
     entity.carOwnerName = entityModel.carOwnerName;
 }
 
+//Preorder lime
+- (void)loadPreorderLimeData:(void(^)(NSArray *limeArray))completeBlock
+{
+    [self.backgroundObjectContext performBlock:^{
+        NSFetchRequest *fetch = [[NSFetchRequest alloc] initWithEntityName:@"PreorderLimeEntityModel"];
+        NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"createDate" ascending:NO selector:@selector(compare:)];
+        [fetch setSortDescriptors:@[sort]];
+        NSError *error = nil;
+        NSArray *preorderLimeArray = [self.backgroundObjectContext executeFetchRequest:fetch error:&error];
+        if (error) {
+            completeBlock(nil);
+            NSLog(@"loadPreorderLimeData, %@",error);
+            return;
+        }
+        
+        NSMutableArray *results = [[NSMutableArray alloc] initWithCapacity:preorderLimeArray.count];
+        NSMutableArray *subArray = [[NSMutableArray alloc] initWithCapacity:1];
+        for (PreorderLimeEntityModel *model in preorderLimeArray) {
+            PreorderLimeEntity *entity = [self createEntityFromModel:model];
+            
+            if ([subArray lastObject] == nil) {
+                [subArray addObject:entity];
+                [results addObject:subArray];
+            }else if ([DCConstant compareIsSameDay:((PreorderLimeEntity *)[subArray lastObject]).createDate nextDate:entity.createDate])
+            {
+                [subArray addObject:entity];
+            }
+            else{
+                subArray = [[NSMutableArray alloc] initWithCapacity:1];
+                [subArray addObject:entity];
+                [results addObject:subArray];
+            }
+        }
+        [self.mainObjectContext performBlock:^{
+            completeBlock(results);
+        }];
+    }];
+}
+
+- (void)addPreorderLimeData:(PreorderLimeEntity *)preorderLime complete:(void(^)(NSString *error))completeBlock
+{
+    if (!preorderLime) {
+        completeBlock(nil);
+        return ;
+    }
+    
+    PreorderLimeEntityModel *entityModel = [self createModelFromEntity:preorderLime];
+    if (entityModel) {
+        [self saveContext:completeBlock];
+    }
+    
+    [self addNewCustomerWithPreorderLime:preorderLime];
+}
+
+- (void)deletePreorderLimeData:(PreorderLimeEntity *)preorderLime complete:(void(^)(NSString *error))completeBlock
+{
+    if (!preorderLime) {
+        completeBlock(nil);
+        return;
+    }
+    
+    [[self backgroundObjectContext] performBlock:^{
+        NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"PreorderLimeEntityModel"];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"createDate = %@",preorderLime.createDate];
+        [request setPredicate:predicate];
+        
+        NSError *error = nil;
+        NSArray *resutls =  [[self backgroundObjectContext] executeFetchRequest:request error:&error];
+        if (error) {
+            completeBlock(error.localizedDescription);
+            NSLog(@"%@", error);
+            return;
+        }
+        
+        for (PreorderLimeEntityModel *model in resutls) {
+            [[self backgroundObjectContext] deleteObject:model];
+        }
+        
+        [self saveContext:completeBlock];
+    }];
+}
+
+- (void)updatePreorderLimeData:(PreorderLimeEntity *)preorderLime complete:(void(^)(NSString *error))completeBlock;
+{
+    if (!preorderLime) {
+        completeBlock(nil);
+        return;
+    }
+    
+    [[self backgroundObjectContext] performBlock:^{
+        NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"PreorderLimeEntityModel"];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"createDate = %@",preorderLime.createDate];
+        [request setPredicate:predicate];
+        
+        NSError *error = nil;
+        NSArray *resutls =  [[self backgroundObjectContext] executeFetchRequest:request error:&error];
+        if (error) {
+            completeBlock(error.localizedDescription);
+            NSLog(@"%@", error);
+            return;
+        }
+        
+        for (PreorderLimeEntityModel *model in resutls) {
+            [self updatePreorderLimeEntityModel:model withPreorderLimeEntity:preorderLime];
+        }
+        
+        [self saveContext:completeBlock];
+    }];
+    
+    [self addNewCustomerWithPreorderLime:preorderLime];
+}
+
+- (void)updatePreorderLimeEntityModel:(PreorderLimeEntityModel *)entityModel withPreorderLimeEntity:(PreorderLimeEntity *)preorderLime
+{
+    entityModel.createDate = preorderLime.createDate;
+    entityModel.name = preorderLime.name;
+    entityModel.limeWeight = preorderLime.limeWeight;
+    entityModel.carNumber = preorderLime.carNumber;
+    entityModel.buyerName = preorderLime.buyerName;
+    entityModel.orderTime = preorderLime.orderTime;
+}
+
+- (void)updatePreorderLimeEntity:(PreorderLimeEntity *)entity withPreorderLimeEntityModel:(PreorderLimeEntityModel *)entityModel
+{
+    entity.createDate = entityModel.createDate;
+    entity.name = entityModel.name;
+    entity.limeWeight = entityModel.limeWeight;
+    entity.carNumber = entityModel.carNumber;
+    entity.buyerName = entityModel.buyerName;
+    entity.orderTime = entityModel.orderTime;
+}
+
 //Use Stone
 - (void)loadUseStoneData:(void(^)(NSArray *stoneArray))completeBlock
 {
@@ -870,6 +1083,92 @@
     entity.name = entityModel.name;
     entity.operatorName = entityModel.operatorName;
     entity.stoneWeight = entityModel.stoneWeight;
+}
+
+//Store stone
+- (void)loadStoreStoneData:(void(^)(NSArray *storeArray))completeBlock
+{
+    [self.backgroundObjectContext performBlock:^{
+        NSFetchRequest *fetch = [[NSFetchRequest alloc] initWithEntityName:@"BuyStoneEntityModel"];
+        NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"createDate" ascending:NO selector:@selector(compare:)];
+        [fetch setSortDescriptors:@[sort]];
+        NSError *error = nil;
+        NSArray *buyStoneModelArray = [self.backgroundObjectContext executeFetchRequest:fetch error:&error];
+        if (error) {
+            completeBlock(nil);
+            NSLog(@"loadBuyStoneData, %@",error);
+            return;
+        }
+        
+        fetch = [[NSFetchRequest alloc] initWithEntityName:@"UseStoneEntityModel"];
+        sort = [[NSSortDescriptor alloc] initWithKey:@"createDate" ascending:NO selector:@selector(compare:)];
+        [fetch setSortDescriptors:@[sort]];
+        error = nil;
+        NSArray *useStoneModelArray = [self.backgroundObjectContext executeFetchRequest:fetch error:&error];
+        if (error) {
+            completeBlock(nil);
+            NSLog(@"loadUseStoneData, %@",error);
+            return;
+        }
+        
+        NSMutableArray *buyStoneResults = [[NSMutableArray alloc] initWithCapacity:buyStoneModelArray.count];
+        for (BuyStoneEntityModel *model in buyStoneModelArray) {
+            BuyStoneEntity *entity = [self createEntityFromModel:model];
+            [buyStoneResults addObject:entity];
+        }
+        
+        NSMutableArray *useStoneResults = [[NSMutableArray alloc] initWithCapacity:useStoneModelArray.count];
+        for (UseStoneEntityModel *model in useStoneModelArray) {
+            UseStoneEntity *entity = [self createEntityFromModel:model];
+            [useStoneResults addObject:entity];
+        }
+        
+        NSMutableArray *subArray1 = [NSMutableArray arrayWithArray:buyStoneResults];
+        [subArray1 addObjectsFromArray:useStoneResults];
+        NSArray *allEntityArray = [subArray1 sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+            NSDate *date1 = ((BaseEntity *)obj1).createDate;
+            NSDate *date2 = ((BaseEntity *)obj2).createDate;
+            return [date2 compare:date1];
+        }];
+        
+        NSMutableArray *results = [[NSMutableArray alloc] initWithCapacity:1];
+        NSMutableArray *subArray = [[NSMutableArray alloc] initWithCapacity:1];
+        for (BaseEntity *entity in allEntityArray) {
+            if ([subArray lastObject] == nil) {
+                [subArray addObject:entity];
+                [results addObject:subArray];
+            }else if ([DCConstant compareIsSameDay:((BaseEntity *)[subArray lastObject]).createDate nextDate:entity.createDate])
+            {
+                [subArray addObject:entity];
+            }
+            else{
+                subArray = [[NSMutableArray alloc] initWithCapacity:1];
+                [subArray addObject:entity];
+                [results addObject:subArray];
+            }
+        }
+        
+        NSMutableArray *storeResults = [[NSMutableArray alloc] initWithCapacity:1];
+        for (NSArray *array in results) {
+            StoreStoneEntity *store = [[StoreStoneEntity alloc] init];
+            store.createDate = ((BaseEntity *)[array firstObject]).createDate;
+            [storeResults addObject:store];
+            
+            for (id subEntity in array) {
+                if ([subEntity isKindOfClass:[BuyStoneEntity class]]) {
+                    store.totalWeight += ((BuyStoneEntity *)subEntity).stoneWeight;
+                }
+                
+                if ([subEntity isKindOfClass:[UseStoneEntity class]]) {
+                    store.totalWeight -= ((UseStoneEntity *)subEntity).stoneWeight;
+                }
+            }
+        }
+        
+        [self.mainObjectContext performBlock:^{
+            completeBlock(storeResults);
+        }];
+    }];
 }
 
 //Customer
@@ -1073,6 +1372,17 @@
     customer.carWeight = entity.carWeight;
     customer.customerType = CustomerType_Lime;
     customer.itemPricePerKG = entity.limePricePerKG;
+    customer.createDate = entity.createDate;
+    
+    [self updateCustomer:customer];
+}
+
+- (void)addNewCustomerWithPreorderLime:(PreorderLimeEntity *)entity
+{
+    CustomerEntity *customer = [[CustomerEntity alloc] init];
+    customer.name = entity.buyerName;
+    customer.carNumber = entity.carNumber;
+    customer.customerType = CustomerType_Lime;
     customer.createDate = entity.createDate;
     
     [self updateCustomer:customer];
@@ -1292,6 +1602,14 @@
         return entity;
     }
     
+    if ([model isKindOfClass:[PreorderLimeEntityModel class]]) {
+        PreorderLimeEntityModel *entityModel = (PreorderLimeEntityModel *)model;
+        PreorderLimeEntity *entity = [[PreorderLimeEntity alloc] init];
+        [self updatePreorderLimeEntity:entity withPreorderLimeEntityModel:entityModel];
+        
+        return entity;
+    }
+    
     return nil;
 }
 
@@ -1360,6 +1678,15 @@
         OperatorEntityModel *entityModel = [OperatorEntityModel createManagedObjectInContext:[self backgroundObjectContext]];
         if (entityModel) {
             [self updateOperatorEntityModel:entityModel withOperatorEntity:useStone];
+            return entityModel;
+        }
+    }
+    
+    if ([entity isKindOfClass:[PreorderLimeEntity class]]) {
+        PreorderLimeEntity *useStone = (PreorderLimeEntity *)entity;
+        PreorderLimeEntityModel *entityModel = [PreorderLimeEntityModel createManagedObjectInContext:[self backgroundObjectContext]];
+        if (entityModel) {
+            [self updatePreorderLimeEntityModel:entityModel withPreorderLimeEntity:useStone];
             return entityModel;
         }
     }

@@ -7,10 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "BaseEntity.h"
 
-@interface UseStoneEntity : NSObject
-@property (nonatomic, strong) NSDate *createDate;
-@property (nonatomic, strong) NSString *name;
+@interface UseStoneEntity : BaseEntity
 @property (nonatomic, assign) NSInteger stoneWeight; //kg
 @property (nonatomic, strong) NSString *operatorName;
 

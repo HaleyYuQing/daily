@@ -13,6 +13,7 @@ extern NSString *const UpdateUseCoalEntityNotificationKey;
 extern NSString *const UpdateSellLimeEntityNotificationKey;
 extern NSString *const UpdateBuyStoneEntityNotificationKey;
 extern NSString *const UpdateUseStoneEntityNotificationKey;
+extern NSString *const UpdatePreorderLimeEntityNotificationKey;
 
 @interface DCNotificationManager : NSObject
 
