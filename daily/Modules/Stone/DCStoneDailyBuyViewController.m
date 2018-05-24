@@ -96,8 +96,8 @@
 @property (nonatomic, strong) BuyStoneEntity *buyStoneEntity;
 //Add new stone
 @property (nonatomic, strong) UITextField *dateField;
-@property (nonatomic, strong) UITextField *carNumberField;
-@property (nonatomic, strong) UITextField *carOwnerNameField;
+@property (nonatomic, strong) DCHistoryTextField *carNumberField;
+@property (nonatomic, strong) DCHistoryTextField *carOwnerNameField;
 @property (nonatomic, strong) UITextField *carWeightField;
 @property (nonatomic, strong) UITextField *carAndStoneWeightField;
 @property (nonatomic, strong) UITextField *stoneWeightField;
@@ -186,7 +186,8 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.carNumberField = [DCConstant detailField:self isNumber:NO];
+    self.carNumberField = [[DCHistoryTextField alloc] initWithDelegate:self isNumber:NO];
+    self.carNumberField.tag = UpdateEntity_Type_StoneCarNumber;
     self.carNumberField.placeholder = @"请输入车牌";
     [newStoneBGView addSubview:self.carNumberField];
     [self.carNumberField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -224,9 +225,10 @@
                 }
             }
         }
+        [weakSelf reloadHistoryDataWithKey:weakSelf.carNumberField.text historyTextField:weakSelf.carNumberField];
     };
-    
     self.carNumberField.inputView = self.keyBoardView;
+    [self.carNumberField setupHistoryTableView:CGRectMake(0, 0, DetailFieldWidth, 120)];
     
     UILabel *carOwnerNameLabel = [DCConstant descriptionLabel];
     carOwnerNameLabel.text = @"客户:";
@@ -237,7 +239,8 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.carOwnerNameField = [DCConstant detailField:self isNumber:NO];
+    self.carOwnerNameField = [[DCHistoryTextField alloc] initWithDelegate:self isNumber:NO];
+    self.carOwnerNameField.tag = UpdateEntity_Type_StoneUserName;
     self.carOwnerNameField.placeholder = @"请输入客户姓名";
     [newStoneBGView addSubview:self.carOwnerNameField];
     [self.carOwnerNameField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -246,6 +249,7 @@
         make.width.equalTo(@(DetailFieldWidth));
         make.right.equalTo(newStoneBGView.mas_right).offset(-EdgeMargin);
     }];
+    [self.carOwnerNameField setupHistoryTableView:CGRectMake(0, 0, DetailFieldWidth, 120)];
     
     UILabel *carAndStoneWeightLabel = [DCConstant descriptionLabel];
     carAndStoneWeightLabel.text = @"总重量(千克):";

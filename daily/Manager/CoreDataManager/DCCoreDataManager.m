@@ -739,6 +739,8 @@
     if (entityModel) {
         [self saveContext:completeBlock];
     }
+    
+    [self addNewCustomerWithBuyStone:buyStone];
 }
 
 - (void)deleteBuyStoneData:(BuyStoneEntity *)buyStone complete:(void(^)(NSString *error))completeBlock
@@ -794,6 +796,8 @@
         }
         
         [self saveContext:completeBlock];
+        
+        [self addNewCustomerWithBuyStone:buyStone];
     }];
 }
 

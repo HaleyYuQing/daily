@@ -225,6 +225,7 @@
                 }
             }
         }
+        [weakSelf reloadHistoryDataWithKey:weakSelf.carNumberField.text historyTextField:weakSelf.carNumberField];
     };
     self.carNumberField.inputView = self.keyBoardView;
     
