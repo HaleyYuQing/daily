@@ -7,12 +7,8 @@
 //
 
 #import "DCLimeMenuViewController.h"
-#import "DCBaseSplitViewController.h"
-#import "DCLimeDailySellViewController.h"
-#import "DCLimeDailyPreorderViewController.h"
 
-@interface DCLimeMenuViewController ()<UITableViewDelegate, UITableViewDataSource>
-
+@interface DCLimeMenuViewController ()
 @end
 
 @implementation DCLimeMenuViewController
@@ -20,19 +16,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.navigationItem dc_setTitle:@"石灰"];
+    
+    self.menuIndexArray = @[@(DCLimeMenu_Sell), @(DCLimeMenu_Store)];
 }
 
 #pragma UITableViewDataSource
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 2;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return 1;
-}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -52,39 +40,4 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.section == 0) {
-        self.currentMenuIndex = DCLimeMenu_Sell;
-        DCLimeDailySellViewController *dailyVC = [[DCLimeDailySellViewController alloc] init];
-        [(DCBaseSplitViewController *)self.splitViewController showRightViewController:dailyVC];
-    }
-    else if (indexPath.section == 1)
-    {
-        self.currentMenuIndex = DCLimeMenu_Store;
-        DCLimeDailyPreorderViewController *dailyVC = [[DCLimeDailyPreorderViewController alloc] init];
-        [(DCBaseSplitViewController *)self.splitViewController showRightViewController:dailyVC];
-    }
-}
-
-- (void)showViewControllerWithMenu:(DCMenu_type)type
-{
-    self.currentMenuIndex = type;
-    NSIndexPath *currentIndexPath = nil;
-    if (self.currentMenuIndex == DCLimeMenu_Sell) {
-        currentIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-        DCLimeDailySellViewController *dailyVC = [[DCLimeDailySellViewController alloc] init];
-        [(DCBaseSplitViewController *)self.splitViewController showRightViewController:dailyVC];
-    }
-    else if(self.currentMenuIndex == DCLimeMenu_Store)
-    {
-        currentIndexPath = [NSIndexPath indexPathForRow:0 inSection:1];
-        DCLimeDailyPreorderViewController *dailyVC = [[DCLimeDailyPreorderViewController alloc] init];
-        [(DCBaseSplitViewController *)self.splitViewController showRightViewController:dailyVC];
-    }
-    
-    if (currentIndexPath) {
-        [self.tableView selectRowAtIndexPath:currentIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-    }
-}
 @end

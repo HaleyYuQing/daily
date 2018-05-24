@@ -24,6 +24,7 @@ typedef NS_ENUM(NSInteger, DCMenu_type)
 @interface DCBaseMenuViewController : UIViewController
 @property (nonatomic, readonly) UITableView *tableView;
 @property(nonatomic, assign) DCMenu_type currentMenuIndex;
+@property (nonatomic, strong) NSArray *menuIndexArray;
 
 - (DCMenu_type)currentMenu;
 - (void)showViewControllerWithMenu:(DCMenu_type)type;
