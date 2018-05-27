@@ -7,9 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BaseEntity.h"
 
-@interface PreorderLimeEntity : BaseEntity
+@interface PreorderLimeEntity : NSObject
+@property (nonatomic, strong) NSDate *createDate;
+@property (nonatomic, strong) NSString *name;
+
 @property (nonatomic, strong) NSDate *orderTime;
 @property (nonatomic, strong) NSNumber * limeWeight; //kg
 @property (nonatomic, strong) NSString *carNumber;

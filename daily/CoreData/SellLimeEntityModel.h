@@ -12,17 +12,17 @@
 @property (nonatomic, strong) NSDate *createDate;
 @property (nonatomic, strong) NSString *name;
 
-@property (nonatomic, strong) NSNumber * limePricePerKG;
-@property (nonatomic, strong) NSNumber * limeWeight; //kg
-@property (nonatomic, strong) NSNumber * limeTotalPrice;
+@property (nonatomic, strong) NSNumber *itemType;
+@property (nonatomic, strong) NSNumber *itemPricePerKG;
+@property (nonatomic, strong) NSNumber *itemWeight; //kg
+@property (nonatomic, strong) NSNumber *itemTotalPrice;
 
 @property (nonatomic, strong) NSString *carNumber;
-@property (nonatomic ,strong) NSString *buyerName;
-@property (nonatomic, strong) NSNumber * carWeight;
-@property (nonatomic, strong) NSNumber * carAndLimeWeight;
+@property (nonatomic, strong) NSString *buyerName;
+@property (nonatomic, strong) NSNumber *carWeight;
+@property (nonatomic, strong) NSNumber *carAndItemWeight;
 
-@property (nonatomic, strong) NSString *sellerName;
-@property (nonatomic, strong) NSNumber * payedPrice;
-@property (nonatomic, strong) NSNumber * notPayedPrice;
-@property (nonatomic, strong) NSNumber * discountPrice;
+@property (nonatomic, strong) NSNumber *payedPrice;
+@property (nonatomic, strong) NSNumber *notPayedPrice;
+@property (nonatomic, strong) NSNumber *discountPrice;
 @end

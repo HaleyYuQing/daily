@@ -8,7 +8,7 @@
 
 #import "DCNotificationManager.h"
 
-NSString *const UpdateBuyCoalEntityNotificationKey = @"UpdateBuyCoalEntityNotification";
+NSString *const UpdateItemBuyEntityNotificationKey = @"UpdateItemBuyEntityNotification";
 NSString *const UpdateUseCoalEntityNotificationKey = @"UpdateUseCoalEntityNotification";
 NSString *const UpdateSellLimeEntityNotificationKey = @"UpdateSellLimeEntityNotification";
 NSString *const UpdateBuyStoneEntityNotificationKey = @"UpdateBuyStoneEntityNotification";

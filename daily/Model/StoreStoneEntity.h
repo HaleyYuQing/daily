@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface StoreStoneEntity : NSObject
+
 @property (nonatomic, strong) NSDate *createDate;
 @property (nonatomic, strong) NSNumber * totalWeight;
 

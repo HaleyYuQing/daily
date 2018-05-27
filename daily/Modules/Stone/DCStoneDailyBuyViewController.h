@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DCBaseViewController.h"
+#import "DCBaseItemDailyBuyViewController.h"
 
-@interface DCStoneDailyBuyViewController : DCBaseViewController
+@interface DCStoneDailyBuyViewController : DCBaseItemDailyBuyViewController
 
 @end

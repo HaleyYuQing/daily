@@ -117,7 +117,7 @@
         _mainObjectContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy;
         
         NSString *applicationDirectoryPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-        NSString *dbName = [NSString stringWithFormat:@"test.sqlite"];
+        NSString *dbName = [NSString stringWithFormat:@"test11.sqlite"];
         NSString *dbPath = [applicationDirectoryPath stringByAppendingPathComponent:dbName];
         
         NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Model" withExtension:@"momd"];
@@ -196,30 +196,53 @@
     }
 }
 
-//Buy Coal
-- (void)loadBuyCoalData:(void(^)(NSArray *coalArray))completeBlock
+- (NSString *)getBaseBuyItemEntityModel:(ItemEntity_Type)type
+{
+    NSString *model = nil;
+    switch (type) {
+        case ItemEntity_Type_Coal:
+            model = @"BuyCoalEntityModel";
+            break;
+        case ItemEntity_Type_Stone:
+            model = @"BuyStoneEntityModel";
+            break;
+        case ItemEntity_Type_Lime:
+            model = @"SellLimeEntityModel";
+            break;
+        default:
+            break;
+    }
+    return model;
+}
+
+//Buy Item
+- (void)loadBuyItemData:(ItemEntity_Type)type complete:(void(^)(NSArray *itemArray))completeBlock
 {
     [self.backgroundObjectContext performBlock:^{
-        NSFetchRequest *fetch = [[NSFetchRequest alloc] initWithEntityName:@"BuyCoalEntityModel"];
+        NSString *entityName = [self getBaseBuyItemEntityModel:type];
+        if (!entityName) {
+            return ;
+        }
+        NSFetchRequest *fetch = [[NSFetchRequest alloc] initWithEntityName:entityName];
         NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"createDate" ascending:NO selector:@selector(compare:)];
         [fetch setSortDescriptors:@[sort]];
         NSError *error = nil;
-        NSArray *buyCoalArray = [self.backgroundObjectContext executeFetchRequest:fetch error:&error];
+        NSArray *buyItemArray = [self.backgroundObjectContext executeFetchRequest:fetch error:&error];
         if (error) {
             completeBlock(nil);
-            NSLog(@"loadBuyCoalData, %@",error);
+            NSLog(@"loadBuyItemData, %@",error);
             return;
         }
         
-        NSMutableArray *results = [[NSMutableArray alloc] initWithCapacity:buyCoalArray.count];
+        NSMutableArray *results = [[NSMutableArray alloc] initWithCapacity:buyItemArray.count];
         NSMutableArray *subArray = [[NSMutableArray alloc] initWithCapacity:1];
-        for (BuyCoalEntityModel *model in buyCoalArray) {
-            BuyCoalEntity *entity = [self createEntityFromModel:model];
+        for (id model in buyItemArray) {
+            BaseItemEntity *entity = [self createEntityFromModel:model];
             
             if ([subArray lastObject] == nil) {
                 [subArray addObject:entity];
                 [results addObject:subArray];
-            }else if ([DCConstant compareIsSameDay:((BuyCoalEntity *)[subArray lastObject]).createDate nextDate:entity.createDate])
+            }else if ([DCConstant compareIsSameDay:((BaseItemEntity *)[subArray lastObject]).createDate nextDate:entity.createDate])
             {
                 [subArray addObject:entity];
             }
@@ -235,29 +258,36 @@
     }];
 }
 
-- (void)addBuyCoalData:(BuyCoalEntity *)buyCoal complete:(void(^)(NSString *error))completeBlock
+- (void)addBuyItemData:(BaseItemEntity *)buyItem complete:(void(^)(NSString *error))completeBlock
 {
-    if (!buyCoal) {
+    if (!buyItem) {
         completeBlock(nil);
         return ;
     }
     
-    BuyCoalEntityModel *entityModel = [self createModelFromEntity:buyCoal];
+    id entityModel = [self createModelFromEntity:buyItem];
     if (entityModel) {
         [self saveContext:completeBlock];
     }
+    
+    [self addNewCustomerWithBuyItem:buyItem];
 }
 
-- (void)deleteBuyCoalData:(BuyCoalEntity *)buyCoal complete:(void(^)(NSString *error))completeBlock
+- (void)deleteBuyItemData:(BaseItemEntity *)buyItem complete:(void(^)(NSString *error))completeBlock
 {
-    if (!buyCoal) {
+    if (!buyItem) {
         completeBlock(nil);
         return;
     }
     
     [[self backgroundObjectContext] performBlock:^{
-        NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"BuyCoalEntityModel"];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"createDate = %@",buyCoal.createDate];
+        NSString *entityName = [self getBaseBuyItemEntityModel:[buyItem.itemType integerValue]];
+        if (!entityName) {
+            return ;
+        }
+        
+        NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:entityName];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"createDate = %@",buyItem.createDate];
         [request setPredicate:predicate];
         
         NSError *error = nil;
@@ -268,7 +298,7 @@
             return;
         }
         
-        for (BuyCoalEntityModel *model in resutls) {
+        for (id model in resutls) {
             [[self backgroundObjectContext] deleteObject:model];
         }
         
@@ -276,16 +306,21 @@
     }];
 }
 
-- (void)updateBuyCoalData:(BuyCoalEntity *)buyCoal complete:(void(^)(NSString *error))completeBlock;
+- (void)updateBuyItemData:(BaseItemEntity *)buyItem complete:(void(^)(NSString *error))completeBlock;
 {
-    if (!buyCoal) {
+    if (!buyItem) {
         completeBlock(nil);
         return;
     }
     
     [[self backgroundObjectContext] performBlock:^{
-        NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"BuyCoalEntityModel"];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"createDate = %@",buyCoal.createDate];
+        NSString *entityName = [self getBaseBuyItemEntityModel:[buyItem.itemType integerValue]];
+        if (!entityName) {
+            return ;
+        }
+        
+        NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:entityName];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"createDate = %@",buyItem.createDate];
         [request setPredicate:predicate];
         
         NSError *error = nil;
@@ -296,38 +331,99 @@
             return;
         }
         
-        for (BuyCoalEntityModel *model in resutls) {
-            [self updateBuyCoalEntityModel:model withBuyCoalEntity:buyCoal];
+        for (id model in resutls) {
+            [self updateModel:model withBuyItemEntity:buyItem];
         }
         
         [self saveContext:completeBlock];
+        
+        [self addNewCustomerWithBuyItem:buyItem];
     }];
 }
 
-- (void)updateBuyCoalEntityModel:(BuyCoalEntityModel *)entityModel withBuyCoalEntity:(BuyCoalEntity *)buyCoal
+- (void)updateModel:(id)model withBuyItemEntity:(BaseItemEntity *)buyItem
 {
-    entityModel.createDate = buyCoal.createDate;
-    entityModel.name = buyCoal.name;
-    entityModel.coalPricePerKG = buyCoal.coalPricePerKG;
-    entityModel.coalWeight = buyCoal.coalWeight;
-    entityModel.coalTotalPrice = buyCoal.coalTotalPrice;
-    entityModel.carNumber = buyCoal.carNumber;
-    entityModel.carOwnerName = buyCoal.carOwnerName;
-    entityModel.carWeight = buyCoal.carWeight;
-    entityModel.carAndCoalWeight = buyCoal.carAndCoalWeight;
+    if ([model isKindOfClass:[BuyStoneEntityModel class]]) {
+        BuyStoneEntityModel *entityModel = (BuyStoneEntityModel *)model;
+        entityModel.itemType = buyItem.itemType;
+        entityModel.createDate = buyItem.createDate;
+        entityModel.name = buyItem.name;
+        entityModel.itemPricePerKG = buyItem.itemPricePerKG;
+        entityModel.itemWeight = buyItem.itemWeight;
+        entityModel.itemTotalPrice = buyItem.itemTotalPrice;
+        entityModel.carNumber = buyItem.carNumber;
+        entityModel.buyerName = buyItem.buyerName;
+        entityModel.carWeight = buyItem.carWeight;
+        entityModel.carAndItemWeight = buyItem.carAndItemWeight;
+    }
+    if ([model isKindOfClass:[SellLimeEntityModel class]]) {
+        SellLimeEntityModel *entityModel = (SellLimeEntityModel *)model;
+        entityModel.itemType = buyItem.itemType;
+        entityModel.createDate = buyItem.createDate;
+        entityModel.name = buyItem.name;
+        entityModel.itemPricePerKG = buyItem.itemPricePerKG;
+        entityModel.itemWeight = buyItem.itemWeight;
+        entityModel.itemTotalPrice = buyItem.itemTotalPrice;
+        entityModel.carNumber = buyItem.carNumber;
+        entityModel.buyerName = buyItem.buyerName;
+        entityModel.carWeight = buyItem.carWeight;
+        entityModel.carAndItemWeight = buyItem.carAndItemWeight;
+    }
+    if ([model isKindOfClass:[BuyCoalEntityModel class]]) {
+        BuyCoalEntityModel *entityModel = (BuyCoalEntityModel *)model;
+        entityModel.itemType = buyItem.itemType;
+        entityModel.createDate = buyItem.createDate;
+        entityModel.name = buyItem.name;
+        entityModel.itemPricePerKG = buyItem.itemPricePerKG;
+        entityModel.itemWeight = buyItem.itemWeight;
+        entityModel.itemTotalPrice = buyItem.itemTotalPrice;
+        entityModel.carNumber = buyItem.carNumber;
+        entityModel.buyerName = buyItem.buyerName;
+        entityModel.carWeight = buyItem.carWeight;
+        entityModel.carAndItemWeight = buyItem.carAndItemWeight;
+    }
 }
 
-- (void)updateBuyCoalEntity:(BuyCoalEntity *)entity withBuyCoalEntityModel:(BuyCoalEntityModel *)entityModel
+- (void)updateBuyItemEntity:(BaseItemEntity *)entity withBuyStoneEntityModel:(BuyStoneEntityModel *)entityModel
 {
+    entity.itemType = entityModel.itemType;
     entity.createDate = entityModel.createDate;
     entity.name = entityModel.name;
-    entity.coalPricePerKG = entityModel.coalPricePerKG;
-    entity.coalWeight = entityModel.coalWeight;
+    entity.itemPricePerKG = entityModel.itemPricePerKG;
+    entity.itemWeight = entityModel.itemWeight;
     entity.carWeight = entityModel.carWeight;
-    entity.carAndCoalWeight = entityModel.carAndCoalWeight;
-    entity.coalTotalPrice = entityModel.coalTotalPrice;
+    entity.carAndItemWeight = entityModel.carAndItemWeight;
+    entity.itemTotalPrice = entityModel.itemTotalPrice;
     entity.carNumber = entityModel.carNumber;
-    entity.carOwnerName = entityModel.carOwnerName;
+    entity.buyerName = entityModel.buyerName;
+}
+
+- (void)updateBuyItemEntity:(BaseItemEntity *)entity withBuyCoalEntityModel:(BuyCoalEntityModel *)entityModel
+{
+    entity.itemType = entityModel.itemType;
+    entity.createDate = entityModel.createDate;
+    entity.name = entityModel.name;
+    entity.itemPricePerKG = entityModel.itemPricePerKG;
+    entity.itemWeight = entityModel.itemWeight;
+    entity.carWeight = entityModel.carWeight;
+    entity.carAndItemWeight = entityModel.carAndItemWeight;
+    entity.itemTotalPrice = entityModel.itemTotalPrice;
+    entity.carNumber = entityModel.carNumber;
+    entity.buyerName = entityModel.buyerName;
+}
+
+- (void)updateBuyItemEntity:(BaseItemEntity *)entity withSellLimeEntityModel:(SellLimeEntityModel *)entityModel
+{
+    entity.itemType = entityModel.itemType;
+    entity.createDate = entityModel.createDate;
+    entity.name = entityModel.name;
+    entity.itemPricePerKG = entityModel.itemPricePerKG;
+    entity.itemWeight = entityModel.itemWeight;
+    entity.carWeight = entityModel.carWeight;
+    entity.carAndItemWeight = entityModel.carAndItemWeight;
+    entity.itemTotalPrice = entityModel.itemTotalPrice;
+    entity.carNumber = entityModel.carNumber;
+    entity.buyerName = entityModel.buyerName;
 }
 
 //Use Coal
@@ -488,7 +584,7 @@
         
         NSMutableArray *buyCoalResults = [[NSMutableArray alloc] initWithCapacity:buyCoalModelArray.count];
         for (BuyCoalEntityModel *model in buyCoalModelArray) {
-            BuyCoalEntity *entity = [self createEntityFromModel:model];
+            BuyCoalEntityModel *entity = [self createEntityFromModel:model];
             [buyCoalResults addObject:entity];
         }
         
@@ -501,18 +597,18 @@
         NSMutableArray *subArray1 = [NSMutableArray arrayWithArray:buyCoalResults];
         [subArray1 addObjectsFromArray:useCoalResults];
         NSArray *allEntityArray = [subArray1 sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-            NSDate *date1 = ((BaseEntity *)obj1).createDate;
-            NSDate *date2 = ((BaseEntity *)obj2).createDate;
+            NSDate *date1 = ((BaseItemEntity *)obj1).createDate;
+            NSDate *date2 = ((BaseItemEntity *)obj2).createDate;
             return [date2 compare:date1];
         }];
         
         NSMutableArray *results = [[NSMutableArray alloc] initWithCapacity:1];
         NSMutableArray *subArray = [[NSMutableArray alloc] initWithCapacity:1];
-        for (BaseEntity *entity in allEntityArray) {
+        for (BaseItemEntity *entity in allEntityArray) {
             if ([subArray lastObject] == nil) {
                 [subArray addObject:entity];
                 [results addObject:subArray];
-            }else if ([DCConstant compareIsSameDay:((BaseEntity *)[subArray lastObject]).createDate nextDate:entity.createDate])
+            }else if ([DCConstant compareIsSameDay:((BaseItemEntity *)[subArray lastObject]).createDate nextDate:entity.createDate])
             {
                 [subArray addObject:entity];
             }
@@ -526,12 +622,12 @@
         NSMutableArray *storeResults = [[NSMutableArray alloc] initWithCapacity:1];
         for (NSArray *array in results) {
             StoreCoalEntity *store = [[StoreCoalEntity alloc] init];
-            store.createDate = ((BaseEntity *)[array firstObject]).createDate;
+            store.createDate = ((BaseItemEntity *)[array firstObject]).createDate;
             [storeResults addObject:store];
             int totalWeight = 0;
             for (id subEntity in array) {
-                if ([subEntity isKindOfClass:[BuyCoalEntity class]]) {
-                    totalWeight += [((BuyCoalEntity *)subEntity).coalWeight intValue];
+                if ([subEntity isKindOfClass:[BaseItemEntity class]]) {
+                    totalWeight += [((BaseItemEntity *)subEntity).itemWeight intValue];
                 }
                 
                 if ([subEntity isKindOfClass:[UseCoalEntity class]]) {
@@ -545,286 +641,6 @@
             completeBlock(storeResults);
         }];
     }];
-}
-
-//Sell lime
-- (void)loadSellLimeData:(void(^)(NSArray *limeArray))completeBlock
-{
-    [self.backgroundObjectContext performBlock:^{
-        NSFetchRequest *fetch = [[NSFetchRequest alloc] initWithEntityName:@"SellLimeEntityModel"];
-        NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"createDate" ascending:NO selector:@selector(compare:)];
-        [fetch setSortDescriptors:@[sort]];
-        NSError *error = nil;
-        NSArray *sellLimeArray = [self.backgroundObjectContext executeFetchRequest:fetch error:&error];
-        if (error) {
-            completeBlock(nil);
-            NSLog(@"loadSellLimeData, %@",error);
-            return;
-        }
-        
-        NSMutableArray *results = [[NSMutableArray alloc] initWithCapacity:sellLimeArray.count];
-        NSMutableArray *subArray = [[NSMutableArray alloc] initWithCapacity:1];
-        for (SellLimeEntityModel *model in sellLimeArray) {
-            SellLimeEntity *entity = [self createEntityFromModel:model];
-            
-            if ([subArray lastObject] == nil) {
-                [subArray addObject:entity];
-                [results addObject:subArray];
-            }else if ([DCConstant compareIsSameDay:((SellLimeEntity *)[subArray lastObject]).createDate nextDate:entity.createDate])
-            {
-                [subArray addObject:entity];
-            }
-            else{
-                subArray = [[NSMutableArray alloc] initWithCapacity:1];
-                [subArray addObject:entity];
-                [results addObject:subArray];
-            }
-        }
-        [self.mainObjectContext performBlock:^{
-            completeBlock(results);
-        }];
-    }];
-}
-
-- (void)addSellLimeData:(SellLimeEntity *)sellLime complete:(void(^)(NSString *error))completeBlock
-{
-    if (!sellLime) {
-        completeBlock(nil);
-        return ;
-    }
-    
-    SellLimeEntityModel *entityModel = [self createModelFromEntity:sellLime];
-    if (entityModel) {
-        [self saveContext:completeBlock];
-    }
-    
-    [self addNewCustomerWithSellLime:sellLime];
-}
-
-- (void)deleteSellLimeData:(SellLimeEntity *)sellLime complete:(void(^)(NSString *error))completeBlock
-{
-    if (!sellLime) {
-        completeBlock(nil);
-        return;
-    }
-    
-    [[self backgroundObjectContext] performBlock:^{
-        NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"SellLimeEntityModel"];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"createDate = %@",sellLime.createDate];
-        [request setPredicate:predicate];
-        
-        NSError *error = nil;
-        NSArray *resutls =  [[self backgroundObjectContext] executeFetchRequest:request error:&error];
-        if (error) {
-            completeBlock(error.localizedDescription);
-            NSLog(@"%@", error);
-            return;
-        }
-        
-        for (SellLimeEntityModel *model in resutls) {
-            [[self backgroundObjectContext] deleteObject:model];
-        }
-        
-        [self saveContext:completeBlock];
-    }];
-}
-
-- (void)updateSellLimeData:(SellLimeEntity *)sellLime complete:(void(^)(NSString *error))completeBlock;
-{
-    if (!sellLime) {
-        completeBlock(nil);
-        return;
-    }
-    
-    [[self backgroundObjectContext] performBlock:^{
-        NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"SellLimeEntityModel"];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"createDate = %@",sellLime.createDate];
-        [request setPredicate:predicate];
-        
-        NSError *error = nil;
-        NSArray *resutls =  [[self backgroundObjectContext] executeFetchRequest:request error:&error];
-        if (error) {
-            completeBlock(error.localizedDescription);
-            NSLog(@"%@", error);
-            return;
-        }
-        
-        for (SellLimeEntityModel *model in resutls) {
-            [self updateSellLimeEntityModel:model withSellLimeEntity:sellLime];
-        }
-        
-        [self saveContext:completeBlock];
-    }];
-    
-    [self addNewCustomerWithSellLime:sellLime];
-}
-
-- (void)updateSellLimeEntityModel:(SellLimeEntityModel *)entityModel withSellLimeEntity:(SellLimeEntity *)sellLime
-{
-    entityModel.createDate = sellLime.createDate;
-    entityModel.name = sellLime.name;
-    entityModel.limePricePerKG = sellLime.limePricePerKG;
-    entityModel.limeWeight = sellLime.limeWeight;
-    entityModel.limeTotalPrice = sellLime.limeTotalPrice;
-    entityModel.carNumber = sellLime.carNumber;
-    entityModel.buyerName = sellLime.buyerName;
-    entityModel.carWeight = sellLime.carWeight;
-    entityModel.carAndLimeWeight = sellLime.carAndLimeWeight;
-    entityModel.payedPrice = sellLime.payedPrice;
-    entityModel.notPayedPrice = sellLime.notPayedPrice;
-}
-
-- (void)updateSellLimeEntity:(SellLimeEntity *)entity withSellLimeEntityModel:(SellLimeEntityModel *)entityModel
-{
-    entity.createDate = entityModel.createDate;
-    entity.name = entityModel.name;
-    entity.limePricePerKG = entityModel.limePricePerKG;
-    entity.limeWeight = entityModel.limeWeight;
-    entity.carWeight = entityModel.carWeight;
-    entity.carAndLimeWeight = entityModel.carAndLimeWeight;
-    entity.limeTotalPrice = entityModel.limeTotalPrice;
-    entity.carNumber = entityModel.carNumber;
-    entity.buyerName = entityModel.buyerName;
-    entity.payedPrice = entityModel.payedPrice;
-    entity.notPayedPrice = entityModel.notPayedPrice;
-}
-
-//Buy Stone
-- (void)loadBuyStoneData:(void(^)(NSArray *stoneArray))completeBlock
-{
-    [self.mainObjectContext performBlock:^{
-        NSFetchRequest *fetch = [[NSFetchRequest alloc] initWithEntityName:@"BuyStoneEntityModel"];
-        NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"createDate" ascending:NO selector:@selector(compare:)];
-        [fetch setSortDescriptors:@[sort]];
-        NSError *error = nil;
-        NSArray *buyStoneArray = [self.mainObjectContext executeFetchRequest:fetch error:&error];
-        if (error) {
-            completeBlock(nil);
-            NSLog(@"loadBuyStoneData, %@",error);
-            return;
-        }
-        
-        NSMutableArray *results = [[NSMutableArray alloc] initWithCapacity:buyStoneArray.count];
-        NSMutableArray *subArray = [[NSMutableArray alloc] initWithCapacity:1];
-        for (BuyStoneEntityModel *model in buyStoneArray) {
-            BuyStoneEntity *entity = [self createEntityFromModel:model];
-            
-            if ([subArray lastObject] == nil) {
-                [subArray addObject:entity];
-                [results addObject:subArray];
-            }else if ([DCConstant compareIsSameDay:((BuyStoneEntity *)[subArray lastObject]).createDate nextDate:entity.createDate])
-            {
-                [subArray addObject:entity];
-            }
-            else{
-                subArray = [[NSMutableArray alloc] initWithCapacity:1];
-                [subArray addObject:entity];
-                [results addObject:subArray];
-            }
-        }
-        [self.mainObjectContext performBlock:^{
-            completeBlock(results);
-        }];
-    }];
-}
-
-- (void)addBuyStoneData:(BuyStoneEntity *)buyStone complete:(void(^)(NSString *error))completeBlock
-{
-    if (!buyStone) {
-        completeBlock(nil);
-        return ;
-    }
-    
-    BuyStoneEntityModel *entityModel = [self createModelFromEntity:buyStone];
-    if (entityModel) {
-        [self saveContext:completeBlock];
-    }
-    
-    [self addNewCustomerWithBuyStone:buyStone];
-}
-
-- (void)deleteBuyStoneData:(BuyStoneEntity *)buyStone complete:(void(^)(NSString *error))completeBlock
-{
-    if (!buyStone) {
-        completeBlock(nil);
-        return;
-    }
-    
-    [[self backgroundObjectContext] performBlock:^{
-        NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"BuyStoneEntityModel"];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"createDate = %@",buyStone.createDate];
-        [request setPredicate:predicate];
-        
-        NSError *error = nil;
-        NSArray *resutls =  [[self backgroundObjectContext] executeFetchRequest:request error:&error];
-        if (error) {
-            completeBlock(error.localizedDescription);
-            NSLog(@"%@", error);
-            return;
-        }
-        
-        for (BuyStoneEntityModel *model in resutls) {
-            [[self backgroundObjectContext] deleteObject:model];
-        }
-        
-        [self saveContext:completeBlock];
-    }];
-}
-
-- (void)updateBuyStoneData:(BuyStoneEntity *)buyStone complete:(void(^)(NSString *error))completeBlock;
-{
-    if (!buyStone) {
-        completeBlock(nil);
-        return;
-    }
-    
-    [[self backgroundObjectContext] performBlock:^{
-        NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"BuyStoneEntityModel"];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"createDate = %@",buyStone.createDate];
-        [request setPredicate:predicate];
-        
-        NSError *error = nil;
-        NSArray *resutls =  [[self backgroundObjectContext] executeFetchRequest:request error:&error];
-        if (error) {
-            completeBlock(error.localizedDescription);
-            NSLog(@"%@", error);
-            return;
-        }
-        
-        for (BuyStoneEntityModel *model in resutls) {
-            [self updateBuyStoneEntityModel:model withBuyStoneEntity:buyStone];
-        }
-        
-        [self saveContext:completeBlock];
-        
-        [self addNewCustomerWithBuyStone:buyStone];
-    }];
-}
-
-- (void)updateBuyStoneEntityModel:(BuyStoneEntityModel *)entityModel withBuyStoneEntity:(BuyStoneEntity *)buyStone
-{
-    entityModel.createDate = buyStone.createDate;
-    entityModel.name = buyStone.name;
-    entityModel.stonePricePerKG = buyStone.stonePricePerKG;
-    entityModel.stoneWeight = buyStone.stoneWeight;
-    entityModel.stoneTotalPrice = buyStone.stoneTotalPrice;
-    entityModel.carNumber = buyStone.carNumber;
-    entityModel.carOwnerName = buyStone.carOwnerName;
-    entityModel.carWeight = buyStone.carWeight;
-    entityModel.carAndStoneWeight = buyStone.carAndStoneWeight;
-}
-
-- (void)updateBuyStoneEntity:(BuyStoneEntity *)entity withBuyStoneEntityModel:(BuyStoneEntityModel *)entityModel
-{
-    entity.createDate = entityModel.createDate;
-    entity.name = entityModel.name;
-    entity.stonePricePerKG = entityModel.stonePricePerKG;
-    entity.stoneWeight = entityModel.stoneWeight;
-    entity.carWeight = entityModel.carWeight;
-    entity.carAndStoneWeight = entityModel.carAndStoneWeight;
-    entity.stoneTotalPrice = entityModel.stoneTotalPrice;
-    entity.carNumber = entityModel.carNumber;
-    entity.carOwnerName = entityModel.carOwnerName;
 }
 
 //Preorder lime
@@ -1118,7 +934,7 @@
         
         NSMutableArray *buyStoneResults = [[NSMutableArray alloc] initWithCapacity:buyStoneModelArray.count];
         for (BuyStoneEntityModel *model in buyStoneModelArray) {
-            BuyStoneEntity *entity = [self createEntityFromModel:model];
+            BaseItemEntity *entity = [self createEntityFromModel:model];
             [buyStoneResults addObject:entity];
         }
         
@@ -1131,18 +947,18 @@
         NSMutableArray *subArray1 = [NSMutableArray arrayWithArray:buyStoneResults];
         [subArray1 addObjectsFromArray:useStoneResults];
         NSArray *allEntityArray = [subArray1 sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-            NSDate *date1 = ((BaseEntity *)obj1).createDate;
-            NSDate *date2 = ((BaseEntity *)obj2).createDate;
+            NSDate *date1 = ((BaseItemEntity *)obj1).createDate;
+            NSDate *date2 = ((BaseItemEntity *)obj2).createDate;
             return [date2 compare:date1];
         }];
         
         NSMutableArray *results = [[NSMutableArray alloc] initWithCapacity:1];
         NSMutableArray *subArray = [[NSMutableArray alloc] initWithCapacity:1];
-        for (BaseEntity *entity in allEntityArray) {
+        for (BaseItemEntity *entity in allEntityArray) {
             if ([subArray lastObject] == nil) {
                 [subArray addObject:entity];
                 [results addObject:subArray];
-            }else if ([DCConstant compareIsSameDay:((BaseEntity *)[subArray lastObject]).createDate nextDate:entity.createDate])
+            }else if ([DCConstant compareIsSameDay:((BaseItemEntity *)[subArray lastObject]).createDate nextDate:entity.createDate])
             {
                 [subArray addObject:entity];
             }
@@ -1156,13 +972,13 @@
         NSMutableArray *storeResults = [[NSMutableArray alloc] initWithCapacity:1];
         for (NSArray *array in results) {
             StoreStoneEntity *store = [[StoreStoneEntity alloc] init];
-            store.createDate = ((BaseEntity *)[array firstObject]).createDate;
+            store.createDate = ((BaseItemEntity *)[array firstObject]).createDate;
             [storeResults addObject:store];
             
             int totalWeight = 0;
             for (id subEntity in array) {
-                if ([subEntity isKindOfClass:[BuyStoneEntity class]]) {
-                    totalWeight += [((BuyStoneEntity *)subEntity).stoneWeight intValue];
+                if ([subEntity isKindOfClass:[BaseItemEntity class]]) {
+                    totalWeight += [((BaseItemEntity *)subEntity).itemWeight intValue];
                 }
                 
                 if ([subEntity isKindOfClass:[UseStoneEntity class]]) {
@@ -1345,40 +1161,14 @@
     entity.carWeight = entityModel.carWeight;
 }
 
-- (void)addNewCustomerWithBuyCoal:(BuyCoalEntity *)entity
-{
-    CustomerEntity *customer = [[CustomerEntity alloc] init];
-    customer.name = entity.carOwnerName;
-    customer.carNumber = entity.carNumber;
-    customer.carWeight = entity.carWeight;
-    customer.customerType = @(CustomerType_Coal);
-    customer.itemPricePerKG = entity.coalPricePerKG;
-    customer.createDate = entity.createDate;
-    
-    [self updateCustomer:customer];
-}
-
-- (void)addNewCustomerWithBuyStone:(BuyStoneEntity *)entity
-{
-    CustomerEntity *customer = [[CustomerEntity alloc] init];
-    customer.name = entity.carOwnerName;
-    customer.carNumber = entity.carNumber;
-    customer.carWeight = entity.carWeight;
-    customer.customerType = @(CustomerType_Stone);
-    customer.itemPricePerKG = entity.stonePricePerKG;
-    customer.createDate = entity.createDate;
-    
-    [self updateCustomer:customer];
-}
-
-- (void)addNewCustomerWithSellLime:(SellLimeEntity *)entity
+- (void)addNewCustomerWithBuyItem:(BaseItemEntity *)entity
 {
     CustomerEntity *customer = [[CustomerEntity alloc] init];
     customer.name = entity.buyerName;
     customer.carNumber = entity.carNumber;
     customer.carWeight = entity.carWeight;
-    customer.customerType = @(CustomerType_Lime);
-    customer.itemPricePerKG = entity.limePricePerKG;
+    customer.customerType = @([entity getCustomerType]);
+    customer.itemPricePerKG = entity.itemPricePerKG;
     customer.createDate = entity.createDate;
     
     [self updateCustomer:customer];
@@ -1389,7 +1179,7 @@
     CustomerEntity *customer = [[CustomerEntity alloc] init];
     customer.name = entity.buyerName;
     customer.carNumber = entity.carNumber;
-    customer.customerType = @(CustomerType_Lime);
+    customer.customerType = @(ItemEntity_Type_Lime);
     customer.createDate = entity.createDate;
     
     [self updateCustomer:customer];
@@ -1557,8 +1347,24 @@
     
     if ([model isKindOfClass:[BuyCoalEntityModel class]]) {
         BuyCoalEntityModel *entityModel = (BuyCoalEntityModel *)model;
-        BuyCoalEntity *entity = [[BuyCoalEntity alloc] init];
-        [self updateBuyCoalEntity:entity withBuyCoalEntityModel:entityModel];
+        BaseItemEntity *entity = [[BaseItemEntity alloc] init];
+        [self updateBuyItemEntity:entity withBuyCoalEntityModel:entityModel];
+        
+        return entity;
+    }
+    
+    if ([model isKindOfClass:[BuyStoneEntityModel class]]) {
+        BuyStoneEntityModel *entityModel = (BuyStoneEntityModel *)model;
+        BaseItemEntity *entity = [[BaseItemEntity alloc] init];
+        [self updateBuyItemEntity:entity withBuyStoneEntityModel:entityModel];
+        
+        return entity;
+    }
+    
+    if ([model isKindOfClass:[SellLimeEntityModel class]]) {
+        SellLimeEntityModel *entityModel = (SellLimeEntityModel *)model;
+        BaseItemEntity *entity = [[BaseItemEntity alloc] init];
+        [self updateBuyItemEntity:entity withSellLimeEntityModel:entityModel];
         
         return entity;
     }
@@ -1568,20 +1374,6 @@
         UseCoalEntity *entity = [[UseCoalEntity alloc] init];
         [self updateUseCoalEntity:entity withUseCoalEntityModel:entityModel];
         
-        return entity;
-    }
-    
-    if ([model isKindOfClass:[SellLimeEntityModel class]]) {
-        SellLimeEntityModel *entityModel = (SellLimeEntityModel *)model;
-        SellLimeEntity *entity = [[SellLimeEntity alloc] init];
-        [self updateSellLimeEntity:entity withSellLimeEntityModel:entityModel];
-        return entity;
-    }
-    
-    if ([model isKindOfClass:[BuyStoneEntityModel class]]) {
-        BuyStoneEntityModel *entityModel = (BuyStoneEntityModel *)model;
-        BuyStoneEntity *entity = [[BuyStoneEntity alloc] init];
-        [self updateBuyStoneEntity:entity withBuyStoneEntityModel:entityModel];
         return entity;
     }
     
@@ -1626,11 +1418,23 @@
         return nil;
     }
     
-    if ([entity isKindOfClass:[BuyCoalEntity class]]) {
-        BuyCoalEntity *buyCoal = (BuyCoalEntity *)entity;
-        BuyCoalEntityModel *entityModel = [BuyCoalEntityModel createManagedObjectInContext:[self backgroundObjectContext]];
+    if ([entity isKindOfClass:[BaseItemEntity class]]) {
+        BaseItemEntity *itemEntity = (BaseItemEntity *)entity;
+        NSManagedObject *entityModel = nil;
+        if ([itemEntity.itemType integerValue] == ItemEntity_Type_Stone) {
+            entityModel = [BuyStoneEntityModel createManagedObjectInContext:[self backgroundObjectContext]];
+        }
+        else if ([itemEntity.itemType integerValue] == ItemEntity_Type_Coal)
+        {
+            entityModel = [BuyCoalEntityModel createManagedObjectInContext:[self backgroundObjectContext]];
+        }
+        else if ([itemEntity.itemType integerValue] == ItemEntity_Type_Lime)
+        {
+            entityModel = [SellLimeEntityModel createManagedObjectInContext:[self backgroundObjectContext]];
+        }
+        
         if (entityModel) {
-            [self updateBuyCoalEntityModel:entityModel withBuyCoalEntity:buyCoal];
+            [self updateModel:entityModel withBuyItemEntity:itemEntity];
             return entityModel;
         }
     }
@@ -1640,24 +1444,6 @@
         UseCoalEntityModel *entityModel = [UseCoalEntityModel createManagedObjectInContext:[self backgroundObjectContext]];
         if (entityModel) {
             [self updateUseCoalEntityModel:entityModel withUseCoalEntity:useCoal];
-            return entityModel;
-        }
-    }
-    
-    if ([entity isKindOfClass:[SellLimeEntity class]]) {
-        SellLimeEntity *sellLime = (SellLimeEntity *)entity;
-        SellLimeEntityModel *entityModel = [SellLimeEntityModel createManagedObjectInContext:[self backgroundObjectContext]];
-        if (entityModel) {
-            [self updateSellLimeEntityModel:entityModel withSellLimeEntity:sellLime];
-            return entityModel;
-        }
-    }
-    
-    if ([entity isKindOfClass:[BuyStoneEntity class]]) {
-        BuyStoneEntity *buyStone = (BuyStoneEntity *)entity;
-        BuyStoneEntityModel *entityModel = [BuyStoneEntityModel createManagedObjectInContext:[self backgroundObjectContext]];
-        if (entityModel) {
-            [self updateBuyStoneEntityModel:entityModel withBuyStoneEntity:buyStone];
             return entityModel;
         }
     }

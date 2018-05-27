@@ -11,12 +11,19 @@
 @implementation BuyCoalEntityModel
 @dynamic createDate;
 @dynamic name;
-@dynamic coalPricePerKG;
-@dynamic coalWeight;
+
+@dynamic itemType;
+@dynamic itemWeight;
+@dynamic itemPricePerKG;
+@dynamic itemTotalPrice;
+
+@dynamic buyerName;
+@dynamic carAndItemWeight;
 @dynamic carNumber;
 @dynamic carWeight;
-@dynamic carAndCoalWeight;
-@dynamic carOwnerName;
-@dynamic coalTotalPrice;
+
+@dynamic payedPrice;
+@dynamic notPayedPrice;
+@dynamic discountPrice;
 @end
 

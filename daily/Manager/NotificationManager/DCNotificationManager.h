@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString *const UpdateBuyCoalEntityNotificationKey;
+extern NSString *const UpdateItemBuyEntityNotificationKey;
 extern NSString *const UpdateUseCoalEntityNotificationKey;
 extern NSString *const UpdateSellLimeEntityNotificationKey;
 extern NSString *const UpdateBuyStoneEntityNotificationKey;

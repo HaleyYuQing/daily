@@ -7,17 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BaseEntity.h"
 
-typedef NS_ENUM(NSInteger, CustomerType)
-{
-    CustomerType_ALL = 1000,
-    CustomerType_Stone,
-    CustomerType_Lime,
-    CustomerType_Coal
-};
-
-@interface CustomerEntity : BaseEntity
+@interface CustomerEntity : NSObject
+@property (nonatomic, strong) NSDate *createDate;
+@property (nonatomic, strong) NSString *name;
 
 @property (nonatomic, strong) NSNumber * itemPricePerKG;
 @property (nonatomic, strong) NSNumber * customerType;

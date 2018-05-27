@@ -148,6 +148,35 @@
             [hsbDict[@"B"] floatValue]];
 }
 
++ (NSString *)getString:(NSString *)text
+{
+    return text.length > 0 ? text : nil;
+}
+
++ (NSNumber *)getIntegerNumber:(NSString *)text
+{
+    return text.length > 0 ? @(text.integerValue) : nil;
+}
+
++ (CustomerType)getCustomerEntityTypeWithItemType:(ItemEntity_Type)type
+{
+    switch (type) {
+        case ItemEntity_Type_Coal:
+            return CustomerType_Coal;
+            break;
+        case ItemEntity_Type_Stone:
+            return CustomerType_Stone;
+            break;
+        case ItemEntity_Type_Lime:
+            return CustomerType_Lime;
+            break;
+        default:
+            break;
+    }
+    
+    return CustomerType_ALL;
+}
+
 + (NSDictionary *)getHSBAValueByColor:(UIColor *)originColor
 
 {

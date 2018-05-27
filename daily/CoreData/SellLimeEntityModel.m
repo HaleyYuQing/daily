@@ -11,15 +11,18 @@
 @implementation SellLimeEntityModel
 @dynamic createDate;
 @dynamic name;
-@dynamic limeWeight;
-@dynamic limePricePerKG;
-@dynamic limeTotalPrice;
+
+@dynamic itemType;
+@dynamic itemWeight;
+@dynamic itemPricePerKG;
+@dynamic itemTotalPrice;
+
 @dynamic buyerName;
-@dynamic carAndLimeWeight;
+@dynamic carAndItemWeight;
 @dynamic carNumber;
 @dynamic carWeight;
+
 @dynamic payedPrice;
 @dynamic notPayedPrice;
 @dynamic discountPrice;
-@dynamic sellerName;
 @end

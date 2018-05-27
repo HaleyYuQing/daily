@@ -28,7 +28,6 @@
 		DA59A42F20B0087600372A01 /* DCLimeDailySellViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A42E20B0087600372A01 /* DCLimeDailySellViewController.m */; };
 		DA59A43520B00EF100372A01 /* SellLimeEntityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A43420B00EF100372A01 /* SellLimeEntityModel.m */; };
 		DA59A43820B020A700372A01 /* DCBaseMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A43720B020A700372A01 /* DCBaseMenuViewController.m */; };
-		DA59A44A20B027B100372A01 /* BuyStoneEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A44720B027B100372A01 /* BuyStoneEntity.m */; };
 		DA59A44B20B027B100372A01 /* UseStoneEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A44820B027B100372A01 /* UseStoneEntity.m */; };
 		DA59A45020B028AD00372A01 /* BuyStoneEntityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A44C20B028AD00372A01 /* BuyStoneEntityModel.m */; };
 		DA59A45120B028AD00372A01 /* UseStoneEntityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A44E20B028AD00372A01 /* UseStoneEntityModel.m */; };
@@ -46,18 +45,17 @@
 		DA59A48B20B1D39400372A01 /* DCCoalDailyStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A48A20B1D39400372A01 /* DCCoalDailyStoreViewController.m */; };
 		DA59A48E20B1D89100372A01 /* StoreCoalEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A48D20B1D89100372A01 /* StoreCoalEntity.m */; };
 		DA59A49120B1D96C00372A01 /* StoneCoalEntityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A49020B1D96C00372A01 /* StoneCoalEntityModel.m */; };
-		DA59A4A220B3114900372A01 /* BaseEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A4A120B3114900372A01 /* BaseEntity.m */; };
+		DA59A4A220B3114900372A01 /* BaseItemEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A4A120B3114900372A01 /* BaseItemEntity.m */; };
 		DA59A4A520B327CA00372A01 /* DCStoneDailyStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A4A420B327CA00372A01 /* DCStoneDailyStoreViewController.m */; };
 		DA59A4A820B3281700372A01 /* StoreStoneEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A4A720B3281700372A01 /* StoreStoneEntity.m */; };
 		DA59A4AB20B32C2200372A01 /* DCLimeDailyPreorderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A4AA20B32C2200372A01 /* DCLimeDailyPreorderViewController.m */; };
 		DA59A4AE20B3311600372A01 /* PreorderLimeEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A4AD20B3311600372A01 /* PreorderLimeEntity.m */; };
 		DA59A4B120B331C900372A01 /* PreorderLImeEntityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A4B020B331C900372A01 /* PreorderLImeEntityModel.m */; };
+		DA9AAC9320B7072800FCBC10 /* DCBaseItemDailyBuyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9AAC9220B7072800FCBC10 /* DCBaseItemDailyBuyViewController.m */; };
 		DAB75CDC20A94648007F7DA2 /* UINavigationItem+DC.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CDB20A94648007F7DA2 /* UINavigationItem+DC.m */; };
 		DAB75CDF20A96FA0007F7DA2 /* DCCoalDailyUseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CDE20A96FA0007F7DA2 /* DCCoalDailyUseViewController.m */; };
 		DAB75CE320A972B5007F7DA2 /* DCBaseSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CE220A972B5007F7DA2 /* DCBaseSplitViewController.m */; };
-		DAB75CEA20A999BE007F7DA2 /* BuyCoalEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CE920A999BE007F7DA2 /* BuyCoalEntity.m */; };
 		DAB75CED20A99AA6007F7DA2 /* UseCoalEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CEC20A99AA6007F7DA2 /* UseCoalEntity.m */; };
-		DAB75CF020A99AE9007F7DA2 /* SellLimeEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CEF20A99AE9007F7DA2 /* SellLimeEntity.m */; };
 		DAB75CF320A99D00007F7DA2 /* StoreLimeEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CF220A99D00007F7DA2 /* StoreLimeEntity.m */; };
 		DAB75CF620A99EF9007F7DA2 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CF420A99EF9007F7DA2 /* Model.xcdatamodeld */; };
 		DAB75D3E20A9A65C007F7DA2 /* BuyCoalEntityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75D3D20A9A65C007F7DA2 /* BuyCoalEntityModel.m */; };
@@ -69,6 +67,7 @@
 		DADCDE9220AE7D6400BDB555 /* UseCoalEntityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DADCDE9120AE7D6400BDB555 /* UseCoalEntityModel.m */; };
 		DADCDE9520AE81E700BDB555 /* DCBaseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = DADCDE9420AE81E700BDB555 /* DCBaseTableView.m */; };
 		DADCDE9820AE893E00BDB555 /* KeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = DADCDE9720AE893E00BDB555 /* KeyboardAvoidingScrollView.m */; };
+		DAF1097720BB0C9200B78167 /* DCSearchCarAndUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF1097620BB0C9200B78167 /* DCSearchCarAndUserViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -146,9 +145,7 @@
 		DA59A43620B020A700372A01 /* DCBaseMenuViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCBaseMenuViewController.h; sourceTree = "<group>"; };
 		DA59A43720B020A700372A01 /* DCBaseMenuViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCBaseMenuViewController.m; sourceTree = "<group>"; };
 		DA59A44620B027B100372A01 /* UseStoneEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UseStoneEntity.h; sourceTree = "<group>"; };
-		DA59A44720B027B100372A01 /* BuyStoneEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyStoneEntity.m; sourceTree = "<group>"; };
 		DA59A44820B027B100372A01 /* UseStoneEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UseStoneEntity.m; sourceTree = "<group>"; };
-		DA59A44920B027B100372A01 /* BuyStoneEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuyStoneEntity.h; sourceTree = "<group>"; };
 		DA59A44C20B028AD00372A01 /* BuyStoneEntityModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuyStoneEntityModel.m; sourceTree = "<group>"; };
 		DA59A44D20B028AD00372A01 /* UseStoneEntityModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UseStoneEntityModel.h; sourceTree = "<group>"; };
 		DA59A44E20B028AD00372A01 /* UseStoneEntityModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UseStoneEntityModel.m; sourceTree = "<group>"; };
@@ -181,8 +178,8 @@
 		DA59A48D20B1D89100372A01 /* StoreCoalEntity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoreCoalEntity.m; sourceTree = "<group>"; };
 		DA59A48F20B1D96C00372A01 /* StoneCoalEntityModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoneCoalEntityModel.h; sourceTree = "<group>"; };
 		DA59A49020B1D96C00372A01 /* StoneCoalEntityModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoneCoalEntityModel.m; sourceTree = "<group>"; };
-		DA59A4A020B3114900372A01 /* BaseEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseEntity.h; sourceTree = "<group>"; };
-		DA59A4A120B3114900372A01 /* BaseEntity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseEntity.m; sourceTree = "<group>"; };
+		DA59A4A020B3114900372A01 /* BaseItemEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseItemEntity.h; sourceTree = "<group>"; };
+		DA59A4A120B3114900372A01 /* BaseItemEntity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseItemEntity.m; sourceTree = "<group>"; };
 		DA59A4A320B327CA00372A01 /* DCStoneDailyStoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCStoneDailyStoreViewController.h; sourceTree = "<group>"; };
 		DA59A4A420B327CA00372A01 /* DCStoneDailyStoreViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCStoneDailyStoreViewController.m; sourceTree = "<group>"; };
 		DA59A4A620B3281700372A01 /* StoreStoneEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoreStoneEntity.h; sourceTree = "<group>"; };
@@ -193,6 +190,8 @@
 		DA59A4AD20B3311600372A01 /* PreorderLimeEntity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreorderLimeEntity.m; sourceTree = "<group>"; };
 		DA59A4AF20B331C900372A01 /* PreorderLimeEntityModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreorderLimeEntityModel.h; sourceTree = "<group>"; };
 		DA59A4B020B331C900372A01 /* PreorderLImeEntityModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreorderLImeEntityModel.m; sourceTree = "<group>"; };
+		DA9AAC9120B7072800FCBC10 /* DCBaseItemDailyBuyViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCBaseItemDailyBuyViewController.h; sourceTree = "<group>"; };
+		DA9AAC9220B7072800FCBC10 /* DCBaseItemDailyBuyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCBaseItemDailyBuyViewController.m; sourceTree = "<group>"; };
 		DAB75CD920A93CA1007F7DA2 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		DAB75CDA20A94648007F7DA2 /* UINavigationItem+DC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigationItem+DC.h"; sourceTree = "<group>"; };
 		DAB75CDB20A94648007F7DA2 /* UINavigationItem+DC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigationItem+DC.m"; sourceTree = "<group>"; };
@@ -200,12 +199,8 @@
 		DAB75CDE20A96FA0007F7DA2 /* DCCoalDailyUseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCCoalDailyUseViewController.m; sourceTree = "<group>"; };
 		DAB75CE120A972B5007F7DA2 /* DCBaseSplitViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCBaseSplitViewController.h; sourceTree = "<group>"; };
 		DAB75CE220A972B5007F7DA2 /* DCBaseSplitViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCBaseSplitViewController.m; sourceTree = "<group>"; };
-		DAB75CE820A999BE007F7DA2 /* BuyCoalEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BuyCoalEntity.h; sourceTree = "<group>"; };
-		DAB75CE920A999BE007F7DA2 /* BuyCoalEntity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BuyCoalEntity.m; sourceTree = "<group>"; };
 		DAB75CEB20A99AA6007F7DA2 /* UseCoalEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UseCoalEntity.h; sourceTree = "<group>"; };
 		DAB75CEC20A99AA6007F7DA2 /* UseCoalEntity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UseCoalEntity.m; sourceTree = "<group>"; };
-		DAB75CEE20A99AE9007F7DA2 /* SellLimeEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SellLimeEntity.h; sourceTree = "<group>"; };
-		DAB75CEF20A99AE9007F7DA2 /* SellLimeEntity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SellLimeEntity.m; sourceTree = "<group>"; };
 		DAB75CF120A99D00007F7DA2 /* StoreLimeEntity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoreLimeEntity.h; sourceTree = "<group>"; };
 		DAB75CF220A99D00007F7DA2 /* StoreLimeEntity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoreLimeEntity.m; sourceTree = "<group>"; };
 		DAB75CF520A99EF9007F7DA2 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
@@ -227,6 +222,8 @@
 		DADCDE9420AE81E700BDB555 /* DCBaseTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCBaseTableView.m; sourceTree = "<group>"; };
 		DADCDE9620AE893E00BDB555 /* KeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
 		DADCDE9720AE893E00BDB555 /* KeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
+		DAF1097520BB0C9200B78167 /* DCSearchCarAndUserViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCSearchCarAndUserViewController.h; sourceTree = "<group>"; };
+		DAF1097620BB0C9200B78167 /* DCSearchCarAndUserViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCSearchCarAndUserViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -335,6 +332,7 @@
 		DA50316620A583B800259959 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				DAF1097420BB0C7F00B78167 /* Search */,
 				DAB75CE020A9728E007F7DA2 /* Base */,
 				DA59A43920B0268E00372A01 /* Stone */,
 				DA50316F20A58AAF00259959 /* Lime */,
@@ -449,6 +447,8 @@
 				DA59A42B20B0067700372A01 /* DCBaseUpdateEntityViewController.m */,
 				DA59A43620B020A700372A01 /* DCBaseMenuViewController.h */,
 				DA59A43720B020A700372A01 /* DCBaseMenuViewController.m */,
+				DA9AAC9120B7072800FCBC10 /* DCBaseItemDailyBuyViewController.h */,
+				DA9AAC9220B7072800FCBC10 /* DCBaseItemDailyBuyViewController.m */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -456,18 +456,12 @@
 		DAB75CE420A9944D007F7DA2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				DA59A4A020B3114900372A01 /* BaseEntity.h */,
-				DA59A4A120B3114900372A01 /* BaseEntity.m */,
-				DA59A44920B027B100372A01 /* BuyStoneEntity.h */,
-				DA59A44720B027B100372A01 /* BuyStoneEntity.m */,
+				DA59A4A020B3114900372A01 /* BaseItemEntity.h */,
+				DA59A4A120B3114900372A01 /* BaseItemEntity.m */,
 				DA59A44620B027B100372A01 /* UseStoneEntity.h */,
 				DA59A44820B027B100372A01 /* UseStoneEntity.m */,
-				DAB75CE820A999BE007F7DA2 /* BuyCoalEntity.h */,
-				DAB75CE920A999BE007F7DA2 /* BuyCoalEntity.m */,
 				DAB75CEB20A99AA6007F7DA2 /* UseCoalEntity.h */,
 				DAB75CEC20A99AA6007F7DA2 /* UseCoalEntity.m */,
-				DAB75CEE20A99AE9007F7DA2 /* SellLimeEntity.h */,
-				DAB75CEF20A99AE9007F7DA2 /* SellLimeEntity.m */,
 				DAB75CF120A99D00007F7DA2 /* StoreLimeEntity.h */,
 				DAB75CF220A99D00007F7DA2 /* StoreLimeEntity.m */,
 				DA59A48020B180CD00372A01 /* CustomerEntity.h */,
@@ -537,6 +531,15 @@
 				DADCDE8B20ADA43D00BDB555 /* DCNotificationManager.m */,
 			);
 			path = NotificationManager;
+			sourceTree = "<group>";
+		};
+		DAF1097420BB0C7F00B78167 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				DAF1097520BB0C9200B78167 /* DCSearchCarAndUserViewController.h */,
+				DAF1097620BB0C9200B78167 /* DCSearchCarAndUserViewController.m */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -723,6 +726,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA9AAC9320B7072800FCBC10 /* DCBaseItemDailyBuyViewController.m in Sources */,
 				DAB75D3E20A9A65C007F7DA2 /* BuyCoalEntityModel.m in Sources */,
 				DADCDE9520AE81E700BDB555 /* DCBaseTableView.m in Sources */,
 				DA50317C20A59E9400259959 /* DCConstant.m in Sources */,
@@ -738,7 +742,6 @@
 				DA59A47620B099F600372A01 /* DCPlateKeyBoardView.m in Sources */,
 				DA50316A20A5847800259959 /* DCTabbarViewController.m in Sources */,
 				DA50317520A58B9000259959 /* DCCoalMenuViewController.m in Sources */,
-				DA59A44A20B027B100372A01 /* BuyStoneEntity.m in Sources */,
 				DAB75CF620A99EF9007F7DA2 /* Model.xcdatamodeld in Sources */,
 				DA59A48E20B1D89100372A01 /* StoreCoalEntity.m in Sources */,
 				DAD71B6520AAA9D4007C56A7 /* NSManagedObject+DC.m in Sources */,
@@ -752,7 +755,6 @@
 				DA59A46C20B0302F00372A01 /* DCStoneMenuViewController.m in Sources */,
 				DA59A43820B020A700372A01 /* DCBaseMenuViewController.m in Sources */,
 				DA50316E20A588B500259959 /* DCCoalSplitViewController.m in Sources */,
-				DAB75CEA20A999BE007F7DA2 /* BuyCoalEntity.m in Sources */,
 				DA59A4AE20B3311600372A01 /* PreorderLimeEntity.m in Sources */,
 				DA59A46120B02DFA00372A01 /* DCStoneSplitViewController.m in Sources */,
 				DA59A46F20B0308600372A01 /* DCStoneDailyUseViewController.m in Sources */,
@@ -761,6 +763,7 @@
 				DA59A45020B028AD00372A01 /* BuyStoneEntityModel.m in Sources */,
 				DA048CA920AB3B760086B9A4 /* DCPopupTransitionDelegate.m in Sources */,
 				DAB75CDF20A96FA0007F7DA2 /* DCCoalDailyUseViewController.m in Sources */,
+				DAF1097720BB0C9200B78167 /* DCSearchCarAndUserViewController.m in Sources */,
 				DA59A48520B1C7CD00372A01 /* OperatorEntityModel.m in Sources */,
 				DA59A44B20B027B100372A01 /* UseStoneEntity.m in Sources */,
 				DA59A49120B1D96C00372A01 /* StoneCoalEntityModel.m in Sources */,
@@ -771,12 +774,11 @@
 				DA59A45120B028AD00372A01 /* UseStoneEntityModel.m in Sources */,
 				DA59A4B120B331C900372A01 /* PreorderLImeEntityModel.m in Sources */,
 				DA59A42F20B0087600372A01 /* DCLimeDailySellViewController.m in Sources */,
-				DA59A4A220B3114900372A01 /* BaseEntity.m in Sources */,
+				DA59A4A220B3114900372A01 /* BaseItemEntity.m in Sources */,
 				DADCDE9820AE893E00BDB555 /* KeyboardAvoidingScrollView.m in Sources */,
 				DA59A48B20B1D39400372A01 /* DCCoalDailyStoreViewController.m in Sources */,
 				DAD71B7920AACF73007C56A7 /* UIAlertController+DC.m in Sources */,
 				DAB75CED20A99AA6007F7DA2 /* UseCoalEntity.m in Sources */,
-				DAB75CF020A99AE9007F7DA2 /* SellLimeEntity.m in Sources */,
 				DA59A47920B15E3C00372A01 /* DCHistoryTextField.m in Sources */,
 				DA048CA620AB3ACE0086B9A4 /* UIViewController+DC.m in Sources */,
 				DA048CA320AB284F0086B9A4 /* DCCoalDailyBuyViewController.m in Sources */,

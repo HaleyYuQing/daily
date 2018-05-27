@@ -1,33 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="17C88" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="BuyCoalEntityModel" representedClassName="BuyCoalEntityModel" syncable="YES" codeGenerationType="class">
-        <attribute name="carAndCoalWeight" optional="YES" attributeType="Integer 64" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="buyerName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="carAndItemWeight" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="carNumber" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="carOwnerName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="carWeight" optional="YES" attributeType="Integer 64" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="coalPricePerKG" optional="YES" attributeType="Integer 64" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="coalTotalPrice" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="coalWeight" optional="YES" attributeType="Integer 64" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="carWeight" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="createDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="discountPrice" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="itemPricePerKG" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="itemTotalPrice" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="itemType" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="itemWeight" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="notPayedPrice" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="payedPrice" optional="YES" attributeType="Transformable" syncable="YES"/>
     </entity>
     <entity name="BuyStoneEntityModel" representedClassName="BuyStoneEntityModel" syncable="YES" codeGenerationType="class">
-        <attribute name="carAndStoneWeight" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="buyerName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="carAndItemWeight" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="carNumber" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="carOwnerName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="carWeight" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="carWeight" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="createDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="discountPrice" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="itemPricePerKG" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="itemTotalPrice" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="itemType" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="itemWeight" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="stonePricePerKG" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="stoneTotalPrice" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="stoneWeight" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="notPayedPrice" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="payedPrice" optional="YES" attributeType="Transformable" syncable="YES"/>
     </entity>
     <entity name="CustomerEntityModel" representedClassName="CustomerEntityModel" syncable="YES" codeGenerationType="class">
         <attribute name="carNumber" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="carWeight" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="carWeight" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="createDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="customerType" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="itemPricePerKG" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="customerType" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="itemPricePerKG" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="OperatorEntityModel" representedClassName="OperatorEntityModel" syncable="YES" codeGenerationType="class">
@@ -44,25 +52,26 @@
     </entity>
     <entity name="SellLimeEntityModel" representedClassName="SellLimeEntityModel" syncable="YES" codeGenerationType="class">
         <attribute name="buyerName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="carAndLimeWeight" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="carAndItemWeight" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="carNumber" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="carWeight" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="carWeight" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="createDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="discountPrice" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="limePricePerKG" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="limeTotalPrice" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="limeWeight" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="discountPrice" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="itemPricePerKG" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="itemTotalPrice" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="itemType" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="itemWeight" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="notPayedPrice" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="payedPrice" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="notPayedPrice" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="payedPrice" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="sellerName" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="StoneCoalEntityModel" representedClassName="StoneCoalEntityModel" syncable="YES" codeGenerationType="class">
         <attribute name="createDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="totalWeight" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="totalWeight" optional="YES" attributeType="Transformable" syncable="YES"/>
     </entity>
     <entity name="UseCoalEntityModel" representedClassName="UseCoalEntityModel" syncable="YES" codeGenerationType="class">
-        <attribute name="coalWeight" optional="YES" attributeType="Integer 64" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="coalWeight" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="createDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="operatorName" optional="YES" attributeType="String" syncable="YES"/>
@@ -74,12 +83,12 @@
         <attribute name="stoneWeight" optional="YES" attributeType="Transformable" syncable="YES"/>
     </entity>
     <elements>
-        <element name="BuyCoalEntityModel" positionX="-63" positionY="-18" width="128" height="180"/>
-        <element name="BuyStoneEntityModel" positionX="-27" positionY="144" width="128" height="180"/>
+        <element name="BuyCoalEntityModel" positionX="-63" positionY="-18" width="128" height="240"/>
+        <element name="BuyStoneEntityModel" positionX="-27" positionY="144" width="128" height="240"/>
         <element name="CustomerEntityModel" positionX="-9" positionY="171" width="128" height="135"/>
         <element name="OperatorEntityModel" positionX="27" positionY="189" width="128" height="75"/>
         <element name="PreorderLimeEntityModel" positionX="0" positionY="153" width="128" height="135"/>
-        <element name="SellLimeEntityModel" positionX="-54" positionY="54" width="128" height="240"/>
+        <element name="SellLimeEntityModel" positionX="-54" positionY="54" width="128" height="255"/>
         <element name="StoneCoalEntityModel" positionX="-9" positionY="144" width="128" height="75"/>
         <element name="UseCoalEntityModel" positionX="-54" positionY="-9" width="128" height="105"/>
         <element name="UseStoneEntityModel" positionX="9" positionY="180" width="128" height="105"/>

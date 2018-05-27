@@ -11,11 +11,18 @@
 @implementation BuyStoneEntityModel
 @dynamic createDate;
 @dynamic name;
-@dynamic stonePricePerKG;
-@dynamic stoneWeight;
+
+@dynamic itemType;
+@dynamic itemWeight;
+@dynamic itemPricePerKG;
+@dynamic itemTotalPrice;
+
+@dynamic buyerName;
+@dynamic carAndItemWeight;
 @dynamic carNumber;
 @dynamic carWeight;
-@dynamic carAndStoneWeight;
-@dynamic carOwnerName;
-@dynamic stoneTotalPrice;
+
+@dynamic payedPrice;
+@dynamic notPayedPrice;
+@dynamic discountPrice;
 @end
