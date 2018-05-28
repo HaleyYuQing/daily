@@ -36,7 +36,6 @@
 		DA59A46C20B0302F00372A01 /* DCStoneMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A46B20B0302F00372A01 /* DCStoneMenuViewController.m */; };
 		DA59A46F20B0308600372A01 /* DCStoneDailyUseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A46D20B0308600372A01 /* DCStoneDailyUseViewController.m */; };
 		DA59A47620B099F600372A01 /* DCPlateKeyBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A47520B099F600372A01 /* DCPlateKeyBoardView.m */; };
-		DA59A47920B15E3C00372A01 /* DCHistoryTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A47820B15E3C00372A01 /* DCHistoryTextField.m */; };
 		DA59A47C20B16C0700372A01 /* UIView+NuiView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A47B20B16C0600372A01 /* UIView+NuiView.m */; };
 		DA59A47F20B17F2F00372A01 /* CustomerEntityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A47E20B17F2F00372A01 /* CustomerEntityModel.m */; };
 		DA59A48220B180CD00372A01 /* CustomerEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A48120B180CD00372A01 /* CustomerEntity.m */; };
@@ -67,7 +66,7 @@
 		DADCDE9220AE7D6400BDB555 /* UseCoalEntityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DADCDE9120AE7D6400BDB555 /* UseCoalEntityModel.m */; };
 		DADCDE9520AE81E700BDB555 /* DCBaseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = DADCDE9420AE81E700BDB555 /* DCBaseTableView.m */; };
 		DADCDE9820AE893E00BDB555 /* KeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = DADCDE9720AE893E00BDB555 /* KeyboardAvoidingScrollView.m */; };
-		DAF1097720BB0C9200B78167 /* DCSearchCarAndUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF1097620BB0C9200B78167 /* DCSearchCarAndUserViewController.m */; };
+		DAF1097720BB0C9200B78167 /* DCSearchCarAndUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DAF1097620BB0C9200B78167 /* DCSearchCarAndUserManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -160,8 +159,6 @@
 		DA59A46E20B0308600372A01 /* DCStoneDailyUseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCStoneDailyUseViewController.h; sourceTree = "<group>"; };
 		DA59A47420B099F600372A01 /* DCPlateKeyBoardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCPlateKeyBoardView.h; sourceTree = "<group>"; };
 		DA59A47520B099F600372A01 /* DCPlateKeyBoardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCPlateKeyBoardView.m; sourceTree = "<group>"; };
-		DA59A47720B15E3C00372A01 /* DCHistoryTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCHistoryTextField.h; sourceTree = "<group>"; };
-		DA59A47820B15E3C00372A01 /* DCHistoryTextField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCHistoryTextField.m; sourceTree = "<group>"; };
 		DA59A47A20B16C0600372A01 /* UIView+NuiView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+NuiView.h"; sourceTree = "<group>"; };
 		DA59A47B20B16C0600372A01 /* UIView+NuiView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+NuiView.m"; sourceTree = "<group>"; };
 		DA59A47D20B17F2F00372A01 /* CustomerEntityModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomerEntityModel.h; sourceTree = "<group>"; };
@@ -222,8 +219,8 @@
 		DADCDE9420AE81E700BDB555 /* DCBaseTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCBaseTableView.m; sourceTree = "<group>"; };
 		DADCDE9620AE893E00BDB555 /* KeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
 		DADCDE9720AE893E00BDB555 /* KeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
-		DAF1097520BB0C9200B78167 /* DCSearchCarAndUserViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCSearchCarAndUserViewController.h; sourceTree = "<group>"; };
-		DAF1097620BB0C9200B78167 /* DCSearchCarAndUserViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCSearchCarAndUserViewController.m; sourceTree = "<group>"; };
+		DAF1097520BB0C9200B78167 /* DCSearchCarAndUserManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCSearchCarAndUserManager.h; sourceTree = "<group>"; };
+		DAF1097620BB0C9200B78167 /* DCSearchCarAndUserManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCSearchCarAndUserManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -411,8 +408,6 @@
 				DADCDE9720AE893E00BDB555 /* KeyboardAvoidingScrollView.m */,
 				DA59A47420B099F600372A01 /* DCPlateKeyBoardView.h */,
 				DA59A47520B099F600372A01 /* DCPlateKeyBoardView.m */,
-				DA59A47720B15E3C00372A01 /* DCHistoryTextField.h */,
-				DA59A47820B15E3C00372A01 /* DCHistoryTextField.m */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -536,8 +531,8 @@
 		DAF1097420BB0C7F00B78167 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				DAF1097520BB0C9200B78167 /* DCSearchCarAndUserViewController.h */,
-				DAF1097620BB0C9200B78167 /* DCSearchCarAndUserViewController.m */,
+				DAF1097520BB0C9200B78167 /* DCSearchCarAndUserManager.h */,
+				DAF1097620BB0C9200B78167 /* DCSearchCarAndUserManager.m */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -763,7 +758,7 @@
 				DA59A45020B028AD00372A01 /* BuyStoneEntityModel.m in Sources */,
 				DA048CA920AB3B760086B9A4 /* DCPopupTransitionDelegate.m in Sources */,
 				DAB75CDF20A96FA0007F7DA2 /* DCCoalDailyUseViewController.m in Sources */,
-				DAF1097720BB0C9200B78167 /* DCSearchCarAndUserViewController.m in Sources */,
+				DAF1097720BB0C9200B78167 /* DCSearchCarAndUserManager.m in Sources */,
 				DA59A48520B1C7CD00372A01 /* OperatorEntityModel.m in Sources */,
 				DA59A44B20B027B100372A01 /* UseStoneEntity.m in Sources */,
 				DA59A49120B1D96C00372A01 /* StoneCoalEntityModel.m in Sources */,
@@ -779,7 +774,6 @@
 				DA59A48B20B1D39400372A01 /* DCCoalDailyStoreViewController.m in Sources */,
 				DAD71B7920AACF73007C56A7 /* UIAlertController+DC.m in Sources */,
 				DAB75CED20A99AA6007F7DA2 /* UseCoalEntity.m in Sources */,
-				DA59A47920B15E3C00372A01 /* DCHistoryTextField.m in Sources */,
 				DA048CA620AB3ACE0086B9A4 /* UIViewController+DC.m in Sources */,
 				DA048CA320AB284F0086B9A4 /* DCCoalDailyBuyViewController.m in Sources */,
 			);

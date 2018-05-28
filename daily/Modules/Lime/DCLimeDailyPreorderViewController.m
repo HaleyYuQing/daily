@@ -14,6 +14,7 @@
 #import "DCNotificationManager.h"
 #import "DCPlateKeyBoardView.h"
 #import "DCBaseUpdateEntityViewController.h"
+#import "DCSearchCarAndUserManager.h"
 
 @interface DCPreorderLimeEntityTableViewCell :UITableViewCell
 @property (nonatomic, strong) UILabel *dateLabel;
@@ -81,15 +82,18 @@
 
 @end
 
-@interface DCUpdatePreorderLimeEntityViewController: DCBaseUpdateEntityViewController<UITextFieldDelegate>
+@interface DCUpdatePreorderLimeEntityViewController: DCBaseUpdateEntityViewController<UISearchBarDelegate>
 @property (nonatomic, strong) PreorderLimeEntity *preorderLimeEntity;
 //Add new lime
+@property (nonatomic, assign) ItemEntity_Type itemType;
 @property (nonatomic, strong) UITextField *dateField;
-@property (nonatomic, strong) DCHistoryTextField *carNumberField;
-@property (nonatomic, strong) DCHistoryTextField *buyerNameField;
+@property (nonatomic, strong) UITextField *carNumberField;
+@property (nonatomic, strong) UITextField *buyerNameField;
 @property (nonatomic, strong) UITextField *limeWeightField;
 
 @property (nonatomic, strong) DCPlateKeyBoardView *keyBoardView;
+
+@property (nonatomic, strong) DCSearchCarAndUserManager *searchManager;
 @end
 
 @implementation DCUpdatePreorderLimeEntityViewController
@@ -171,7 +175,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.carNumberField = [[DCHistoryTextField alloc] initWithDelegate:self isNumber:NO];
+    self.carNumberField = [DCConstant detailField:self isNumber:NO];
     self.carNumberField.placeholder = @"请输入车牌";
     self.carNumberField.tag = UpdateEntity_Type_LimeCarNumber;
     [newLimeBGView addSubview:self.carNumberField];
@@ -180,9 +184,9 @@
         make.centerY.equalTo(carNumberLabel.mas_centerY);
         make.width.equalTo(@(DetailFieldWidth));
     }];
-    
-    __weak typeof(self) weakSelf = self;
     self.keyBoardView = [[DCPlateKeyBoardView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height * 0.4)];
+    self.carNumberField.inputView = self.keyBoardView;
+    __weak typeof(self) weakSelf = self;
     self.keyBoardView.selectHandle = ^(NSString *string, BOOL isProvinceString) {
         if ([string isEqualToString: @""] && weakSelf.carNumberField.text.length > 0) {
             weakSelf.carNumberField.text = [weakSelf.carNumberField.text substringToIndex:(weakSelf.carNumberField.text.length - 1)];
@@ -209,14 +213,6 @@
                 }
             }
         }
-        [weakSelf reloadHistoryDataWithKey:weakSelf.carNumberField.text historyTextField:weakSelf.carNumberField];
-    };
-    self.carNumberField.inputView = self.keyBoardView;
-    
-    [self.carNumberField setupHistoryTableView:CGRectMake(0, 0, DetailFieldWidth, 120)];
-    self.carNumberField.selectHandle = ^(CustomerEntity *customer) {
-        weakSelf.carNumberField.text = customer.carNumber;
-        weakSelf.buyerNameField.text = customer.name;
     };
     
     UILabel *buyerNameLabel = [DCConstant descriptionLabel];
@@ -228,15 +224,8 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.buyerNameField = [[DCHistoryTextField alloc] initWithDelegate:self isNumber:NO];
-    self.buyerNameField.tag = UpdateEntity_Type_LimeUserName;
+    self.buyerNameField = [DCConstant detailField:self isNumber:NO];
     self.buyerNameField.placeholder = @"请输入客户姓名";
-    [self.buyerNameField setupHistoryTableView:CGRectMake(0, 0, DetailFieldWidth, 120)];
-    self.buyerNameField.selectHandle = ^(CustomerEntity *customer) {
-        weakSelf.carNumberField.text = customer.carNumber;
-        weakSelf.buyerNameField.text = customer.name;
-    };
-    
     [newLimeBGView addSubview:self.buyerNameField];
     [self.buyerNameField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo (buyerNameLabel.mas_right).offset(EdgeMargin);
@@ -303,6 +292,29 @@
     else{
         self.dateField.text = [DCConstant stringFromDate:[NSDate date]];
     }
+    
+    self.searchManager = [[DCSearchCarAndUserManager alloc] initWithSearchType:[DCConstant getCustomerEntityTypeWithItemType:self.itemType]];
+    self.searchManager.selectHandle = ^(CustomerEntity *customer) {
+        weakSelf.carNumberField.text = customer.carNumber;
+        weakSelf.buyerNameField.text = customer.name;
+        [weakSelf.searchManager.searchBar resignFirstResponder];
+    };
+    [self.bgView addSubview:self.searchManager.searchBar];
+    self.searchManager.searchBar.delegate = self;
+    [self.searchManager.searchBar mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(newLabel.mas_centerY);
+        make.left.equalTo(newLabel.mas_right).offset(EdgeMargin);
+        make.right.equalTo(cancelButton.mas_left).offset(-EdgeMargin);
+    }];
+    
+    [self.bgView addSubview:self.searchManager.tableView];
+    [self.searchManager.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.searchManager.searchBar.mas_bottom);
+        make.left.equalTo(newLabel.mas_right).offset(EdgeMargin);
+        make.right.equalTo(cancelButton.mas_left).offset(-EdgeMargin);
+        make.height.equalTo(@(DCSearchTableViewHeight));
+    }];
+    [self.searchManager reloadData:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -315,9 +327,22 @@
     [super viewWillDisappear:animated];
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
-    
+    NSLog(@"");
+    [self.searchManager prefillResultsWithKey:searchBar.text];
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+{
+    NSLog(@"");
+    self.searchManager.tableView.hidden = YES;
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    NSLog(@"");
+    [self.searchManager prefillResultsWithKey:searchBar.text];
 }
 
 - (void)saveEntity:(id)sender
@@ -418,6 +443,7 @@
 - (void)createNewRecord:(id)sender
 {
     DCUpdatePreorderLimeEntityViewController *updateVC = [[DCUpdatePreorderLimeEntityViewController alloc] initWithPreorderLimeEntity:nil];
+    updateVC.itemType = ItemEntity_Type_Lime;
     [self presentViewController:updateVC animated:YES completion:nil];
 }
 

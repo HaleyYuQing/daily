@@ -7,10 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DCHistoryTextField.h"
 
 @interface DCBaseUpdateEntityViewController : UIViewController
 @property (nonatomic, strong) UIView *bgView;
 
-- (void)reloadHistoryDataWithKey:(NSString *)key historyTextField:(DCHistoryTextField *)textField;
 @end

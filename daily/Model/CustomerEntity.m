@@ -12,12 +12,12 @@
 
 - (NSString *)carWeightString
 {
-    return [NSString stringWithFormat:@"%@",self.carWeight];
+    return self.carWeight ? [NSString stringWithFormat:@"%@",self.carWeight] : @"";
 }
 
 - (NSString *)itemPricePerKGString
 {
-    return [NSString stringWithFormat:@"%@",self.itemPricePerKG];
+    return self.itemPricePerKG ? [NSString stringWithFormat:@"%@",self.itemPricePerKG] : @"";
 }
 
 @end

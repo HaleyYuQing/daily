@@ -12,7 +12,7 @@
 
 - (NSString *)totalWeightString
 {
-    return [NSString stringWithFormat:@"%@", self.totalWeight];
+    return self.totalWeight ? [NSString stringWithFormat:@"%@", self.totalWeight] : @"";
 }
 
 @end

@@ -14,4 +14,6 @@
 @property (nonatomic, strong) NSString *name;
 
 @property (nonatomic, strong) NSNumber * limeWeight; //kg
+
+- (NSString *)getLimeWeightString;
 @end

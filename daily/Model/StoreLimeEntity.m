@@ -10,4 +10,9 @@
 
 @implementation StoreLimeEntity
 
+- (NSString *)getLimeWeightString
+{
+    return self.limeWeight ? [NSString stringWithFormat:@"%@",self.limeWeight] : @"";
+}
+
 @end

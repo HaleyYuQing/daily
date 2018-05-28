@@ -25,6 +25,7 @@
 #define TableViewHeaderViewHeight                   50
 #define TableViewCellHeight                         60
 #define DescriptionLabelWidthInHeaderView           110
+#define DCSearchTableViewHeight  150
 
 #define EdgeMargin  20
 #define LineSpace   30

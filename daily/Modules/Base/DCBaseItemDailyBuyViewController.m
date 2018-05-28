@@ -14,7 +14,7 @@
 #import "DCNotificationManager.h"
 #import "DCPlateKeyBoardView.h"
 #import "DCBaseUpdateEntityViewController.h"
-#import "DCSearchCarAndUserViewController.h"
+#import "DCSearchCarAndUserManager.h"
 
 @interface DCItemBuyEntityTableViewCell :UITableViewCell
 @property (nonatomic, strong) UILabel *dateLabel;
@@ -93,13 +93,13 @@
 
 @end
 
-@interface DCUpdateItemBuyEntityViewController: DCBaseUpdateEntityViewController<UITextFieldDelegate, UISearchBarDelegate, UISearchResultsUpdating>
+@interface DCUpdateItemBuyEntityViewController: DCBaseUpdateEntityViewController<UITextFieldDelegate, UISearchBarDelegate>
 @property (nonatomic, strong) BaseItemEntity *itemBuyEntity;
 @property (nonatomic, assign) ItemEntity_Type itemType;
 //Add new item
 @property (nonatomic, strong) UITextField *dateField;
-@property (nonatomic, strong) DCHistoryTextField *carNumberField;
-@property (nonatomic, strong) DCHistoryTextField *buyerNameField;
+@property (nonatomic, strong) UITextField *carNumberField;
+@property (nonatomic, strong) UITextField *buyerNameField;
 @property (nonatomic, strong) UITextField *carWeightField;
 @property (nonatomic, strong) UITextField *carAndItemWeightField;
 @property (nonatomic, strong) UITextField *itemWeightField;
@@ -109,6 +109,7 @@
 @property (nonatomic, strong) UITextField *notPayedPriceField;
 
 @property (nonatomic, strong) DCPlateKeyBoardView *keyBoardView;
+@property (nonatomic, strong) DCSearchCarAndUserManager *searchManager;
 @end
 
 @implementation DCUpdateItemBuyEntityViewController
@@ -191,7 +192,7 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.carNumberField = [[DCHistoryTextField alloc] initWithDelegate:self isNumber:NO];
+    self.carNumberField = [DCConstant detailField:self isNumber:NO];
     self.carNumberField.placeholder = @"请输入车牌";
     [newItemBGView addSubview:self.carNumberField];
     [self.carNumberField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -228,15 +229,8 @@
                 }
             }
         }
-        [weakSelf reloadHistoryDataWithKey:weakSelf.carNumberField.text historyTextField:weakSelf.carNumberField];
     };
     self.carNumberField.inputView = self.keyBoardView;
-    self.carNumberField.selectHandle = ^(CustomerEntity *customer) {
-        weakSelf.carNumberField.text = customer.carNumber;
-        weakSelf.buyerNameField.text = customer.name;
-        weakSelf.carWeightField.text = customer.carWeightString;
-        weakSelf.itemPricePerKGField.text = customer.itemPricePerKGString;
-    };
     
     UILabel *buyerNameLabel = [DCConstant descriptionLabel];
     buyerNameLabel.text = @"客户:";
@@ -247,15 +241,8 @@
         make.width.equalTo(@(DescriptionLablelWidth));
     }];
     
-    self.buyerNameField = [[DCHistoryTextField alloc] initWithDelegate:self isNumber:NO];
+    self.buyerNameField = [DCConstant detailField:self isNumber:NO];
     self.buyerNameField.placeholder = @"请输入客户姓名";
-    self.buyerNameField.selectHandle = ^(CustomerEntity *customer) {
-        weakSelf.carNumberField.text = customer.carNumber;
-        weakSelf.buyerNameField.text = customer.name;
-        weakSelf.carWeightField.text = customer.carWeightString;
-        weakSelf.itemPricePerKGField.text = customer.itemPricePerKGString;
-    };
-    
     [newItemBGView addSubview:self.buyerNameField];
     [self.buyerNameField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo (buyerNameLabel.mas_right).offset(EdgeMargin);
@@ -447,6 +434,49 @@
     else{
         self.dateField.text = [DCConstant stringFromDate:[NSDate date]];
     }
+    
+    self.searchManager = [[DCSearchCarAndUserManager alloc] initWithSearchType:[DCConstant getCustomerEntityTypeWithItemType:self.itemType]];
+    self.searchManager.selectHandle = ^(CustomerEntity *customer) {
+        weakSelf.carNumberField.text = customer.carNumber;
+        weakSelf.buyerNameField.text = customer.name;
+        weakSelf.carWeightField.text = customer.carWeightString;
+        weakSelf.itemPricePerKGField.text = customer.itemPricePerKGString;
+        [weakSelf.searchManager.searchBar resignFirstResponder];
+    };
+    [self.bgView addSubview:self.searchManager.searchBar];
+    self.searchManager.searchBar.delegate = self;
+    [self.searchManager.searchBar mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(newLabel.mas_centerY);
+        make.left.equalTo(newLabel.mas_right).offset(EdgeMargin);
+        make.right.equalTo(cancelButton.mas_left).offset(-EdgeMargin);
+    }];
+    
+    [self.bgView addSubview:self.searchManager.tableView];
+    [self.searchManager.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.searchManager.searchBar.mas_bottom);
+        make.left.equalTo(newLabel.mas_right).offset(EdgeMargin);
+        make.right.equalTo(cancelButton.mas_left).offset(-EdgeMargin);
+        make.height.equalTo(@(DCSearchTableViewHeight));
+    }];
+    [self.searchManager reloadData:nil];
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    NSLog(@"");
+    [self.searchManager prefillResultsWithKey:searchBar.text];
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar
+{
+    NSLog(@"");
+    self.searchManager.tableView.hidden = YES;
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    NSLog(@"");
+    [self.searchManager prefillResultsWithKey:searchBar.text];
 }
 
 - (void)viewWillAppear:(BOOL)animated

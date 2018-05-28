@@ -1193,7 +1193,8 @@
             [weakSelf loadCustomerDataType:[customer.customerType integerValue] complete:nil];
         }];
     }
-    else{
+    else
+    {
         [self addCustomerData:customer complete:^(NSString *error) {
             [weakSelf loadCustomerDataType:[customer.customerType integerValue] complete:nil];
         }];

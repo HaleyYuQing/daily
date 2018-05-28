@@ -12,6 +12,6 @@
 
 - (NSString *)stoneWeightString
 {
-    return [NSString stringWithFormat:@"%@",self.stoneWeight];
+    return self.stoneWeight ? [NSString stringWithFormat:@"%@",self.stoneWeight] : @"";
 }
 @end
