@@ -15,6 +15,7 @@
 #import "DCPlateKeyBoardView.h"
 #import "DCBaseUpdateEntityViewController.h"
 #import "DCSearchCarAndUserManager.h"
+#import "HLCalendarView.h"
 
 @interface DCPreorderLimeEntityTableViewCell :UITableViewCell
 @property (nonatomic, strong) UILabel *dateLabel;
@@ -94,6 +95,8 @@
 @property (nonatomic, strong) DCPlateKeyBoardView *keyBoardView;
 
 @property (nonatomic, strong) DCSearchCarAndUserManager *searchManager;
+
+@property (nonatomic, strong) NSDate *orderDate;
 @end
 
 @implementation DCUpdatePreorderLimeEntityViewController
@@ -157,8 +160,22 @@
     }];
     
     self.dateField = [DCConstant detailField:self isNumber:NO];
-    self.dateField.enabled = NO;
     self.dateField.placeholder = @"点击生成日期";
+    HLCalendarView *cv = [[HLCalendarView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth([UIScreen mainScreen].bounds), 400)];
+    [cv setMinDate:[NSDate date]];
+    cv.selectHandle = ^(NSDate *date)
+    {
+        if (date) {
+            [self.dateField resignFirstResponder];
+            self.dateField.text =  [DCConstant monthAndDayStringFromDate:date];
+            self.orderDate = date;
+        }
+        else{
+            [self.dateField resignFirstResponder];
+        }
+    };
+    self.dateField.inputView = cv;
+    
     [newLimeBGView addSubview:self.dateField];
     [self.dateField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo (dateLabel.mas_right).offset(EdgeMargin);
@@ -289,9 +306,6 @@
         self.buyerNameField.text = self.preorderLimeEntity.buyerName;
         self.limeWeightField.text = self.preorderLimeEntity.limeWeightString;
     }
-    else{
-        self.dateField.text = [DCConstant stringFromDate:[NSDate date]];
-    }
     
     self.searchManager = [[DCSearchCarAndUserManager alloc] initWithSearchType:[DCConstant getCustomerEntityTypeWithItemType:self.itemType]];
     self.searchManager.selectHandle = ^(CustomerEntity *customer) {
@@ -325,6 +339,13 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+}
+
+- (NSDateFormatter *)orderTimeDateFormater
+{
+    NSDateFormatter *formater = [[NSDateFormatter alloc] init];
+    [formater setDateFormat:@"yyyyMMdd"];
+    return formater;
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar

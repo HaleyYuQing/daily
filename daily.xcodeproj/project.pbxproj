@@ -51,6 +51,12 @@
 		DA59A4AE20B3311600372A01 /* PreorderLimeEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A4AD20B3311600372A01 /* PreorderLimeEntity.m */; };
 		DA59A4B120B331C900372A01 /* PreorderLImeEntityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DA59A4B020B331C900372A01 /* PreorderLImeEntityModel.m */; };
 		DA9AAC9320B7072800FCBC10 /* DCBaseItemDailyBuyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA9AAC9220B7072800FCBC10 /* DCBaseItemDailyBuyViewController.m */; };
+		DAA4479A20BD9067008396D8 /* HLCalendarMonthCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA4478E20BD9064008396D8 /* HLCalendarMonthCollectionView.m */; };
+		DAA4479B20BD9067008396D8 /* HLCalendarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA4478F20BD9065008396D8 /* HLCalendarTableViewCell.m */; };
+		DAA4479C20BD9067008396D8 /* HLCalendarView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA4479220BD9065008396D8 /* HLCalendarView.m */; };
+		DAA4479D20BD9067008396D8 /* NSDate+HLCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA4479420BD9066008396D8 /* NSDate+HLCalendar.m */; };
+		DAA4479E20BD9067008396D8 /* HLCalendarMonthEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA4479520BD9066008396D8 /* HLCalendarMonthEntity.m */; };
+		DAA4479F20BD9067008396D8 /* HLCalendarDayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DAA4479620BD9067008396D8 /* HLCalendarDayCell.m */; };
 		DAB75CDC20A94648007F7DA2 /* UINavigationItem+DC.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CDB20A94648007F7DA2 /* UINavigationItem+DC.m */; };
 		DAB75CDF20A96FA0007F7DA2 /* DCCoalDailyUseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CDE20A96FA0007F7DA2 /* DCCoalDailyUseViewController.m */; };
 		DAB75CE320A972B5007F7DA2 /* DCBaseSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAB75CE220A972B5007F7DA2 /* DCBaseSplitViewController.m */; };
@@ -189,6 +195,18 @@
 		DA59A4B020B331C900372A01 /* PreorderLImeEntityModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreorderLImeEntityModel.m; sourceTree = "<group>"; };
 		DA9AAC9120B7072800FCBC10 /* DCBaseItemDailyBuyViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DCBaseItemDailyBuyViewController.h; sourceTree = "<group>"; };
 		DA9AAC9220B7072800FCBC10 /* DCBaseItemDailyBuyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DCBaseItemDailyBuyViewController.m; sourceTree = "<group>"; };
+		DAA4478E20BD9064008396D8 /* HLCalendarMonthCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLCalendarMonthCollectionView.m; sourceTree = "<group>"; };
+		DAA4478F20BD9065008396D8 /* HLCalendarTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLCalendarTableViewCell.m; sourceTree = "<group>"; };
+		DAA4479020BD9065008396D8 /* HLCalendarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLCalendarView.h; sourceTree = "<group>"; };
+		DAA4479120BD9065008396D8 /* HLCalendarDayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLCalendarDayCell.h; sourceTree = "<group>"; };
+		DAA4479220BD9065008396D8 /* HLCalendarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLCalendarView.m; sourceTree = "<group>"; };
+		DAA4479320BD9066008396D8 /* NSDate+HLCalendar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+HLCalendar.h"; sourceTree = "<group>"; };
+		DAA4479420BD9066008396D8 /* NSDate+HLCalendar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+HLCalendar.m"; sourceTree = "<group>"; };
+		DAA4479520BD9066008396D8 /* HLCalendarMonthEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLCalendarMonthEntity.m; sourceTree = "<group>"; };
+		DAA4479620BD9067008396D8 /* HLCalendarDayCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HLCalendarDayCell.m; sourceTree = "<group>"; };
+		DAA4479720BD9067008396D8 /* HLCalendarMonthCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLCalendarMonthCollectionView.h; sourceTree = "<group>"; };
+		DAA4479820BD9067008396D8 /* HLCalendarMonthEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLCalendarMonthEntity.h; sourceTree = "<group>"; };
+		DAA4479920BD9067008396D8 /* HLCalendarTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HLCalendarTableViewCell.h; sourceTree = "<group>"; };
 		DAB75CD920A93CA1007F7DA2 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		DAB75CDA20A94648007F7DA2 /* UINavigationItem+DC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigationItem+DC.h"; sourceTree = "<group>"; };
 		DAB75CDB20A94648007F7DA2 /* UINavigationItem+DC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigationItem+DC.m"; sourceTree = "<group>"; };
@@ -392,6 +410,7 @@
 		DA50317D20A5A00100259959 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				DAA4478D20BD8FD8008396D8 /* HLCalendar */,
 				DA59A47A20B16C0600372A01 /* UIView+NuiView.h */,
 				DA59A47B20B16C0600372A01 /* UIView+NuiView.m */,
 				DA50317E20A5A06800259959 /* UIColor+DC.h */,
@@ -427,6 +446,25 @@
 				DA59A4A420B327CA00372A01 /* DCStoneDailyStoreViewController.m */,
 			);
 			path = Stone;
+			sourceTree = "<group>";
+		};
+		DAA4478D20BD8FD8008396D8 /* HLCalendar */ = {
+			isa = PBXGroup;
+			children = (
+				DAA4479120BD9065008396D8 /* HLCalendarDayCell.h */,
+				DAA4479620BD9067008396D8 /* HLCalendarDayCell.m */,
+				DAA4479720BD9067008396D8 /* HLCalendarMonthCollectionView.h */,
+				DAA4478E20BD9064008396D8 /* HLCalendarMonthCollectionView.m */,
+				DAA4479820BD9067008396D8 /* HLCalendarMonthEntity.h */,
+				DAA4479520BD9066008396D8 /* HLCalendarMonthEntity.m */,
+				DAA4479920BD9067008396D8 /* HLCalendarTableViewCell.h */,
+				DAA4478F20BD9065008396D8 /* HLCalendarTableViewCell.m */,
+				DAA4479020BD9065008396D8 /* HLCalendarView.h */,
+				DAA4479220BD9065008396D8 /* HLCalendarView.m */,
+				DAA4479320BD9066008396D8 /* NSDate+HLCalendar.h */,
+				DAA4479420BD9066008396D8 /* NSDate+HLCalendar.m */,
+			);
+			path = HLCalendar;
 			sourceTree = "<group>";
 		};
 		DAB75CE020A9728E007F7DA2 /* Base */ = {
@@ -724,6 +762,7 @@
 				DA9AAC9320B7072800FCBC10 /* DCBaseItemDailyBuyViewController.m in Sources */,
 				DAB75D3E20A9A65C007F7DA2 /* BuyCoalEntityModel.m in Sources */,
 				DADCDE9520AE81E700BDB555 /* DCBaseTableView.m in Sources */,
+				DAA4479D20BD9067008396D8 /* NSDate+HLCalendar.m in Sources */,
 				DA50317C20A59E9400259959 /* DCConstant.m in Sources */,
 				DA04C18820A52BD700DA4233 /* AppDelegate.m in Sources */,
 				DA59A46620B02F7600372A01 /* DCStoneDailyBuyViewController.m in Sources */,
@@ -741,6 +780,7 @@
 				DA59A48E20B1D89100372A01 /* StoreCoalEntity.m in Sources */,
 				DAD71B6520AAA9D4007C56A7 /* NSManagedObject+DC.m in Sources */,
 				DA59A47F20B17F2F00372A01 /* CustomerEntityModel.m in Sources */,
+				DAA4479B20BD9067008396D8 /* HLCalendarTableViewCell.m in Sources */,
 				DA50317220A58B3600259959 /* DCLimeSplitViewController.m in Sources */,
 				DA59A48820B1C80200372A01 /* OperatorEntity.m in Sources */,
 				DA50318020A5A06800259959 /* UIColor+DC.m in Sources */,
@@ -750,12 +790,15 @@
 				DA59A46C20B0302F00372A01 /* DCStoneMenuViewController.m in Sources */,
 				DA59A43820B020A700372A01 /* DCBaseMenuViewController.m in Sources */,
 				DA50316E20A588B500259959 /* DCCoalSplitViewController.m in Sources */,
+				DAA4479C20BD9067008396D8 /* HLCalendarView.m in Sources */,
+				DAA4479A20BD9067008396D8 /* HLCalendarMonthCollectionView.m in Sources */,
 				DA59A4AE20B3311600372A01 /* PreorderLimeEntity.m in Sources */,
 				DA59A46120B02DFA00372A01 /* DCStoneSplitViewController.m in Sources */,
 				DA59A46F20B0308600372A01 /* DCStoneDailyUseViewController.m in Sources */,
 				DADCDE8F20ADBC7800BDB555 /* DCBaseViewController.m in Sources */,
 				DA59A4A520B327CA00372A01 /* DCStoneDailyStoreViewController.m in Sources */,
 				DA59A45020B028AD00372A01 /* BuyStoneEntityModel.m in Sources */,
+				DAA4479E20BD9067008396D8 /* HLCalendarMonthEntity.m in Sources */,
 				DA048CA920AB3B760086B9A4 /* DCPopupTransitionDelegate.m in Sources */,
 				DAB75CDF20A96FA0007F7DA2 /* DCCoalDailyUseViewController.m in Sources */,
 				DAF1097720BB0C9200B78167 /* DCSearchCarAndUserManager.m in Sources */,
@@ -763,6 +806,7 @@
 				DA59A44B20B027B100372A01 /* UseStoneEntity.m in Sources */,
 				DA59A49120B1D96C00372A01 /* StoneCoalEntityModel.m in Sources */,
 				DA59A43520B00EF100372A01 /* SellLimeEntityModel.m in Sources */,
+				DAA4479F20BD9067008396D8 /* HLCalendarDayCell.m in Sources */,
 				DAB75CF320A99D00007F7DA2 /* StoreLimeEntity.m in Sources */,
 				DA59A42C20B0067700372A01 /* DCBaseUpdateEntityViewController.m in Sources */,
 				DAD71B6220AA7697007C56A7 /* DCCoreDataManager.m in Sources */,

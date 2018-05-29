@@ -268,9 +268,8 @@
     id entityModel = [self createModelFromEntity:buyItem];
     if (entityModel) {
         [self saveContext:completeBlock];
+        [self addNewCustomerWithBuyItem:buyItem];
     }
-    
-    [self addNewCustomerWithBuyItem:buyItem];
 }
 
 - (void)deleteBuyItemData:(BaseItemEntity *)buyItem complete:(void(^)(NSString *error))completeBlock
@@ -1049,9 +1048,23 @@
             NSLog(@"loadCustomerData, %@",error);
             return;
         }
-        [self.coalCustomersArray removeAllObjects];
-        [self.limeCustomersArray removeAllObjects];
-        [self.stoneCustomersArray removeAllObjects];
+        if (type == CustomerType_ALL ) {
+            [self.coalCustomersArray removeAllObjects];
+            [self.limeCustomersArray removeAllObjects];
+            [self.stoneCustomersArray removeAllObjects];
+        }
+        else if (type == CustomerType_Coal)
+        {
+            [self.coalCustomersArray removeAllObjects];
+        }
+        else if (type == CustomerType_Lime)
+        {
+            [self.limeCustomersArray removeAllObjects];
+        }
+        else if (type == CustomerType_Stone)
+        {
+            [self.stoneCustomersArray removeAllObjects];
+        }
         
         for (CustomerEntityModel *model in customerArray) {
             CustomerEntity *entity = [self createEntityFromModel:model];
