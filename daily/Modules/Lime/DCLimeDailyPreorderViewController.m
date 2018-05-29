@@ -75,7 +75,7 @@
 
 - (void)updateCellWithPreorderLimeEntity:(PreorderLimeEntity *)entity
 {
-    self.dateLabel.text = [DCConstant hourAndMinuteStringFromDate:entity.createDate];
+    self.dateLabel.text = @"";
     self.buyerNameLabel.text = entity.buyerName;
     self.limeWeightLabel.text = [entity limeWeightString];
     self.limeTotalPriceLabel.text = entity.carNumber;
@@ -301,7 +301,7 @@
     }];
     
     if (self.preorderLimeEntity) {
-        self.dateField.text = [DCConstant stringFromDate:self.preorderLimeEntity.createDate];
+        self.dateField.text = [DCConstant monthAndDayStringFromDate:self.preorderLimeEntity.createDate];
         self.carNumberField.text = self.preorderLimeEntity.carNumber;
         self.buyerNameField.text = self.preorderLimeEntity.buyerName;
         self.limeWeightField.text = self.preorderLimeEntity.limeWeightString;
@@ -374,27 +374,21 @@
         return;
     }
     
-    BOOL isNewRecord = NO;
-    if (!self.preorderLimeEntity) {
-        self.preorderLimeEntity = [[PreorderLimeEntity alloc] init];
-        isNewRecord = YES;
-    }
+    BOOL isNewRecord = !self.preorderLimeEntity;
+    PreorderLimeEntity *savedLimeEntity = [[PreorderLimeEntity alloc] init];
     
-    if (!self.preorderLimeEntity.createDate) {
-        self.preorderLimeEntity.createDate = [NSDate date];
-    }
-    
-    self.preorderLimeEntity.carNumber = self.carNumberField.text;
-    self.preorderLimeEntity.buyerName = self.buyerNameField.text;
-    self.preorderLimeEntity.limeWeight = @([self.limeWeightField.text integerValue]);
+    savedLimeEntity.createDate = self.orderDate ? self.orderDate : self.preorderLimeEntity.createDate;
+    savedLimeEntity.carNumber = self.carNumberField.text;
+    savedLimeEntity.buyerName = self.buyerNameField.text;
+    savedLimeEntity.limeWeight = @([self.limeWeightField.text integerValue]);
     
     if (isNewRecord) {
-        [[DCCoreDataManager sharedInstance] addPreorderLimeData:self.preorderLimeEntity complete:^(NSString *errorString) {
+        [[DCCoreDataManager sharedInstance] addPreorderLimeData:savedLimeEntity complete:^(NSString *errorString) {
             [self finishAction:errorString];
         }];
     }
     else{
-        [[DCCoreDataManager sharedInstance] updatePreorderLimeData:self.preorderLimeEntity complete:^(NSString *errorString) {
+        [[DCCoreDataManager sharedInstance] updatePreorderLimeData:self.preorderLimeEntity newPreorderLime:savedLimeEntity complete:^(NSString *errorString) {
             [self finishAction:errorString];
         }];
     }

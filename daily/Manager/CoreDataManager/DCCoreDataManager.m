@@ -724,16 +724,16 @@
     }];
 }
 
-- (void)updatePreorderLimeData:(PreorderLimeEntity *)preorderLime complete:(void(^)(NSString *error))completeBlock;
+- (void)updatePreorderLimeData:(PreorderLimeEntity *)oldPreorderLime newPreorderLime:(PreorderLimeEntity *)newPreorderLime complete:(void(^)(NSString *error))completeBlock;
 {
-    if (!preorderLime) {
+    if (!newPreorderLime) {
         completeBlock(nil);
         return;
     }
     
     [[self backgroundObjectContext] performBlock:^{
         NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"PreorderLimeEntityModel"];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"createDate = %@",preorderLime.createDate];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"createDate = %@",oldPreorderLime.createDate];
         [request setPredicate:predicate];
         
         NSError *error = nil;
@@ -745,13 +745,13 @@
         }
         
         for (PreorderLimeEntityModel *model in resutls) {
-            [self updatePreorderLimeEntityModel:model withPreorderLimeEntity:preorderLime];
+            [self updatePreorderLimeEntityModel:model withPreorderLimeEntity:newPreorderLime];
         }
         
         [self saveContext:completeBlock];
     }];
     
-    [self addNewCustomerWithPreorderLime:preorderLime];
+    [self addNewCustomerWithPreorderLime:newPreorderLime];
 }
 
 - (void)updatePreorderLimeEntityModel:(PreorderLimeEntityModel *)entityModel withPreorderLimeEntity:(PreorderLimeEntity *)preorderLime

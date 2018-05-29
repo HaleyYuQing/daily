@@ -38,7 +38,7 @@
 - (void)loadPreorderLimeData:(void(^)(NSArray *lineArray))completeBlock;
 - (void)addPreorderLimeData:(PreorderLimeEntity *)preorderLime complete:(void(^)(NSString *errorString))completeBlock;
 - (void)deletePreorderLimeData:(PreorderLimeEntity *)preorderLime complete:(void(^)(NSString *error))completeBlock;
-- (void)updatePreorderLimeData:(PreorderLimeEntity *)preorderLime complete:(void(^)(NSString *error))completeBlock;
+- (void)updatePreorderLimeData:(PreorderLimeEntity *)oldPreorderLime newPreorderLime:(PreorderLimeEntity *)newPreorderLime complete:(void(^)(NSString *error))completeBlock;
 
 //UseStone
 - (void)loadUseStoneData:(void(^)(NSArray *stoneArray))completeBlock;
