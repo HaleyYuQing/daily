@@ -8,8 +8,8 @@
 
 #import "AppDelegate.h"
 #import "DCTabbarViewController.h"
-#import "DCCoreDataManager.h" 
-
+#import "DCCoreDataManager.h"
+ 
 @interface AppDelegate ()
 
 @end
