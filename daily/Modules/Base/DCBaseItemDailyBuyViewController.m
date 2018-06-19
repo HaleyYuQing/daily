@@ -495,7 +495,7 @@
         if (self.carWeightField.text.length > 0 && self.carAndItemWeightField.text.length > 0) {
             self.itemWeightField.text = [NSString stringWithFormat:@"%@",@([self.carAndItemWeightField.text integerValue] - [self.carWeightField.text integerValue])];
             if (self.itemPricePerKGField.text.length >0 ) {
-                self.itemTotalPriceField.text = [NSString stringWithFormat:@"%@", @(self.itemWeightField.text.integerValue * self.itemPricePerKGField.text.integerValue * 0.001)];
+                self.itemTotalPriceField.text = [NSString stringWithFormat:@"%@", @((int)(self.itemWeightField.text.integerValue * self.itemPricePerKGField.text.integerValue * 0.001))];
                 
                 if (self.payedPriceField.text.length == 0 && self.notPayedPriceField.text.length == 0) {
                     self.payedPriceField.text = @"0";
@@ -507,7 +507,12 @@
     
     if (textField == self.itemPricePerKGField && self.itemWeightField.text.length >0) {
         NSInteger price = self.itemWeightField.text.integerValue * self.itemPricePerKGField.text.integerValue /1000;
-        self.itemTotalPriceField.text = [NSString stringWithFormat:@"%@", @(price)];
+        self.itemTotalPriceField.text = [NSString stringWithFormat:@"%@", @((int)price)];
+        
+        if (self.payedPriceField.text.length == 0 && self.notPayedPriceField.text.length == 0) {
+            self.payedPriceField.text = @"0";
+            self.notPayedPriceField.text = self.itemTotalPriceField.text;
+        }
     }
     
     if (textField == self.payedPriceField || textField == self.itemTotalPriceField) {

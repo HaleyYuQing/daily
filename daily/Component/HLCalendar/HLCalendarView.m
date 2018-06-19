@@ -19,6 +19,7 @@
 #define HLDefaultMonthCellHeight 40
 
 @interface HLCalendarView()<UITableViewDelegate, UITableViewDataSource>
+@property (nonatomic, strong) UIView *backWhiteView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UITableView *calendarTableView;
 @property (nonatomic, strong) NSArray *calendarMonthList;
@@ -33,22 +34,27 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
-
-        UIView *backWhiteView = [[UIView alloc] initWithFrame:frame];
-        backWhiteView.userInteractionEnabled = YES;
-        backWhiteView.backgroundColor = [UIColor whiteColor];
-        [self addSubview:backWhiteView];
+        UIView *bgView = [[UIView alloc] initWithFrame:frame];
+        bgView.backgroundColor = [UIColor clearColor];
+        [self addSubview:bgView];
+        
+        CGFloat whiteViewWidth = frame.size.width > 800? 600 : frame.size.width;
+        self.backWhiteView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, whiteViewWidth, frame.size.height)];
+        self.backWhiteView.center = bgView.center;
+        self.backWhiteView.userInteractionEnabled = YES;
+        self.backWhiteView.backgroundColor = [UIColor whiteColor];
+        [self addSubview:self.backWhiteView];
         
         self.titleLabel = [UILabel new];
         self.titleLabel.text = @"选择日期";
         self.titleLabel.textColor =  UIColorFromRGB(0x555555);
         [self.titleLabel sizeToFit];
-        [backWhiteView addSubview:self.titleLabel];
-        self.titleLabel.center = CGPointMake(self.bounds.size.width * 0.5, 8 + self.titleLabel.frame.size.height * 0.5);
+        [self.backWhiteView addSubview:self.titleLabel];
+        self.titleLabel.center = CGPointMake(self.backWhiteView.bounds.size.width * 0.5, 8 + self.titleLabel.frame.size.height * 0.5);
        
         CGFloat weekLabelHeight = 30;
-        CGFloat weekLabelWidth = self.bounds.size.width / 7.0;
-        UIView *weeksView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.titleLabel.frame)+8, self.bounds.size.width, 30)];
+        CGFloat weekLabelWidth = self.backWhiteView.bounds.size.width / 7.0;
+        UIView *weeksView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.titleLabel.frame)+8, self.backWhiteView.bounds.size.width, 30)];
         CGFloat defaultOrginX = 0;
         for (int i = 0; i < 7; i++) {
             UILabel *weeklabel = [self createWeekLabel:defaultOrginX width:weekLabelWidth height:weekLabelHeight];
@@ -57,16 +63,16 @@
             defaultOrginX = CGRectGetMaxX(weeklabel.frame);
         }
         
-        [backWhiteView addSubview:weeksView];
+        [self.backWhiteView addSubview:weeksView];
         
-        CGFloat calendarTableViewHeight = CGRectGetHeight(backWhiteView.frame) - CGRectGetMaxY(weeksView.frame);
-        self.calendarTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(weeksView.frame), self.bounds.size.width, calendarTableViewHeight) style:UITableViewStylePlain];
+        CGFloat calendarTableViewHeight = CGRectGetHeight(self.backWhiteView.frame) - CGRectGetMaxY(weeksView.frame);
+        self.calendarTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(weeksView.frame), self.backWhiteView.bounds.size.width, calendarTableViewHeight) style:UITableViewStylePlain];
         self.calendarTableView.backgroundColor = [UIColor whiteColor];
         self.calendarTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         self.calendarTableView.dataSource = self;
         self.calendarTableView.delegate = self;
         [self.calendarTableView registerClass:[HLCalendarTableViewCell class] forCellReuseIdentifier:@"HLCalendarTableViewCell"];
-        [backWhiteView addSubview:self.calendarTableView];
+        [self.backWhiteView addSubview:self.calendarTableView];
         
         NSDate *nextDate = [NSDate date];
         NSMutableArray *monthList = [NSMutableArray array];
@@ -136,7 +142,7 @@
 {
     HLCalendarTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"HLCalendarTableViewCell"];
     HLCalendarMonthEntity *monthInfo = self.calendarMonthList[indexPath.section];
-    [cell configureCell:monthInfo row:indexPath.row size:CGSizeMake(self.frame.size.width, HLDefaultMonthCellHeight) selectDateHandle:self.selectHandle];
+    [cell configureCell:monthInfo row:indexPath.row size:CGSizeMake(self.backWhiteView.frame.size.width, HLDefaultMonthCellHeight) selectDateHandle:self.selectHandle];
     
     return cell;
 }
@@ -148,7 +154,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 30)];
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.backWhiteView.frame.size.width, 30)];
     headerView.backgroundColor = [UIColor whiteColor];
     
     UILabel *titleLabel = [UILabel new];
@@ -162,11 +168,11 @@
     titleLabel.center = headerView.center;
     [headerView addSubview:titleLabel];
     
-    UIView *topLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 0.5)];
+    UIView *topLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.backWhiteView.frame.size.width, 0.5)];
     topLine.backgroundColor = HLSeperateLineColor;
     [headerView addSubview:topLine];
     
-    UIView *bottomLine = [[UIView alloc] initWithFrame:CGRectMake(0, 30 - 0.5, self.frame.size.width, 0.5)];
+    UIView *bottomLine = [[UIView alloc] initWithFrame:CGRectMake(0, 30 - 0.5, self.backWhiteView.frame.size.width, 0.5)];
     bottomLine.backgroundColor = HLSeperateLineColor;
     [headerView addSubview:bottomLine];
     

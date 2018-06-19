@@ -117,7 +117,7 @@
         _mainObjectContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy;
         
         NSString *applicationDirectoryPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
-        NSString *dbName = [NSString stringWithFormat:@"test11.sqlite"];
+        NSString *dbName = [NSString stringWithFormat:@"test.sqlite"];
         NSString *dbPath = [applicationDirectoryPath stringByAppendingPathComponent:dbName];
         
         NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Model" withExtension:@"momd"];
@@ -164,14 +164,14 @@
 - (void)saveContext:(void(^)(NSString *error))complete
 {
     if ([self.backgroundObjectContext hasChanges]) {
-        [self.backgroundObjectContext performBlock:^{
+        [self.backgroundObjectContext performBlockAndWait:^{
             NSError *error = nil;
             if (![self.backgroundObjectContext save:&error]) {
                 NSLog(@"DCCoreDataManager, saveContext error:%@", error);
             }
             
             if ([self.mainObjectContext hasChanges]) {
-                [self.mainObjectContext performBlock:^{
+                [self.mainObjectContext performBlockAndWait:^{
                     NSError *er = nil;
                     if (![self.mainObjectContext save:&er]) {
                         complete(error.localizedDescription);
@@ -218,7 +218,7 @@
 //Buy Item
 - (void)loadBuyItemData:(ItemEntity_Type)type complete:(void(^)(NSArray *itemArray))completeBlock
 {
-    [self.backgroundObjectContext performBlock:^{
+    [self.backgroundObjectContext performBlockAndWait:^{
         NSString *entityName = [self getBaseBuyItemEntityModel:type];
         if (!entityName) {
             return ;
@@ -252,7 +252,7 @@
                 [results addObject:subArray];
             }
         }
-        [self.mainObjectContext performBlock:^{
+        [self.mainObjectContext performBlockAndWait:^{
             completeBlock(results);
         }];
     }];
@@ -279,7 +279,7 @@
         return;
     }
     
-    [[self backgroundObjectContext] performBlock:^{
+    [[self backgroundObjectContext] performBlockAndWait:^{
         NSString *entityName = [self getBaseBuyItemEntityModel:[buyItem.itemType integerValue]];
         if (!entityName) {
             return ;
@@ -312,7 +312,7 @@
         return;
     }
     
-    [[self backgroundObjectContext] performBlock:^{
+    [[self backgroundObjectContext] performBlockAndWait:^{
         NSString *entityName = [self getBaseBuyItemEntityModel:[buyItem.itemType integerValue]];
         if (!entityName) {
             return ;
@@ -428,7 +428,7 @@
 //Use Coal
 - (void)loadUseCoalData:(void(^)(NSArray *coalArray))completeBlock
 {
-    [self.backgroundObjectContext performBlock:^{
+    [self.backgroundObjectContext performBlockAndWait:^{
         NSFetchRequest *fetch = [[NSFetchRequest alloc] initWithEntityName:@"UseCoalEntityModel"];
         NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"createDate" ascending:NO selector:@selector(compare:)];
         [fetch setSortDescriptors:@[sort]];
@@ -458,7 +458,7 @@
                 [results addObject:subArray];
             }
         }
-        [self.mainObjectContext performBlock:^{
+        [self.mainObjectContext performBlockAndWait:^{
             completeBlock(results);
         }];
     }];
@@ -490,7 +490,7 @@
         return;
     }
     
-    [[self backgroundObjectContext] performBlock:^{
+    [[self backgroundObjectContext] performBlockAndWait:^{
         NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"UseCoalEntityModel"];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"createDate = %@",useCoal.createDate];
         [request setPredicate:predicate];
@@ -518,7 +518,7 @@
         return;
     }
     
-    [[self backgroundObjectContext] performBlock:^{
+    [[self backgroundObjectContext] performBlockAndWait:^{
         NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"UseCoalEntityModel"];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"createDate = %@",useCoal.createDate];
         [request setPredicate:predicate];
@@ -558,7 +558,7 @@
 //Store coal
 - (void)loadStoreCoalData:(void(^)(NSArray *storeArray))completeBlock
 {
-    [self.backgroundObjectContext performBlock:^{
+    [self.backgroundObjectContext performBlockAndWait:^{
         NSFetchRequest *fetch = [[NSFetchRequest alloc] initWithEntityName:@"BuyCoalEntityModel"];
         NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"createDate" ascending:NO selector:@selector(compare:)];
         [fetch setSortDescriptors:@[sort]];
@@ -636,7 +636,7 @@
             store.totalWeight = @(totalWeight);
         }
         
-        [self.mainObjectContext performBlock:^{
+        [self.mainObjectContext performBlockAndWait:^{
             completeBlock(storeResults);
         }];
     }];
@@ -645,7 +645,7 @@
 //Preorder lime
 - (void)loadPreorderLimeData:(void(^)(NSArray *limeArray))completeBlock
 {
-    [self.backgroundObjectContext performBlock:^{
+    [self.backgroundObjectContext performBlockAndWait:^{
         NSFetchRequest *fetch = [[NSFetchRequest alloc] initWithEntityName:@"PreorderLimeEntityModel"];
         NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"createDate" ascending:NO selector:@selector(compare:)];
         [fetch setSortDescriptors:@[sort]];
@@ -675,7 +675,7 @@
                 [results addObject:subArray];
             }
         }
-        [self.mainObjectContext performBlock:^{
+        [self.mainObjectContext performBlockAndWait:^{
             completeBlock(results);
         }];
     }];
@@ -703,7 +703,7 @@
         return;
     }
     
-    [[self backgroundObjectContext] performBlock:^{
+    [[self backgroundObjectContext] performBlockAndWait:^{
         NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"PreorderLimeEntityModel"];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"createDate = %@",preorderLime.createDate];
         [request setPredicate:predicate];
@@ -731,7 +731,7 @@
         return;
     }
     
-    [[self backgroundObjectContext] performBlock:^{
+    [[self backgroundObjectContext] performBlockAndWait:^{
         NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"PreorderLimeEntityModel"];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"createDate = %@",oldPreorderLime.createDate];
         [request setPredicate:predicate];
@@ -777,7 +777,7 @@
 //Use Stone
 - (void)loadUseStoneData:(void(^)(NSArray *stoneArray))completeBlock
 {
-    [self.backgroundObjectContext performBlock:^{
+    [self.backgroundObjectContext performBlockAndWait:^{
         NSFetchRequest *fetch = [[NSFetchRequest alloc] initWithEntityName:@"UseStoneEntityModel"];
         NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"createDate" ascending:NO selector:@selector(compare:)];
         [fetch setSortDescriptors:@[sort]];
@@ -807,7 +807,7 @@
                 [results addObject:subArray];
             }
         }
-        [self.mainObjectContext performBlock:^{
+        [self.mainObjectContext performBlockAndWait:^{
             completeBlock(results);
         }];
     }];
@@ -840,7 +840,7 @@
         return;
     }
     
-    [[self backgroundObjectContext] performBlock:^{
+    [[self backgroundObjectContext] performBlockAndWait:^{
         NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"UseStoneEntityModel"];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"createDate = %@",useStone.createDate];
         [request setPredicate:predicate];
@@ -868,7 +868,7 @@
         return;
     }
     
-    [[self backgroundObjectContext] performBlock:^{
+    [[self backgroundObjectContext] performBlockAndWait:^{
         NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"UseStoneEntityModel"];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"createDate = %@",useStone.createDate];
         [request setPredicate:predicate];
@@ -908,7 +908,7 @@
 //Store stone
 - (void)loadStoreStoneData:(void(^)(NSArray *storeArray))completeBlock
 {
-    [self.backgroundObjectContext performBlock:^{
+    [self.backgroundObjectContext performBlockAndWait:^{
         NSFetchRequest *fetch = [[NSFetchRequest alloc] initWithEntityName:@"BuyStoneEntityModel"];
         NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"createDate" ascending:NO selector:@selector(compare:)];
         [fetch setSortDescriptors:@[sort]];
@@ -987,7 +987,7 @@
             store.totalWeight = @(totalWeight);
         }
         
-        [self.mainObjectContext performBlock:^{
+        [self.mainObjectContext performBlockAndWait:^{
             completeBlock(storeResults);
         }];
     }];
@@ -1033,7 +1033,7 @@
 
 - (void)loadCustomerDataType:(CustomerType)type complete:(void(^)(NSArray *stoneArray))completeBlock
 {
-    [self.backgroundObjectContext performBlock:^{
+    [self.backgroundObjectContext performBlockAndWait:^{
         NSFetchRequest *fetch = [[NSFetchRequest alloc] initWithEntityName:@"CustomerEntityModel"];
         if (type != CustomerType_ALL) {
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"customerType = %@", @(type)];
@@ -1101,7 +1101,7 @@
         return;
     }
     
-    [[self backgroundObjectContext] performBlock:^{
+    [[self backgroundObjectContext] performBlockAndWait:^{
         NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"CustomerEntityModel"];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name = %@ && carNumber = ",customer.name, customer.carNumber];
         [request setPredicate:predicate];
@@ -1129,7 +1129,7 @@
         return;
     }
     
-    [[self backgroundObjectContext] performBlock:^{
+    [[self backgroundObjectContext] performBlockAndWait:^{
         NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"CustomerEntityModel"];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name = %@ && carNumber = %@",customer.name, customer.carNumber];
         [request setPredicate:predicate];
@@ -1217,7 +1217,7 @@
 //Operator
 - (void)loadOperatorDataComplete:(void(^)(NSArray *stoneArray))completeBlock
 {
-    [self.backgroundObjectContext performBlock:^{
+    [self.backgroundObjectContext performBlockAndWait:^{
         NSFetchRequest *fetch = [[NSFetchRequest alloc] initWithEntityName:@"OperatorEntityModel"];
         NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"createDate" ascending:NO selector:@selector(compare:)];
         [fetch setSortDescriptors:@[sort]];
@@ -1260,7 +1260,7 @@
         return;
     }
     
-    [[self backgroundObjectContext] performBlock:^{
+    [[self backgroundObjectContext] performBlockAndWait:^{
         NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"OperatorEntityModel"];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name = %@ ",customer.name];
         [request setPredicate:predicate];
@@ -1288,7 +1288,7 @@
         return;
     }
     
-    [[self backgroundObjectContext] performBlock:^{
+    [[self backgroundObjectContext] performBlockAndWait:^{
         NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"OperatorEntityModel"];
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name = %@",customer.name];
         [request setPredicate:predicate];
